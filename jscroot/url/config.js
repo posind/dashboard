@@ -3,6 +3,13 @@ import {folderPath} from "https://cdn.jsdelivr.net/gh/jscroot/url@0.0.9/croot.js
 //please always use trailing slash(/) for folder or extension for file.
 //never use slash in front of file or directory
 //u might change croot parameter based on your path
+
+export const backend={
+    user:{
+        data:"https://api.do.my.id/data/user"
+    }
+}
+
 export const croot = folderPath()+"jscroot/";
 
 export const folder={
