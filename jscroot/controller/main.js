@@ -12,7 +12,7 @@ export function runAfterHashChange(evt){
     insertHTML(getContentURL(),id.content,runAfterContent);
 }
 
-export function runAfterHeader(){
+export async function runAfterHeader(){
     let module = await import(url.view.header);
     module.main();
     insertHTML(url.template.navbar,id.navbar,runAfterNavbar);
