@@ -19,6 +19,8 @@ export function main(){
 function getUserFunction(result){
     if (result.status!==404){
         setInner("headerlogoname",result.data.name);
+        // Simpan ke localStorage
+        localStorage.setItem('nama', myVariable);
     }else{
         redirect("/signup");
     }

@@ -4,5 +4,5 @@ import {id} from "../../url/config.js";
 
 export async function main(){
     await addCSSIn("assets/css/admin.css",id.content);
-    setInner("biggreet","Halo Ngadimin");
+    setInner("biggreet","Halo "+localStorage.getItem('nama'));
 }
