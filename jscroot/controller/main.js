@@ -4,7 +4,7 @@ import {getCookie} from "https://cdn.jsdelivr.net/gh/jscroot/cookie@0.0.1/croot.
 import {redirect} from "https://cdn.jsdelivr.net/gh/jscroot/url@0.0.9/croot.js";
 import { setInner } from "https://cdn.jsdelivr.net/gh/jscroot/element@0.1.5/croot.js";
 //internal call
-import { url,id,backend } from "../url/config.js";
+import { url,id } from "../url/config.js";
 import { getContentURL,getURLContentJS } from "../url/content.js";
 
 
@@ -13,12 +13,8 @@ export function runAfterHashChange(evt){
 }
 
 export function runAfterHeader(){
-    //set header and cookies
-    if (getCookie("login")===""){
-        redirect("/signin");
-    }else{
-        getJSON(backend.user.data,"login",getCookie("login"),getUserFunction);
-    }
+    let module = await import(url.view.header);
+    module.main();
     insertHTML(url.template.navbar,id.navbar,runAfterNavbar);
 }
 
@@ -33,11 +29,3 @@ export async function runAfterContent(){
     module.main();
     console.log(urljs);
 }
-
-function getUserFunction(result){
-    if (result.status!==404){
-        setInner("headerlogoname",result.data.name);
-    }else{
-        redirect("/signup");
-    }
-  }
