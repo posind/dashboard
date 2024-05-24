@@ -7,6 +7,9 @@ import Swal from 'https://cdn.jsdelivr.net/npm/sweetalert2@11/src/sweetalert2.js
 import { id, backend } from "/dashboard/jscroot/url/config.js";
 
 export async function main(){
+    document.getElementById('name').addEventListener('input', function(event) {
+        event.target.value = processInput(event.target.value);
+      });
     await addCSSIn("https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.css",id.content);
     onClick("tombolbuatproyek",actionfunctionname);
 }
@@ -46,4 +49,12 @@ function responseFunction(result){
           show("tombolbuatproyek");
     }
     console.log(result);
+}
+
+
+function processInput(value) {
+    value = value.toLowerCase(); // Convert to lowercase
+    value = value.replace(/\s+/g, ''); // Remove spaces
+    value = value.replace(/[^a-z0-9_-]/gi, ''); // Remove special characters except _ and -
+    return value;
 }
