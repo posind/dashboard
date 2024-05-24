@@ -30,12 +30,12 @@ function responseFunction(result){
         Swal.fire({
             icon: "success",
             title: "Berhasil",
-            text: "Selamat kak proyek sudah terdaftar dengan ID: "+result.data._id,
+            text: "Selamat kak proyek "+result.data.name+" sudah terdaftar dengan ID: "+result.data._id+" dan Secret: "+result.data.secret,
             footer: '<a href="https://wa.me/62895601060000?text='+katakata+'" target="_blank">Verifikasi Proyek</a>',
+            didClose: () => {
+                disableInput("name");
+                disableInput("description");
           });
-          setValue("name",result.data.name);
-          setValue("description",result.data.description);
-          show("tombolbuatproyek");
     }else{
         Swal.fire({
             icon: "error",
@@ -45,4 +45,14 @@ function responseFunction(result){
           show("tombolbuatproyek");
     }
     console.log(result);
+}
+
+
+export function disableInput(id) {
+    const Input = document.getElementById(id);
+    Input.disabled = true;
+}
+export function enableInput(id) {
+    const Input = document.getElementById(id);
+    Input.disabled = false;
 }
