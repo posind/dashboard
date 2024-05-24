@@ -12,6 +12,7 @@ export async function main(){
 }
 
 function getResponseFunction(result){
+    console.log(result);
     if (result.status===200){
         // Menghapus konten sebelumnya jika ada
         tableBody.innerHTML = '';
@@ -35,6 +36,4 @@ function getResponseFunction(result){
             text: result.data.response
           });
     }
-    console.log(result);
-
 }
