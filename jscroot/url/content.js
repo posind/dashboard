@@ -16,6 +16,8 @@ export function getContentURL(){
             return url.template.content+"profile/accounts.html";
         case "messages":
             return url.template.content+"messages.html";
+        case "proyek/buat":
+            return url.template.content+"proyek/buat.html";
         case "notifications/blocked":
             return url.template.content+"notifications/blocked.html";
         case "notifications/silenced":

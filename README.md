@@ -9,10 +9,15 @@ JSCroot Skeleton, copy jscroot folder to your web. JSCroot consist four main fol
 ## Slicing HTML and JS
 To use existing template, steps are: 
 1. Split index.html into template folder
-2. Set same structure with template in view folder
+2. Set same structure with template in view folder for js.
 3. every js file in view, create _export function main()_ to run js for html content.
     ```js
     export function main(){
         yourscript(js);
     }
     ```
+4. Open url folder and add in content.js file case for new content.
+   ```js
+   case "proyek/buat":
+            return url.template.content+"proyek/buat.html";
+   ```
