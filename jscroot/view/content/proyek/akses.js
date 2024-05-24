@@ -16,7 +16,7 @@ function getResponseFunction(result){
     if (result.status===200){
         result.data.forEach(project => {
             const option = document.createElement('option');
-            option.value = project.id;
+            option.value = project._id;
             option.textContent = project.name;
             projectSelect.appendChild(option);
         });
