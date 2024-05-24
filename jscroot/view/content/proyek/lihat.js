@@ -35,5 +35,6 @@ function getResponseFunction(result){
             text: result.data.response
           });
     }
+    console.log(result);
 
 }
