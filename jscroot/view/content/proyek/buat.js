@@ -44,7 +44,7 @@ function responseFunction(result){
         Swal.fire({
             icon: "error",
             title: "Oops...",
-            text: result.error
+            text: result.data.status
           });
           show("tombolbuatproyek");
     }
