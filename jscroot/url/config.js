@@ -9,7 +9,8 @@ export const backend={
         data:"https://api.do.my.id/data/user"
     },
     project:{
-        data:"https://api.do.my.id/data/proyek"
+        data:"https://api.do.my.id/data/proyek",
+        anggota:"https://api.do.my.id/data/proyek/anggota",
     }
 }
 

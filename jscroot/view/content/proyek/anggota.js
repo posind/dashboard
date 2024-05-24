@@ -8,7 +8,7 @@ const tableBody = document.getElementById('webhook-table-body');
 
 export async function main(){
     await addCSSIn("https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.css",id.content);
-    getJSON(backend.project.data,'login',getCookie('login'),getResponseFunction);
+    getJSON(backend.project.anggota,'login',getCookie('login'),getResponseFunction);
 }
 
 function getResponseFunction(result){
