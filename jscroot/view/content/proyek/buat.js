@@ -1,4 +1,4 @@
-import { onClick,getValue,setValue,hide,show } from "https://cdn.jsdelivr.net/gh/jscroot/element@0.1.5/croot.js";
+import { onClick,getValue,disableInput,hide,show } from "https://cdn.jsdelivr.net/gh/jscroot/element@0.1.5/croot.js";
 import {postJSON} from "https://cdn.jsdelivr.net/gh/jscroot/api@0.0.7/croot.js";
 import {getCookie} from "https://cdn.jsdelivr.net/gh/jscroot/cookie@0.0.1/croot.js";
 import {redirect} from "https://cdn.jsdelivr.net/gh/jscroot/url@0.0.9/croot.js";
@@ -34,7 +34,8 @@ function responseFunction(result){
             footer: '<a href="https://wa.me/62895601060000?text='+katakata+'" target="_blank">Verifikasi Proyek</a>',
             didClose: () => {
                 disableInput("name");
-                disableInput("description");}
+                disableInput("description");
+            }
           });
     }else{
         Swal.fire({
@@ -45,14 +46,4 @@ function responseFunction(result){
           show("tombolbuatproyek");
     }
     console.log(result);
-}
-
-
-export function disableInput(id) {
-    const Input = document.getElementById(id);
-    Input.disabled = true;
-}
-export function enableInput(id) {
-    const Input = document.getElementById(id);
-    Input.disabled = false;
 }
