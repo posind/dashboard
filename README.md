@@ -25,5 +25,5 @@ To use existing template, steps are:
    inside getURLContentJS function
    ```js
    case "proyek/buat":
-            return url.template.content+"proyek/buat.js";
+            return url.view.content+"proyek/buat.js";
    ```

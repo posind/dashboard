@@ -54,7 +54,7 @@ export function getURLContentJS(){
         case "messages":
             return url.view.content+"messages.js";
         case "proyek/buat":
-            return url.template.content+"proyek/buat.js";
+            return url.view.content+"proyek/buat.js";
         case "notifications/blocked":
             return url.view.content+"notifications/blocked.js";
         case "notifications/silenced":
