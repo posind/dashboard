@@ -53,6 +53,8 @@ export function getURLContentJS(){
             return url.view.content+"profile/accounts.js";
         case "messages":
             return url.view.content+"messages.js";
+        case "proyek/buat":
+            return url.template.content+"proyek/buat.js";
         case "notifications/blocked":
             return url.view.content+"notifications/blocked.js";
         case "notifications/silenced":

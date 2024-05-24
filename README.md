@@ -16,8 +16,14 @@ To use existing template, steps are:
         yourscript(js);
     }
     ```
-4. Open url folder and add in content.js file case for new content.
+4. Open url folder and add in content.js file, case for new content.
+   inside getContentURL function
    ```js
    case "proyek/buat":
             return url.template.content+"proyek/buat.html";
+   ```
+   inside getURLContentJS function
+   ```js
+   case "proyek/buat":
+            return url.template.content+"proyek/buat.js";
    ```
