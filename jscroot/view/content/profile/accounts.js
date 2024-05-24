@@ -2,7 +2,7 @@ import { onClick,getValue,setValue,hide,show,setInner } from "https://cdn.jsdeli
 import {postJSON,getJSON} from "https://cdn.jsdelivr.net/gh/jscroot/api@0.0.7/croot.js";
 import {getCookie} from "https://cdn.jsdelivr.net/gh/jscroot/cookie@0.0.1/croot.js";
 import {redirect} from "https://cdn.jsdelivr.net/gh/jscroot/url@0.0.9/croot.js";
-import { backend } from "/jscroot/url/config.js";
+import { backend } from "/dashboard/jscroot/url/config.js";
 
 
 export function main(){
