@@ -34,7 +34,7 @@ function responseFunction(result){
             footer: '<a href="https://wa.me/62895601060000?text='+katakata+'" target="_blank">Verifikasi Proyek</a>',
             didClose: () => {
                 disableInput("name");
-                disableInput("description");
+                disableInput("description");}
           });
     }else{
         Swal.fire({
