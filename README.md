@@ -27,3 +27,7 @@ To use existing template, steps are:
    case "proyek/buat":
             return url.view.content+"proyek/buat.js";
    ```
+
+## Template
+
+1. Boxicons: https://themesbrand.com/skote/layouts/icons-boxicons.html
