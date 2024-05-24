@@ -43,8 +43,8 @@ function responseFunction(result){
     }else{
         Swal.fire({
             icon: "error",
-            title: "Oops...",
-            text: result.data.status
+            title: result.data.status,
+            text: result.data.response
           });
           show("tombolbuatproyek");
     }
