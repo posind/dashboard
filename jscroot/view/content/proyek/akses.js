@@ -1,4 +1,5 @@
-import { onClick,getValue,setValue,hide,show } from "https://cdn.jsdelivr.net/gh/jscroot/element@0.1.6/croot.js";
+import { onClick,getValue,setValue,onInput,show } from "https://cdn.jsdelivr.net/gh/jscroot/element@0.1.7/croot.js";
+import {validatePhoneNumber} from "https://cdn.jsdelivr.net/gh/jscroot/validate@0.0.1/croot.js";
 import {postJSON,getJSON} from "https://cdn.jsdelivr.net/gh/jscroot/api@0.0.7/croot.js";
 import {getCookie} from "https://cdn.jsdelivr.net/gh/jscroot/cookie@0.0.1/croot.js";
 import {addCSSIn} from "https://cdn.jsdelivr.net/gh/jscroot/element@0.1.5/croot.js";
@@ -6,9 +7,7 @@ import Swal from 'https://cdn.jsdelivr.net/npm/sweetalert2@11/src/sweetalert2.js
 import { id,backend } from "/dashboard/jscroot/url/config.js";
 
 export async function main(){    
-    document.getElementById('phonenumber').addEventListener('input', function (e) {
-        validatePhoneNumber(e.target);
-    });
+    onInput('phonenumber', validatePhoneNumber);
     await addCSSIn("https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.css",id.content);
     getJSON(backend.project.data,'login',getCookie('login'),getResponseFunction);
     onClick("tombolaksesmember",actionfunctionname);
@@ -68,13 +67,4 @@ function postResponseFunction(result){
           show("tombolbuatproyek");
     }
     console.log(result);
-}
-
-function validatePhoneNumber(input) {
-    // Hanya izinkan angka
-    input.value = input.value.replace(/[^0-9]/g, '');
-    // Jika karakter pertama adalah 0, hapus karakter tersebut
-    if (input.value.length > 1 && input.value.charAt(0) === '0') {
-        input.value = input.value.substr(1);
-    }
 }
