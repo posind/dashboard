@@ -4,8 +4,6 @@ import {addCSSIn} from "https://cdn.jsdelivr.net/gh/jscroot/element@0.1.5/croot.
 import Swal from 'https://cdn.jsdelivr.net/npm/sweetalert2@11/src/sweetalert2.js';
 import { id,backend } from "/dashboard/jscroot/url/config.js";
 
-const tableBody = document.getElementById('webhook-table-body');
-
 export async function main(){
     await addCSSIn("https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.css",id.content);
     getJSON(backend.project.data,'login',getCookie('login'),getResponseFunction);
@@ -14,9 +12,6 @@ export async function main(){
 function getResponseFunction(result){
     console.log(result);
     if (result.status===200){
-        // Menghapus konten sebelumnya jika ada
-        tableBody.innerHTML = '';
-
         // Menambahkan baris untuk setiap webhook dalam data JSON
         result.data.forEach(webhook => {
             const row = document.createElement('tr');
@@ -26,7 +21,7 @@ function getResponseFunction(result){
                 <td>https://api.do.my.id/webhook/[github/gitlab]/${webhook.name}</td>
                 <td>${webhook.description}</td>
             `;
-            tableBody.appendChild(row);
+            getElementById('webhook-table-body').appendChild(row);
         });
 
     }else{

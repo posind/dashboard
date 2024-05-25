@@ -4,8 +4,6 @@ import {addCSSIn} from "https://cdn.jsdelivr.net/gh/jscroot/element@0.1.5/croot.
 import Swal from 'https://cdn.jsdelivr.net/npm/sweetalert2@11/src/sweetalert2.js';
 import { id,backend } from "/dashboard/jscroot/url/config.js";
 
-const projectSelect = document.getElementById('project-name');
-
 export async function main(){
     await addCSSIn("https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.css",id.content);
     getJSON(backend.project.data,'login',getCookie('login'),getResponseFunction);
@@ -18,7 +16,7 @@ function getResponseFunction(result){
             const option = document.createElement('option');
             option.value = project._id;
             option.textContent = project.name;
-            projectSelect.appendChild(option);
+            document.getElementById('project-name').appendChild(option);
         });
 
     }else{
