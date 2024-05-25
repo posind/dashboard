@@ -16,6 +16,7 @@ export async function main(){
 function actionfunctionname(){
     let project={
         name:getValue("name"),
+        wagroupid:getValue("wagroupid"),
         description:getValue("description")
     };
     if (getCookie("login")===""){
