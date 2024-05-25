@@ -18,7 +18,7 @@ function getResponseFunction(result){
             row.innerHTML = `
                 <td>${webhook.name}</td>
                 <td>${webhook.secret}</td>
-                <td>https://api.do.my.id/webhook/[github/gitlab]/${webhook.name}</td>
+                <td>https://api.do.my.id/webhook/[githost]/${webhook.name}</td>
                 <td>${webhook.description}</td>
             `;
             document.getElementById('webhook-table-body').appendChild(row);
