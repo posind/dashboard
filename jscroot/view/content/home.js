@@ -12,7 +12,7 @@ export async function main(){
 
 function getUserFunction(result){
     if (result.status!==404){
-        setInner("biggreet","Halo "+localStorage.getItem('nama'));
+        setInner("biggreet","Halo "+result.data.name);
     }else{
         redirect("/signup");
     }
