@@ -21,7 +21,7 @@ function getResponseFunction(result){
                 <td>https://api.do.my.id/webhook/[github/gitlab]/${webhook.name}</td>
                 <td>${webhook.description}</td>
             `;
-            getElementById('webhook-table-body').appendChild(row);
+            document.getElementById('webhook-table-body').appendChild(row);
         });
 
     }else{
