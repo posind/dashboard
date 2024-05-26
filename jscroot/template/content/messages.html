@@ -8,7 +8,7 @@
 
 <section class="section is-flex is-flex-direction-column is-justify-content-space-between" style="height: calc(100vh - 56px);">
   <div class="container chat-container">
-      <div class="box chat-messages">
+      <div class="box chat-messages" id="log">
           <div class="chat-message user">Pesan dari user</div>
           <div class="chat-message other">Pesan dari orang lain</div>
       </div>
@@ -16,10 +16,10 @@
   <div class="container">
       <div class="field has-addons">
           <div class="control is-expanded">
-              <input class="input" type="text" placeholder="Ketik pesan...">
+              <input class="input" type="text" placeholder="Ketik pesan..." id="msg">
           </div>
           <div class="control">
-              <button class="button is-primary" onclick="sendMessage()">Kirim</button>
+              <button class="button is-primary" id="sendbutton">Kirim</button>
           </div>
       </div>
   </div>
