@@ -25,7 +25,7 @@ export async function main(){
     conn.onclose = function (evt) {
       var item = document.createElement("div");
       item.innerHTML = '<center><h3>Putus karena dicuekin</h3><img src="./assets/img/reload.svg" onclick="location.reload()"></center>';
-      appendLog(item);
+      appendLog(log,item);
       disableInput('msg');
       disableInput('sendbutton');
       msg.placeholder = "Refresh browser kakak...";
