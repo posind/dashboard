@@ -1,12 +1,26 @@
-    <div class="chat-header">
-        ChatGPL
-    </div>
+<section class="hero is-primary">
+  <div class="hero-body">
+      <p class="title">
+          ChatGPL
+      </p>
+  </div>
+</section>
 
-    <div class="chat-container">
-        <div class="chat-messages" id="log"></div>
-        
-        <div class="chat-input">
-            <input type="text" placeholder="Ketik pesan..." id="msg">
-            <button id="sendbutton">Kirim</button>
-        </div>
-    </div>
+<section class="section is-flex is-flex-direction-column is-justify-content-space-between" style="height: calc(100vh - 56px);">
+  <div class="container chat-container">
+      <div class="box chat-messages">
+          <div class="chat-message user">Pesan dari user</div>
+          <div class="chat-message other">Pesan dari orang lain</div>
+      </div>
+  </div>
+  <div class="container">
+      <div class="field has-addons">
+          <div class="control is-expanded">
+              <input class="input" type="text" placeholder="Ketik pesan...">
+          </div>
+          <div class="control">
+              <button class="button is-primary" onclick="sendMessage()">Kirim</button>
+          </div>
+      </div>
+  </div>
+</section>
