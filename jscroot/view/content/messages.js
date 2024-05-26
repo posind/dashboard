@@ -1,15 +1,17 @@
-import {disableInput} from 'https://cdn.jsdelivr.net/gh/jscroot/element@0.1.7/croot.js';
+import {disableInput,addCSS,onClick} from 'https://cdn.jsdelivr.net/gh/jscroot/element@0.1.7/croot.js';
 
 
 export async function main(){
-  const btn = document.getElementById("sendbutton");
+  addCSS('/assets/css/chat.css');
+  var conn;
   const myId=getRandomColor();
   const sep='|||';
   const msg = document.getElementById("msg");
-  chat(myId,sep,msg);
+  const btn = document.getElementById("sendbutton");
+  chat(conn,myId,sep,msg);
   msg.addEventListener("keypress", function(event) {
     if (event.key === "Enter") {
-        document.getElementById("sendbutton").click();
+      btn.click();
     }
   });
   btn.onclick = function () {
@@ -27,9 +29,9 @@ export async function main(){
 
 
 
-function chat(myId,sep,msg) {
+function chat(conn,myId,sep,msg) {
   if (window["WebSocket"]) {
-  var conn = new WebSocket("wss://wss.do.my.id/ws");
+  conn = new WebSocket("wss://wss.do.my.id/ws");
   conn.onclose = function (evt) {
     var item = document.createElement("div");
     item.innerHTML = '<center><h3>Putus karena dicuekin</h3><img src="/reload.svg" onclick="location.reload()"></center>';
@@ -54,7 +56,20 @@ function chat(myId,sep,msg) {
     item.innerHTML = "<b>Your browser does not support WebSockets.</b>";
     appendLog(item);
   }
+  return conn
 }
+
+function actionButton(conn,msg,myId,sep) {
+  if (!conn) {
+    return false;
+  }
+  if (!msg.value) {
+    return false;
+  }
+  conn.send(myId+sep+msg.value);
+  msg.value = "";
+  return false;
+};
 
 function getFrom(myid,message,sep){
   var cls;
