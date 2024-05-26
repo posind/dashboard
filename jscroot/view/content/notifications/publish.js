@@ -1,4 +1,4 @@
-import { onClick,getValue,disableInput,hide,show,onInput } from "https://cdn.jsdelivr.net/gh/jscroot/element@0.1.7/croot.js";
+import { onClick,getValue,hide,show,onInput } from "https://cdn.jsdelivr.net/gh/jscroot/element@0.1.7/croot.js";
 import {validatePhoneNumber} from "https://cdn.jsdelivr.net/gh/jscroot/validate@0.0.1/croot.js";
 import {postJSON} from "https://cdn.jsdelivr.net/gh/jscroot/api@0.0.7/croot.js";
 import {getCookie} from "https://cdn.jsdelivr.net/gh/jscroot/cookie@0.0.1/croot.js";
@@ -9,7 +9,7 @@ import { id, backend } from "/dashboard/jscroot/url/config.js";
 
 export async function main(){
     await addCSSIn("https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.css",id.content);
-    onInput('wa', validatePhoneNumber);
+    onInput('phone', validatePhoneNumber);
     onClick("tombolpublishtask",actionfunctionname);
 }
 
