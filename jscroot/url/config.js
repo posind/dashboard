@@ -11,6 +11,10 @@ export const backend={
     project:{
         data:"https://api.do.my.id/data/proyek",
         anggota:"https://api.do.my.id/data/proyek/anggota",
+    },
+    ux:{
+        laporan:"https://api.do.my.id/notif/ux/postlaporan",
+        rating:"https://api.do.my.id/notif/ux/rating"
     }
 }
 

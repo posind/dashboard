@@ -14,31 +14,34 @@ export async function main(){
 }
 
 function actionfunctionname(){
-    let publish={
+    let lap={
         kode:getValue("kode"),
-        user:getValue("user"),
-        wa:getValue("wa"),
-        description:getValue("description")
+        nama:getValue("nama"),
+        phone:getValue("phone"),
+        solusi:getValue("solusi")
     };
     if (getCookie("login")===""){
         redirect("/signin");
     }else{
-        postJSON(backend.project.data,"login",getCookie("login"),publish,responseFunction);
-        hide("tombolbuatproyek");
+        postJSON(backend.ux.laporan,"login",getCookie("login"),lap,responseFunction);
+        hide("tombolpublishtask");
     }  
 }
 
 function responseFunction(result){
     if(result.status === 200){
-        const katakata = "Publish task baru "+result.data._id;
+        const katakata = "Mohon bantuannya untuk memberikan rating dari nomor domyikado";
         Swal.fire({
             icon: "success",
             title: "Berhasil",
-            text: "Selamat kak proyek "+result.data.name+" sudah terdaftar dengan ID: "+result.data._id+" dan Secret: "+result.data.secret,
-            footer: '<a href="https://wa.me/62895601060000?text='+katakata+'" target="_blank">Verifikasi Proyek</a>',
+            text: "Selamat kak tugas dari "+result.data.nama+" sudah tersimpan dengan kode: "+result.data.kode,
+            footer: '<a href="https://wa.me/'+result.data.phone+'?text='+katakata+'" target="_blank">Verifikasi Proyek</a>',
             didClose: () => {
-                disableInput("name");
-                disableInput("description");
+                setValue("kode","");
+                setValue("nama","");
+                setValue("phone","");
+                setValue("solusi","");
+                show("tombolpublishtask");
             }
           });
     }else{
@@ -47,7 +50,7 @@ function responseFunction(result){
             title: result.data.status,
             text: result.data.response
           });
-          show("tombolbuatproyek");
+          show("tombolpublishtask");
     }
     console.log(result);
 }
