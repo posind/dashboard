@@ -36,8 +36,6 @@ function getResponseFunction(result){
 function actionfunctionname(){
     let lap={
         kode:getValue("project-name"),
-        nama:getValue("nama"),
-        phone:getValue("phone"),
         solusi:getValue("solusi")
     };
     if (getCookie("login")===""){
