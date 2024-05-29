@@ -10,12 +10,32 @@ import { id, backend } from "/dashboard/jscroot/url/config.js";
 export async function main(){
     await addCSSIn("https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.css",id.content);
     onInput('phone', validatePhoneNumber);
+    getJSON(backend.project.anggota,'login',getCookie('login'),getResponseFunction);
     onClick("tombolpublishtask",actionfunctionname);
+}
+
+function getResponseFunction(result){
+    console.log(result);
+    if (result.status===200){
+        result.data.forEach(project => {
+            const option = document.createElement('option');
+            option.value = project._id;
+            option.textContent = project.name;
+            document.getElementById('project-name').appendChild(option);
+        });
+
+    }else{
+        Swal.fire({
+            icon: "error",
+            title: result.data.status,
+            text: result.data.response
+          });
+    }
 }
 
 function actionfunctionname(){
     let lap={
-        kode:getValue("kode"),
+        kode:getValue("project-name"),
         nama:getValue("nama"),
         phone:getValue("phone"),
         solusi:getValue("solusi")
