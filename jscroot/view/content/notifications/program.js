@@ -9,8 +9,28 @@ import { id, backend } from "/dashboard/jscroot/url/config.js";
 
 export async function main(){
     await addCSSIn("https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.css",id.content);
+    getJSON(backend.project.anggota,'login',getCookie('login'),getResponseFunction);
     onInput('phone', validatePhoneNumber);
     onClick("tombolprogramtask",actionfunctionname);
+}
+
+function getResponseFunction(result){
+    console.log(result);
+    if (result.status===200){
+        result.data.forEach(project => {
+            const option = document.createElement('option');
+            option.value = project._id;
+            option.textContent = project.name;
+            document.getElementById('kode').appendChild(option);
+        });
+
+    }else{
+        Swal.fire({
+            icon: "error",
+            title: result.data.status,
+            text: result.data.response
+          });
+    }
 }
 
 function actionfunctionname(){
