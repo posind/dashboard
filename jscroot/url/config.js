@@ -13,6 +13,7 @@ export const backend={
         anggota:"https://api.do.my.id/data/proyek/anggota",
     },
     ux:{
+        feedback:"https://api.do.my.id/notif/ux/postfeedback",
         laporan:"https://api.do.my.id/notif/ux/postlaporan",
         rating:"https://api.do.my.id/notif/ux/rating"
     }

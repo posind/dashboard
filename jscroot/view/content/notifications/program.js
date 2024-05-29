@@ -23,7 +23,7 @@ function actionfunctionname(){
     if (getCookie("login")===""){
         redirect("/signin");
     }else{
-        postJSON(backend.ux.laporan,"login",getCookie("login"),lap,responseFunction);
+        postJSON(backend.ux.feedback,"login",getCookie("login"),lap,responseFunction);
         hide("tombolprogramtask");
     }  
 }
