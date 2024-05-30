@@ -19,7 +19,8 @@ function getResponseFunction(result){
                 <td>${webhook.name}</td>
                 <td>${webhook.secret}</td>
                 <td>https://api.do.my.id/webhook/[githost]/${webhook.name}</td>
-                <td>${webhook.description}</td>
+                <td>${webhook.description.truncate(30)}</td>
+
             `;
             document.getElementById('webhook-table-body').appendChild(row);
         });
