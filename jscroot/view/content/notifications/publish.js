@@ -41,6 +41,7 @@ function actionfunctionname(){
     }else{
         postJSON(backend.ux.laporan,"login",getCookie("login"),lap,responseFunction);
         hide("tombolpublishtask");
+        setValue("solusi","");
     }  
 }
 
