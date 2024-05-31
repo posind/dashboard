@@ -12,7 +12,6 @@ export async function main() {
 
   await loadScript("https://code.jquery.com/jquery-3.6.0.min.js");
   await loadScript("https://cdn.datatables.net/2.0.8/js/dataTables.min.js");
-  await loadScript("https://cdn.datatables.net/2.0.8/js/dataTables.bulma.min.js");
 
   getJSON(
     backend.project.anggota,
