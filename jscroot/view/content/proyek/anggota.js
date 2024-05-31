@@ -9,6 +9,7 @@ export async function main() {
     "https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.css",
     id.content
   );
+
   getJSON(
     backend.project.anggota,
     "login",
@@ -16,8 +17,17 @@ export async function main() {
     getResponseFunction
   );
 
-  let table = new DataTable("#myTable", {
-    responsive: true,
+  await loadScript("https://code.jquery.com/jquery-3.6.0.min.js");
+  await loadScript("https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js");
+}
+
+async function loadScript(src) {
+  return new Promise((resolve, reject) => {
+    const script = document.createElement("script");
+    script.src = src;
+    script.onload = resolve;
+    script.onerror = reject;
+    document.head.appendChild(script);
   });
 }
 
@@ -35,6 +45,10 @@ function getResponseFunction(result) {
             `;
       document.getElementById("webhook-table-body").appendChild(row);
     });
+
+    $("#myTable").DataTable({
+      responsive: true,
+    });
   } else {
     Swal.fire({
       icon: "error",
@@ -43,15 +57,3 @@ function getResponseFunction(result) {
     });
   }
 }
-
-document.addEventListener("DOMContentLoaded", () => {
-  (document.querySelectorAll(".notification .delete") || []).forEach(
-    ($delete) => {
-      const $notification = $delete.parentNode;
-
-      $delete.addEventListener("click", () => {
-        $notification.parentNode.removeChild($notification);
-      });
-    }
-  );
-});
