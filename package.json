@@ -1,0 +1,15 @@
+{
+  "name": "dashboard",
+  "version": "1.0.0",
+  "description": "JSCroot Skeleton, copy jscroot folder to your web. JSCroot consist four main folder with one index.js in root folder. There are: 1. index.js file : to run JSCroot skeleton properly  2. controller : As handler to control action in main html 3. url : Like router or routing between template and view 4. template : html structured folder called by url 5. view : javascript structured folder use by template",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "datatables.net-dt": "^2.0.8"
+  }
+}
