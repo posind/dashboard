@@ -10,15 +10,15 @@ export async function main() {
     id.content
   );
 
+  await loadScript("https://code.jquery.com/jquery-3.6.0.min.js");
+  await loadScript("https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js");
+
   getJSON(
     backend.project.anggota,
     "login",
     getCookie("login"),
     getResponseFunction
   );
-
-  await loadScript("https://code.jquery.com/jquery-3.6.0.min.js");
-  await loadScript("https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js");
 }
 
 async function loadScript(src) {
@@ -46,8 +46,10 @@ function getResponseFunction(result) {
       document.getElementById("webhook-table-body").appendChild(row);
     });
 
-    $("#myTable").DataTable({
-      responsive: true,
+    $(document).ready(function () {
+      $("#myTable").DataTable({
+        responsive: true,
+      });
     });
   } else {
     Swal.fire({
