@@ -17,8 +17,8 @@ export async function main() {
     getResponseFunction
   );
 
-  await $(document).ready(function () {
-    $("#myTable").DataTable();
+  let table = new DataTable("#myTable", {
+    responsive: true,
   });
 }
 
