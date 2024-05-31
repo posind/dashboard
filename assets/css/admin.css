@@ -73,7 +73,3 @@ nav.navbar {
   max-height: 250px;
   overflow-y: scroll;
 }
-
-.word-break {
-  word-break: break-all;
-}
