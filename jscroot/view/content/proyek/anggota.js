@@ -30,8 +30,8 @@ function getResponseFunction(result) {
       const row = document.createElement("tr");
       row.innerHTML = `
                 <td>${webhook.name}</td>
-                <td>${webhook.secret}</td>
-                <td>https://api.do.my.id/webhook/[githost]/${webhook.name}</td>
+                <td class="word-break">${webhook.secret}</td>
+                <td class="word-break">https://api.do.my.id/webhook/[githost]/${webhook.name}</td>
                 <td>${webhook.description}</td>
             `;
       document.getElementById("webhook-table-body").appendChild(row);
