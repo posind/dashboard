@@ -35,6 +35,7 @@ function copyToClipboard(text) {
     text: "Text has been copied to clipboard.",
   });
 }
+
 export function addRevealTextListeners() {
   document.querySelectorAll(".reveal-text").forEach((element) => {
     element.addEventListener("click", (event) => {

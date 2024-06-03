@@ -25,13 +25,15 @@ td {
 
 .code-box {
   position: relative;
-
   border: 1px solid #ddd;
   border-radius: 4px;
-  padding: 10px;
-  font-family: monospace;
   overflow: hidden;
 }
+code {
+  color: #1e1e1e;
+  background: transparent;
+}
+
 .code-box .copy-btn {
   display: none;
 }

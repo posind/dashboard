@@ -27,7 +27,7 @@ function getResponseFunction(result){
             const truncatedDescription = truncateText(webhook.description, 50);
             row.innerHTML = `
                 <td>${webhook.name}</td>
-                <td>${truncatedDescription}<span class="full-text" style="display:none;">${webhook.description}</span></td>
+                <td class="has-text-justified">${truncatedDescription}<span class="full-text" style="display:none;">${webhook.description}</span></td>
             `;
             document.getElementById('webhook-table-body').appendChild(row);
         });
@@ -40,7 +40,7 @@ function getResponseFunction(result){
     });
 
     addRevealTextListeners();
-    
+
     }else{
         Swal.fire({
             icon: "error",

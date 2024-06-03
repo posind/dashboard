@@ -35,14 +35,18 @@ function getResponseFunction(result) {
       row.innerHTML = `
                 <td>${webhook.name}</td>
                 <td class="code-box">
-                  ${webhook.secret}
+                  <code>       
+                    ${webhook.secret}
+                  </code>
                   <a class="tag is-link copy-btn" data-copy-text="${webhook.secret}">Copy</a>
                 </td>
                 <td class="code-box">
-                  https://api.do.my.id/webhook/[githost]/${webhook.name}
+                  <code>                 
+                    https://api.do.my.id/webhook/[githost]/${webhook.name}
+                  </code>
                   <a class="tag is-link copy-btn" data-copy-text="https://api.do.my.id/webhook/[githost]/${webhook.name}">Copy</a> 
                 </td>
-                <td>${truncatedDescription}<span class="full-text" style="display:none;">${webhook.description}</span></td>
+                <td>${truncatedDescription}<span class="full-text" style="display:none; ">${webhook.description}</span></td>
             `;
       document.getElementById("webhook-table-body").appendChild(row);
     });
