@@ -8,11 +8,11 @@ import { backend } from "../url/config.js";
 
 export function main(){
     //set header and cookies
-    if (getCookie("login")===""){
-        redirect("/signin");
-    }else{
-        getJSON(backend.user.data,"login",getCookie("login"),getUserFunction);
-    }
+    // if (getCookie("login")===""){
+    //     redirect("/signin");
+    // }else{
+    //     getJSON(backend.user.data,"login",getCookie("login"),getUserFunction);
+    // }
 }
 
 
