@@ -18,7 +18,7 @@ export function main(){
 
 function getUserFunction(result){
     if (result.status!==404){
-        setInner("headerlogoname",result.data.name);
+        setInner("headerlogoname",result.data.name+"["+result.data.poin+"]");
         // Simpan ke localStorage
         localStorage.setItem('nama', result.data.name);
     }else{
