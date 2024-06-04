@@ -13,6 +13,7 @@ function getUserFunction(result){
     if (result.status!==404){
         setInner("biggreet","Halo "+result.data.name);
         setInner("subtitle","Jumlah poin kamu saat ini sebesar "+toString(result.data.poin)+" poin.");
+        console.log(result.data);
     }else{
         redirect("/signup");
     }
