@@ -51,48 +51,45 @@ function getResponseFunction(result) {
       // Clear existing table body content to avoid duplication
       tableBody.innerHTML = "";
 
+      // Destroy existing DataTable instance if it exists
+      if ($.fn.DataTable.isDataTable("#myTable")) {
+        $("#myTable").DataTable().destroy();
+      }
+
       // Menambahkan baris untuk setiap webhook dalam data JSON
       result.data.forEach((project) => {
         const truncatedDescription = truncateText(project.description, 50);
 
+        // Gabungkan nama anggota dalam satu kolom dengan numbering
+        let membersHtml = "";
         if (project.members && project.members.length > 0) {
-          project.members.forEach((member) => {
-            const row = document.createElement("tr");
-            row.innerHTML = `
-              <td>${project.name}</td>
-              <td>${member.name}</td>
-              <td class="has-text-justified">
-                ${truncatedDescription}
-                <span class="full-text" style="display:none;">${project.description}</span>
-              </td>
-            `;
-            tableBody.appendChild(row);
-          });
+          membersHtml = project.members
+            .map((member, index) => `${index + 1}. ${member.name}`)
+            .join("<br>");
         } else {
-          // If there are no members, create a row with placeholder in the members column
-          const row = document.createElement("tr");
-          row.innerHTML = `
-            <td>${project.name}</td>
-            <td>
-              <button class="button is-primary is-small btn-flex addMemberButton">
-                <i class="bx bx-plus"></i>
-              </button>
-            </td>
-            <td class="has-text-justified">
-              ${truncatedDescription}
-              <span class="full-text" style="display:none;">${project.description}</span>
-            </td>
-          `;
-          tableBody.appendChild(row);
+          membersHtml = `
+            <button class="button is-primary is-small btn-flex addMemberButton">
+              <i class="bx bx-plus"></i>
+            </button>`;
         }
+
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${project.name}</td>
+          <td>${membersHtml}</td>
+          <td class="has-text-justified">
+            ${truncatedDescription}
+            <span class="full-text" style="display:none;">${project.description}</span>
+          </td>
+        `;
+        tableBody.appendChild(row);
       });
 
-      // Initialize DataTable
-        dataTable = $("#myTable").DataTable({
-          responsive: true,
-          autoWidth: false,
-        });
-      
+      // Initialize DataTable after populating the table body
+      dataTable = $("#myTable").DataTable({
+        responsive: true,
+        autoWidth: false,
+      });
 
       addRevealTextListeners();
       addMemberButtonListeners(); // Tambahkan event listener ke tombol
@@ -107,6 +104,7 @@ function getResponseFunction(result) {
     console.error('Element with ID "webhook-table-body" not found.');
   }
 }
+
 
 // Function to add event listeners to addMemberButtons
 function addMemberButtonListeners() {
