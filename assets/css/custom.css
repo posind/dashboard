@@ -52,6 +52,7 @@ code {
   gap: 0.3rem;
 }
 
-.field label {
+.field label,
+select {
   float: left;
 }
