@@ -110,17 +110,18 @@ function getResponseFunction(result) {
 function addMemberButtonListeners() {
   document.querySelectorAll(".addMemberButton").forEach((button) => {
     button.addEventListener("click", async (event) => {
+      const projectId = button.getAttribute("data-project-id");
+      const projectName =
+        button.getAttribute("data-project-name") ||
+        button.closest("tr").querySelector("td:first-child").innerText;
       const { value: formValues } = await Swal.fire({
         title: "Tambah Member",
         html: `
           <div class="field">
-            <label class="label">Nama Proyek</label>
             <div class="control">
-              <div class="select">
-                <select id="project-name" name="projectName" required>
-                  <!-- Options akan diisi melalui JavaScript -->
-                </select>
-              </div>
+              <label class="label">Nama Project</label>
+              <input type="hidden" id="project-id" name="projectId" value="${projectId}">
+              <input class="input" type="text" value="${projectName}" disabled>
             </div>
           </div>
           <div class="field">
@@ -129,61 +130,40 @@ function addMemberButtonListeners() {
               <input class="input" type="tel" id="phonenumber" name="phonenumber" placeholder="628111" required>
             </div>
           </div>
-          <div class="field">
-            <div class="control">
-              <button class="button is-primary" type="submit" id="tombolaksesmember">Tambah Member</button>
-            </div>
-          </div>
         `,
         showCancelButton: true,
-        showConfirmButton: false,
-        didOpen: () => {
-          // Load project data into the select element
-          getJSON(
-            backend.project.data,
-            "login",
-            getCookie("login"),
-            (result) => {
-              if (result.status === 200) {
-                result.data.forEach((project) => {
-                  const option = document.createElement("option");
-                  option.value = project._id;
-                  option.textContent = project.name;
-                  document.getElementById("project-name").appendChild(option);
-                });
-              }
-            }
-          );
-
-          document
-            .getElementById("tombolaksesmember")
-            .addEventListener("click", () => {
-              const phoneNumber = document.getElementById("phonenumber").value;
-              const projectName = document.getElementById("project-name").value;
-              if (phoneNumber && projectName) {
-                // Logic to add member
-                 onInput("phonenumber", validatePhoneNumber);
-                let idprjusr = {
-                  _id: getValue("project-name"),
-                  phonenumber: getValue("phonenumber"),
-                };
-                postJSON(
-                  backend.project.anggota,
-                  "login",
-                  getCookie("login"),
-                  idprjusr,
-                  postResponseFunction
-                );
-                Swal.close();
-              } else {
-                Swal.showValidationMessage(`Please enter all fields`);
-              }
-            });
+        confirmButtonText: "Tambah Member",
+        preConfirm: () => {
+          const phoneNumber = document.getElementById("phonenumber").value;
+          const projectId = document.getElementById("project-id").value;
+          if (!phoneNumber) {
+            Swal.showValidationMessage(`Please enter a phone number`);
+          }
+          return { phoneNumber, projectId };
         },
       });
+
+      if (formValues) {
+        const { phoneNumber, projectId } = formValues;
+        // Logic to add member
+        onInput("phonenumber", validatePhoneNumber);
+        let idprjusr = {
+          _id: projectId,
+          phonenumber: phoneNumber,
+        };
+        postJSON(
+          backend.project.anggota,
+          "login",
+          getCookie("login"),
+          idprjusr,
+          postResponseFunction
+        );
+      }
     });
   });
 }
+
+
 
 // Add project event listener
 document.getElementById("addButton").addEventListener("click", () => {
