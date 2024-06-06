@@ -60,18 +60,18 @@ function getResponseFunction(result) {
       result.data.forEach((project) => {
         const truncatedDescription = truncateText(project.description, 50);
 
-        // Gabungkan nama anggota dalam satu kolom dengan numbering
+        // Gabungkan nama anggota dalam satu kolom dengan numbering dan tambahkan tombol Add Member
         let membersHtml = "";
         if (project.members && project.members.length > 0) {
           membersHtml = project.members
             .map((member, index) => `${index + 1}. ${member.name}`)
             .join("<br>");
-        } else {
-          membersHtml = `
-            <button class="button is-primary is-small btn-flex addMemberButton">
-              <i class="bx bx-plus"></i>
-            </button>`;
         }
+        membersHtml += `
+          <button class="button is-primary is-small btn-flex addMemberButton" data-project-id="${project._id}">
+            <i class="bx bx-plus"></i>
+            Add member
+          </button>`;
 
         const row = document.createElement("tr");
         row.innerHTML = `
