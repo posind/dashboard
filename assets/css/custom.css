@@ -44,3 +44,14 @@ code {
   top: 10px;
   right: 10px;
 }
+
+.btn-flex {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+}
+
+.field label {
+  float: left;
+}
