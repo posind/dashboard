@@ -18,9 +18,12 @@ export function main(){
 
 function getUserFunction(result){
     if (result.status!==404){
-        setInner("headerlogoname",result.data.name+"["+result.data.poin+"]");
+        const { name, point } = result.data;
+        point
+          ? setInner("headerlogoname", name + "[" + point + "]")
+          : setInner("headerlogoname", name);
         // Simpan ke localStorage
-        localStorage.setItem('nama', result.data.name);
+        localStorage.setItem('nama', name);
     }else{
         redirect("/signup");
     }
