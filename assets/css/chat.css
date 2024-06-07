@@ -1,26 +1,40 @@
+/* Ensure the chat container covers the full viewport height */
+body {
+  background: #fff;
+}
+.container.chat-container {
+  min-height: 100vh; /* Minimum height to cover the viewport */
+  min-width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
 .chat-messages {
-    flex: 1;
-    overflow-y: auto;
+  flex: 1;
+  overflow-y: auto;
+  min-height: 100vh; /* Minimum height to cover the viewport */
+  margin-top: 2rem;
 }
 
 .chat-message {
-    margin-bottom: 10px;
-    padding: 10px;
-    border-radius: 5px;
-    max-width: 70%;
-    word-wrap: break-word;
-    color: black; /* Set font color to black */
-    text-shadow: 1px 1px 0 #fff, -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff; /* White border */
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  max-width: 70%;
+  word-wrap: break-word;
+  color: black; /* Set font color to black */
+  text-shadow: 1px 1px 0 #fff, -1px -1px 0 #fff, 1px -1px 0 #fff,
+    -1px 1px 0 #fff; /* White border */
 }
 
 .chat-message.user {
-    background-color: #d1e7dd;
-    align-self: flex-end;
-    text-align: right;
-    margin-left: auto;
+  background-color: #d1e7dd;
+  align-self: flex-end;
+  text-align: right;
+  margin-left: auto;
 }
 
 .chat-message.other {
-    background-color: #f8d7da;
-    align-self: flex-start;
+  background-color: #f8d7da;
+  align-self: flex-start;
 }
