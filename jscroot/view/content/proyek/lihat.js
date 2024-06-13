@@ -4,6 +4,7 @@ import {
 } from "https://cdn.jsdelivr.net/gh/jscroot/element@0.1.7/croot.js";
 import { validatePhoneNumber } from "https://cdn.jsdelivr.net/gh/jscroot/validate@0.0.1/croot.js";
 import { postJSON } from "https://cdn.jsdelivr.net/gh/jscroot/api@0.0.7/croot.js";
+import { deleteJSON } from "https://cdn.jsdelivr.net/gh/jscroot/api@0.0.8/croot.js";
 import { getJSON } from "https://cdn.jsdelivr.net/gh/jscroot/api@0.0.7/croot.js";
 import { getCookie } from "https://cdn.jsdelivr.net/gh/jscroot/cookie@0.0.1/croot.js";
 import { addCSSIn } from "https://cdn.jsdelivr.net/gh/jscroot/element@0.1.5/croot.js";
@@ -64,11 +65,21 @@ function getResponseFunction(result) {
         let membersHtml = "";
         if (project.members && project.members.length > 0) {
           membersHtml = project.members
-            .map((member, index) => `${index + 1}. ${member.name}`)
-            .join("<br>");
+            .map(
+              (member, index) =>
+                `
+                  <div class="tag is-success mb-3">
+                     ${index + 1}. ${member.name}
+                    <button class="delete is-small removeMemberButton" data-project-name="${
+                      project.name
+                    }" data-member-phonenumber="${member.phonenumber}"></button>
+                  </div>
+                `
+            )
+            .join("");
         }
         membersHtml += `
-          <button class="button is-primary is-small btn-flex addMemberButton" data-project-id="${project._id}">
+          <button class="button box is-primary is-small btn-flex addMemberButton" data-project-id="${project._id}">
             <i class="bx bx-plus"></i>
             Add member
           </button>`;
@@ -92,7 +103,8 @@ function getResponseFunction(result) {
       });
 
       addRevealTextListeners();
-      addMemberButtonListeners(); // Tambahkan event listener ke tombol
+      addMemberButtonListeners(); //  event listener tambah member
+      addRemoveMemberButtonListeners(); //  event listener hapus member
     } else {
       Swal.fire({
         icon: "error",
@@ -162,8 +174,6 @@ function addMemberButtonListeners() {
     });
   });
 }
-
-
 
 // Add project event listener
 document.getElementById("addButton").addEventListener("click", () => {
@@ -285,3 +295,61 @@ function postResponseFunction(result) {
   }
   console.log(result);
 }
+
+// Function to add event listeners to removeMemberButtons
+function addRemoveMemberButtonListeners() {
+  document.querySelectorAll(".removeMemberButton").forEach((button) => {
+    button.addEventListener("click", async (event) => {
+      const projectName = button.getAttribute("data-project-name");
+      const memberPhoneNumber = button.getAttribute("data-member-phonenumber");
+
+      const result = await Swal.fire({
+        title: "Hapus member ini?",
+        text: "Kamu tidak dapat mengembalikan aksi ini!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Hapus member",
+        cancelButtonText: "Kembali",
+      });
+
+      if (result.isConfirmed) {
+        const memberWillBeDeleted = {
+          project_name: projectName,
+          phone_number: memberPhoneNumber,
+        };
+
+        deleteJSON(
+          backend.project.anggota,
+          "login",
+          getCookie("login"),
+          memberWillBeDeleted,
+          removeMemberResponse
+        ); 
+        
+      }
+    });
+  });
+}
+
+
+
+function removeMemberResponse(result) {
+  if (result.status === 200) {
+    Swal.fire({
+      icon: "success",
+      title: "Deleted!",
+      text: "Member has been removed.",
+      didClose: () => {
+        reloadDataTable();
+      },
+    });
+  } else {
+    Swal.fire({
+      icon: "error",
+      title: result.data.status,
+      text: result.data.response,
+    });
+  }
+  console.log(result);
+}
+
