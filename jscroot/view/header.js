@@ -14,7 +14,6 @@ export function main() {
   } else {
     getJSON(backend.user.data, "login", getCookie("login"), getUserFunction);
   }
-
 }
 
 function getUserFunction(result) {
@@ -22,7 +21,9 @@ function getUserFunction(result) {
     const { name, poin } = result.data;
     if (poin) {
       const roundedPoin =  Math.round(poin)
+      const roundedPoin = Math.round(poin);
       setInner("headerlogoname", name);
+      setInner("userPoint", roundedPoin);
       setInner("userPoint", roundedPoin);
     } else {
       setInner("headerlogoname", name);
