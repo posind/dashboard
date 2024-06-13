@@ -21,8 +21,9 @@ function getUserFunction(result) {
   if (result.status !== 404) {
     const { name, poin } = result.data;
     if (poin) {
+      const roundedPoin = Math.round(poin);
       setInner("headerlogoname", name);
-      setInner("userPoint", poin);
+      setInner("userPoint", roundedPoin);
     } else {
       setInner("headerlogoname", name);
     }
