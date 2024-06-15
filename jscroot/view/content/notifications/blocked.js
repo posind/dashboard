@@ -10,8 +10,8 @@ import { id, backend } from "/dashboard/jscroot/url/config.js";
 export async function main(){
     await addCSSIn("https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.css",id.content);
     getJSON(backend.project.anggota,'login',getCookie('login'),getResponseFunction);
-    onInput('phone', validatePhoneNumber);
-    onClick("tombolprogramtask",actionfunctionname);
+    //onInput('phone', validatePhoneNumber);
+    onClick("tombolmeet",actionfunctionname);
 }
 
 function getResponseFunction(result){
