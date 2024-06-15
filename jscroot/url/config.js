@@ -16,7 +16,7 @@ export const backend={
         feedback:"https://api.do.my.id/notif/ux/postfeedback",
         laporan:"https://api.do.my.id/notif/ux/postlaporan",
         rating:"https://api.do.my.id/notif/ux/rating",
-        meeting:"https://api.do.my.id/notif/ux/meeting",
+        meeting:"https://api.do.my.id/notif/ux/postmeeting",
     }
 }
 
