@@ -53,12 +53,12 @@ function actionfunctionname(){
 
 function responseFunction(result){
     if(result.status === 200){
-        const katakata = "Mohon bantuannya untuk memberikan rating dari nomor domyikado";
+        const katakata = "Selamat kak meeting dari "+result.data.nama+" sudah tersimpan dengan alamat: "+result.data.kode;
         Swal.fire({
             icon: "success",
             title: "Berhasil",
-            text: "Selamat kak tugas dari "+result.data.nama+" sudah tersimpan dengan kode: "+result.data.kode,
-            footer: '<a href="https://wa.me/'+result.data.phone+'?text='+katakata+'" target="_blank">Verifikasi Proyek</a>',
+            text: katakata,
+            footer: '<a href="https://wa.me/'+result.data.phone+'?text='+katakata+'" target="_blank">Kirim Pesan</a>',
             didClose: () => {
                 setValue("summary","");
                 setValue("location","");
