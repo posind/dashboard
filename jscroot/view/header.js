@@ -8,12 +8,7 @@ import { getJSON } from "https://cdn.jsdelivr.net/gh/jscroot/api@0.0.7/croot.js"
 import { backend } from "../url/config.js";
 
 export function main() {
-//   set header and cookies
-  // if (getCookie("login") === "") {
-  //   redirect("/signin");
-  // } else {
-  //   getJSON(backend.user.data, "login", getCookie("login"), getUserFunction);
-  // }
+   getJSON(backend.user.data, "login", getCookie("login"), getUserFunction);
 }
 
 function getUserFunction(result) {
