@@ -1,109 +1,62 @@
-<div class="container has-text-centered">
-    <h2 class="title" id="biggreet">Tour Dates</h2>
+<h1>Mengadakan Pertemuan</h1>
+      <div class="field">
+        <label class="label">Nama Proyek</label>
+        <div class="control">
+            <div class="select">
+                <select id="kode" name="projectName" required>
+                    <!-- Options akan diisi melalui JavaScript -->
+                </select>
+            </div>
+        </div>
+      </div>
 
-    <div class="tile is-ancestor">
-        <div class="tile is-parent">
-            <article class="tile is-child box">
-                <figure class="image">
-                    <img src="https://images.pexels.com/photos/374710/pexels-photo-374710.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=2&amp;h=750&amp;w=1260">
-                </figure>
-                <p class="title">New York</p>
-                <p class="subtitle">Fri 27 Nov 2016</p>
-                <a class="button">Buy Tickets</a>
-            </article>
+      <div class="field">
+        <label class="label">Nama Pertemuan</label>
+        <div class="control">
+          <input class="input" type="text" id="summary" placeholder="Judul Pertemuan">
         </div>
-        <div class="tile is-parent">
-            <article class="tile is-child box">
-                <figure class="image">
-                    <img src="https://images.pexels.com/photos/374710/pexels-photo-374710.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=2&amp;h=750&amp;w=1260">
-                </figure>
-                <p class="title">New York</p>
-                <p class="subtitle">Fri 27 Nov 2016</p>
-                <a class="button">Buy Tickets</a>
-            </article>
-        </div>
-        <div class="tile is-parent">
-            <article class="tile is-child box">
-                <figure class="image">
-                    <img src="https://images.pexels.com/photos/374710/pexels-photo-374710.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=2&amp;h=750&amp;w=1260">
-                </figure>
-                <p class="title">New York</p>
-                <p class="subtitle">Fri 27 Nov 2016</p>
-                <a class="button">Buy Tickets</a>
-            </article>
-        </div>
-        <div class="tile is-parent">
-            <article class="tile is-child box">
-                <figure class="image">
-                    <img src="https://images.pexels.com/photos/374710/pexels-photo-374710.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=2&amp;h=750&amp;w=1260">
-                </figure>
-                <p class="title">New York</p>
-                <p class="subtitle">Fri 27 Nov 2016</p>
-                <a class="button">Buy Tickets</a>
-            </article>
-        </div>
-        <div class="tile is-parent">
-            <article class="tile is-child box">
-                <figure class="image">
-                    <img src="https://images.pexels.com/photos/374710/pexels-photo-374710.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=2&amp;h=750&amp;w=1260">
-                </figure>
-                <p class="title">New York</p>
-                <p class="subtitle">Fri 27 Nov 2016</p>
-                <a class="button">Buy Tickets</a>
-            </article>
-        </div>
-    </div>
+      </div>
 
-    <div class="tile is-ancestor">
-        <div class="tile is-parent">
-            <article class="tile is-child box">
-                <figure class="image">
-                    <img src="https://images.pexels.com/photos/374710/pexels-photo-374710.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=2&amp;h=750&amp;w=1260">
-                </figure>
-                <p class="title">New York</p>
-                <p class="subtitle">Fri 27 Nov 2016</p>
-                <a class="button">Buy Tickets</a>
-            </article>
+      <div class="field">
+        <label class="label">Lokasi</label>
+        <div class="control">
+          <input class="input" type="text" id="location" placeholder="Tempat">
         </div>
-        <div class="tile is-parent">
-            <article class="tile is-child box">
-                <figure class="image">
-                    <img src="https://images.pexels.com/photos/374710/pexels-photo-374710.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=2&amp;h=750&amp;w=1260">
-                </figure>
-                <p class="title">New York</p>
-                <p class="subtitle">Fri 27 Nov 2016</p>
-                <a class="button">Buy Tickets</a>
-            </article>
+      </div>
+
+      <div class="field">
+        <label class="label">Date</label>
+        <div class="control">
+          <input class="input" type="text" id="date" placeholder="2024-06-14">
         </div>
-        <div class="tile is-parent">
-            <article class="tile is-child box">
-                <figure class="image">
-                    <img src="https://images.pexels.com/photos/374710/pexels-photo-374710.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=2&amp;h=750&amp;w=1260">
-                </figure>
-                <p class="title">New York</p>
-                <p class="subtitle">Fri 27 Nov 2016</p>
-                <a class="button">Buy Tickets</a>
-            </article>
+      </div>
+
+      <div class="field">
+        <label class="label">Start Time</label>
+        <div class="control">
+          <input class="input" type="text" id="timeStart" placeholder="09:00:00">
         </div>
-        <div class="tile is-parent">
-            <article class="tile is-child box">
-                <figure class="image">
-                    <img src="https://images.pexels.com/photos/374710/pexels-photo-374710.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=2&amp;h=750&amp;w=1260">
-                </figure>
-                <p class="title">New York</p>
-                <p class="subtitle">Fri 27 Nov 2016</p>
-                <a class="button">Buy Tickets</a>
-            </article>
+      </div>
+
+      <div class="field">
+        <label class="label">End Time</label>
+        <div class="control">
+          <input class="input" type="text" id="timeEnd" placeholder="17:00:00">
         </div>
-        <div class="tile is-parent">
-            <article class="tile is-child box">
-                <figure class="image">
-                    <img src="https://images.pexels.com/photos/374710/pexels-photo-374710.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=2&amp;h=750&amp;w=1260">
-                </figure>
-                <p class="title">New York</p>
-                <p class="subtitle">Fri 27 Nov 2016</p>
-                <a class="button">Buy Tickets</a>
-            </article>
+      </div>
+
+      <div class="field">
+        <label class="label">Description</label>
+        <div class="control">
+          <textarea class="textarea" id="description" placeholder="Tulis paparan atau agenda pertemuan"></textarea>
         </div>
-    </div>
-</div>
+      </div>
+
+      <div class="field is-grouped">
+        <div class="control">
+          <button class="button is-link" id="tombolmeet">Kirim</button>
+        </div>
+        <div class="control">
+          <button class="button is-link is-light" id="tombolcancelmeet">Batal</button>
+        </div>
+      </div>

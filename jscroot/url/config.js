@@ -15,7 +15,8 @@ export const backend={
     ux:{
         feedback:"https://api.do.my.id/notif/ux/postfeedback",
         laporan:"https://api.do.my.id/notif/ux/postlaporan",
-        rating:"https://api.do.my.id/notif/ux/rating"
+        rating:"https://api.do.my.id/notif/ux/rating",
+        meeting:"https://api.do.my.id/notif/ux/meeting",
     }
 }
 
