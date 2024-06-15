@@ -35,6 +35,7 @@ function getResponseFunction(result){
 
 function actionfunctionname(){
     let event={
+        project_id:getValue("kode"),
         summary:getValue("summary"),
         location:getValue("location"),
         description:getValue("description"),
