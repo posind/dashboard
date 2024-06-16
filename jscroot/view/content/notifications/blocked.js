@@ -34,6 +34,12 @@ function getResponseFunction(result){
 }
 
 function actionfunctionname(){
+    const attachmentsInput = document.getElementById('attachments').value.split(',').map(url => url.trim());
+    const attachments = attachmentsInput.map(url => ({
+        fileUrl: url,
+        mimeType: "application/pdf", // Example, change as needed
+        title: "Attachment"
+    }));
     let event={
         project_id:getValue("kode"),
         summary:getValue("summary"),
@@ -41,7 +47,8 @@ function actionfunctionname(){
         description:getValue("description"),
         date:getValue("date"),
         timestart:getValue("timeStart"),
-        timeend:getValue("timeEnd")
+        timeend:getValue("timeEnd"),
+        attachments:attachments
     };
     if (getCookie("login")===""){
         redirect("/signin");
