@@ -73,6 +73,7 @@ function responseFunction(result){
                 setValue("date","");
                 setValue("timeStart","");
                 setValue("timeEnd","");
+                setValue("attachments","");
                 show("tombolmeet");
             }
           });
