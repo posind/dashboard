@@ -152,6 +152,10 @@ function addMemberButtonListeners() {
         `,
         showCancelButton: true,
         confirmButtonText: "Tambah Member",
+        didOpen: () => {
+          // Memanggil fungsi onInput setelah dialog SweetAlert2 dibuka
+          onInput('phonenumber', validatePhoneNumber);
+        },
         preConfirm: () => {
           const phoneNumber = document.getElementById("phonenumber").value;
           const projectId = document.getElementById("project-id").value;
@@ -165,7 +169,7 @@ function addMemberButtonListeners() {
       if (formValues) {
         const { phoneNumber, projectId } = formValues;
         // Logic to add member
-        onInput("phonenumber", validatePhoneNumber);
+        //onInput("phonenumber", validatePhoneNumber);
         let idprjusr = {
           _id: projectId,
           phonenumber: phoneNumber,
