@@ -17,7 +17,7 @@ function getUserFunction(result) {
     setInner("biggreet", "Halo " + result.data.name);
     setInner(
       "subtitle",
-      "Jumlah poin kamu saat ini sebesar " + roundedPoin + " poin."
+      "Jumlah rollup sprint point kamu saat ini sebesar " + roundedPoin + " poin."
     );
   } else {
     redirect("/signup");
