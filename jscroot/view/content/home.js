@@ -35,5 +35,5 @@ function getUserTaskFunction(result) {
 
 function isiTaskList(value){
   console.log(value);
-  addChild("list","li","",value.task);
+  addChild("list","li","content is-small",value.task);
 }
