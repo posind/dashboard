@@ -6,7 +6,8 @@ import {folderPath} from "https://cdn.jsdelivr.net/gh/jscroot/url@0.0.9/croot.js
 
 export const backend={
     user:{
-        data:"https://api.do.my.id/data/user"
+        data:"https://api.do.my.id/data/user",
+        task:"https://api.do.my.id/data/user/task",
     },
     project:{
         data:"https://api.do.my.id/data/proyek",
