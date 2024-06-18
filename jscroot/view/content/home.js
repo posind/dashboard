@@ -29,6 +29,7 @@ function getUserTaskFunction(result) {
   if (result.status === 200) {
     setInner('list',"");
     console.log(result.data);
+    result.data.forEach(isiTaskList);
   }
 }
 
