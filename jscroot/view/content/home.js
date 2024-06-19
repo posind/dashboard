@@ -30,6 +30,7 @@ function getUserFunction(result) {
       "subtitle",
       "Jumlah rollup sprint point kamu saat ini sebesar " + roundedPoin + " poin."
     );
+    setInner("bigpoin",roundedPoin);
   } else {
     redirect("/signup");
   }
