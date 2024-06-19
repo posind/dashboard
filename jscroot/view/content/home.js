@@ -117,7 +117,6 @@ function getUserDoneFunction(result) {
   if (result.status === 200) {
     setInner('done',"");
     console.log(result.data);
-    result.data.forEach(isiTaskDone);
     let content=tableTemplate.replace("#TASKNAME#",result.data.task)
         .replace("#TASKID#",result.data._id)
         .replace('#LABEL#',"Mantap");
