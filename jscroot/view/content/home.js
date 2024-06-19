@@ -73,7 +73,6 @@ function putTaskFunction(result){
     getJSON(backend.user.todo, "login", getCookie("login"), getUserTaskFunction);
     getJSON(backend.user.doing, "login", getCookie("login"), getUserDoingFunction);
   }
-  console.log('Response:', response);
 }
 
 function getUserDoingFunction(result){
