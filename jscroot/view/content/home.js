@@ -36,9 +36,8 @@ function getUserFunction(result) {
 }
 
 function getUserTaskFunction(result) {
+  setInner('list',"");
   if (result.status === 200) {
-    setInner('list',"");
-    console.log(result.data);
     result.data.forEach(isiTaskList);
   }
 }
@@ -47,8 +46,6 @@ function isiTaskList(value){
   let content=tableTemplate.replace("#TASKNAME#",value.task)
         .replace("#TASKID#",value._id)
         .replace('#LABEL#',"Ambil");
-  console.log(content);
-  console.log(value);
   addChild("list","tr","",content);
   // Jalankan logika tambahan setelah addChild
   runAfterAddChild(value);
@@ -66,8 +63,6 @@ function runAfterAddChild(value) {
         putJSON(backend.user.doing, "login", getCookie("login"), {_id:value._id},putTaskFunction);
       });
   }
-
-  console.log("Additional scripts run for row:", lastRow);
 }
 
 function putTaskFunction(result){
@@ -78,13 +73,11 @@ function putTaskFunction(result){
 }
 
 function getUserDoingFunction(result){
+  setInner('doing',"");
   if (result.status === 200) {
-    setInner('doing',"");
-    console.log(result.data);
     let content=tableTemplate.replace("#TASKNAME#",result.data.task)
         .replace("#TASKID#",result.data._id)
         .replace('#LABEL#',"Beres");
-  console.log(content);
   addChild("doing","tr","",content);
   // Jalankan logika tambahan setelah addChild
   runAfterAddChildDoing(result.data);
@@ -103,7 +96,6 @@ function runAfterAddChildDoing(value) {
         postJSON(backend.user.done, "login", getCookie("login"), {_id:value._id},postTaskFunction);
       });
   }
-  console.log("Additional scripts run for row:", lastRow);
 }
 
 function postTaskFunction(result){
@@ -114,13 +106,11 @@ function postTaskFunction(result){
 }
 
 function getUserDoneFunction(result) {
+  setInner('done',"");
   if (result.status === 200) {
-    setInner('done',"");
-    console.log(result.data);
     let content=tableTemplate.replace("#TASKNAME#",result.data.task)
         .replace("#TASKID#",result.data._id)
         .replace('#LABEL#',"Arsip");
-  console.log(content);
   addChild("done","tr","",content);
   }
 }
