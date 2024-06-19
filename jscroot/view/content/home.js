@@ -119,8 +119,8 @@ function getUserDoneFunction(result) {
     console.log(result.data);
     let content=tableTemplate.replace("#TASKNAME#",result.data.task)
         .replace("#TASKID#",result.data._id)
-        .replace('#LABEL#',"Mantap");
+        .replace('#LABEL#',"Arsip");
   console.log(content);
-  addChild("list","tr","",content);
+  addChild("done","tr","",content);
   }
 }
