@@ -81,19 +81,14 @@ function getUserDoingFunction(result){
   if (result.status === 200) {
     setInner('doing',"");
     console.log(result.data);
-    result.data.forEach(isiDoingList);
-  }
-}
-
-function isiDoingList(value){
-  let content=tableTemplate.replace("#TASKNAME#",value.task)
-        .replace("#TASKID#",value._id)
+    let content=tableTemplate.replace("#TASKNAME#",result.data.task)
+        .replace("#TASKID#",result.data._id)
         .replace('#LABEL#',"Beres");
   console.log(content);
-  console.log(value);
   addChild("doing","tr","",content);
   // Jalankan logika tambahan setelah addChild
   runAfterAddChildDoing(value);
+  }
 }
 
 function runAfterAddChildDoing(value) {
@@ -108,7 +103,6 @@ function runAfterAddChildDoing(value) {
         postJSON(backend.user.done, "login", getCookie("login"), {_id:value._id},postTaskFunction);
       });
   }
-
   console.log("Additional scripts run for row:", lastRow);
 }
 
@@ -124,14 +118,10 @@ function getUserDoneFunction(result) {
     setInner('done',"");
     console.log(result.data);
     result.data.forEach(isiTaskDone);
-  }
-}
-
-function isiTaskDone(value){
-  let content=tableTemplate.replace("#TASKNAME#",value.task)
-        .replace("#TASKID#",value._id)
+    let content=tableTemplate.replace("#TASKNAME#",result.data.task)
+        .replace("#TASKID#",result.data._id)
         .replace('#LABEL#',"Mantap");
   console.log(content);
-  console.log(value);
   addChild("list","tr","",content);
+  }
 }
