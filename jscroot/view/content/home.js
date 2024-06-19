@@ -87,7 +87,7 @@ function getUserDoingFunction(result){
   console.log(content);
   addChild("doing","tr","",content);
   // Jalankan logika tambahan setelah addChild
-  runAfterAddChildDoing(value);
+  runAfterAddChildDoing(result.data);
   }
 }
 
