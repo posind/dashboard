@@ -37,7 +37,9 @@ function getUserFunction(result) {
 
 function getUserTaskFunction(result) {
   setInner('list',"");
+  setInner('bigtodo',"0");
   if (result.status === 200) {
+    setInner('bigtodo',result.data.length.toString());
     result.data.forEach(isiTaskList);
   }
 }
@@ -74,7 +76,9 @@ function putTaskFunction(result){
 
 function getUserDoingFunction(result){
   setInner('doing',"");
+  setInner('bigdoing',"0");
   if (result.status === 200) {
+    setInner('bigdoing',"OTW");
     let content=tableTemplate.replace("#TASKNAME#",result.data.task)
         .replace("#TASKID#",result.data._id)
         .replace('#LABEL#',"Beres");
@@ -107,7 +111,9 @@ function postTaskFunction(result){
 
 function getUserDoneFunction(result) {
   setInner('done',"");
+  setInner('bigdone',"0");
   if (result.status === 200) {
+    setInner('bigdone',"OK");
     let content=tableTemplate.replace("#TASKNAME#",result.data.task)
         .replace("#TASKID#",result.data._id)
         .replace('#LABEL#',"Arsip");
