@@ -1,9 +1,9 @@
 import {
-  addCSSIn,
+  addCSSIn,setValue,
   setInner,addChild 
 } from "https://cdn.jsdelivr.net/gh/jscroot/element@0.1.8/croot.js";
 import { getCookie } from "https://cdn.jsdelivr.net/gh/jscroot/cookie@0.0.1/croot.js";
-import { getJSON,postJSON  } from "https://cdn.jsdelivr.net/gh/jscroot/api@0.0.7/croot.js";
+import { getJSON,putJSON  } from "https://cdn.jsdelivr.net/gh/jscroot/api@0.0.8/croot.js";
 import { id, backend } from "../../url/config.js";
 
 let tableTemplate=`
@@ -17,7 +17,8 @@ let tableTemplate=`
 export async function main() {
   await addCSSIn("assets/css/admin.css", id.content);
   getJSON(backend.user.data, "login", getCookie("login"), getUserFunction);
-  getJSON(backend.user.task, "login", getCookie("login"), getUserTaskFunction);
+  getJSON(backend.user.todo, "login", getCookie("login"), getUserTaskFunction);
+  getJSON(backend.user.doing, "login", getCookie("login"), getUserDoingFunction);
 }
 
 function getUserFunction(result) {
@@ -48,10 +49,10 @@ function isiTaskList(value){
   console.log(value);
   addChild("list","tr","",content);
   // Jalankan logika tambahan setelah addChild
-  runAdditionalScripts(value);
+  runAfterAddChild(value);
 }
 
-function runAdditionalScripts(value) {
+function runAfterAddChild(value) {
   // Temukan elemen tr yang baru saja ditambahkan
   const rows = document.getElementById("list").getElementsByTagName("tr");
   const lastRow = rows[rows.length - 1];
@@ -60,13 +61,23 @@ function runAdditionalScripts(value) {
   const button = lastRow.querySelector('.button');
   if (button) {
       button.addEventListener('click', () => {
-        postJSON("https://halo.com", "login", getCookie("login"), {_id:value._id},postTaskFunction);
+        putJSON(backend.user.doing, "login", getCookie("login"), {_id:value._id},putTaskFunction);
       });
   }
 
   console.log("Additional scripts run for row:", lastRow);
 }
 
-function postTaskFunction(response){
+function putTaskFunction(result){
+  if (result.status === 200) {
+    getJSON(backend.user.todo, "login", getCookie("login"), getUserTaskFunction);
+    getJSON(backend.user.doing, "login", getCookie("login"), getUserDoingFunction);
+  }
   console.log('Response:', response);
+}
+
+function getUserDoingFunction(result){
+  if (result.status === 200) {
+  setValue('doneinput',result.data.task);
+  }
 }
