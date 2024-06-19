@@ -10,7 +10,7 @@ let tableTemplate=`
 <td width="5%"><i class="fa fa-bell-o"></i></td>
 <td>#TASKNAME#</td>
 <td class="level-right">
-<button class="button is-small is-primary" data-item="#TASKID#">Ambil</button>
+<button class="button is-small is-primary" data-item="#TASKID#">#LABEL#</button>
 </td>
 `
 
@@ -19,6 +19,7 @@ export async function main() {
   getJSON(backend.user.data, "login", getCookie("login"), getUserFunction);
   getJSON(backend.user.todo, "login", getCookie("login"), getUserTaskFunction);
   getJSON(backend.user.doing, "login", getCookie("login"), getUserDoingFunction);
+  getJSON(backend.user.done, "login", getCookie("login"), getUserDoneFunction);
 }
 
 function getUserFunction(result) {
@@ -44,7 +45,8 @@ function getUserTaskFunction(result) {
 
 function isiTaskList(value){
   let content=tableTemplate.replace("#TASKNAME#",value.task)
-        .replace("#TASKID#",value._id);
+        .replace("#TASKID#",value._id)
+        .replace('#LABEL#',"Ambil");
   console.log(content);
   console.log(value);
   addChild("list","tr","",content);
@@ -77,6 +79,59 @@ function putTaskFunction(result){
 
 function getUserDoingFunction(result){
   if (result.status === 200) {
-  setValue('doneinput',result.data.task);
+    setInner('doing',"");
+    console.log(result.data);
+    result.data.forEach(isiDoingList);
   }
+}
+
+function isiDoingList(value){
+  let content=tableTemplate.replace("#TASKNAME#",value.task)
+        .replace("#TASKID#",value._id)
+        .replace('#LABEL#',"Beres");
+  console.log(content);
+  console.log(value);
+  addChild("doing","tr","",content);
+  // Jalankan logika tambahan setelah addChild
+  runAfterAddChildDoing(value);
+}
+
+function runAfterAddChildDoing(value) {
+  // Temukan elemen tr yang baru saja ditambahkan
+  const rows = document.getElementById("doing").getElementsByTagName("tr");
+  const lastRow = rows[rows.length - 1];
+
+  // Contoh: Tambahkan event listener atau manipulasi DOM lainnya
+  const button = lastRow.querySelector('.button');
+  if (button) {
+      button.addEventListener('click', () => {
+        postJSON(backend.user.done, "login", getCookie("login"), {_id:value._id},postTaskFunction);
+      });
+  }
+
+  console.log("Additional scripts run for row:", lastRow);
+}
+
+function postTaskFunction(result){
+  if (result.status === 200) {
+    getJSON(backend.user.done, "login", getCookie("login"), getUserDoneFunction);
+    getJSON(backend.user.doing, "login", getCookie("login"), getUserDoingFunction);
+  }
+}
+
+function getUserDoneFunction(result) {
+  if (result.status === 200) {
+    setInner('done',"");
+    console.log(result.data);
+    result.data.forEach(isiTaskDone);
+  }
+}
+
+function isiTaskDone(value){
+  let content=tableTemplate.replace("#TASKNAME#",value.task)
+        .replace("#TASKID#",value._id)
+        .replace('#LABEL#',"Mantap");
+  console.log(content);
+  console.log(value);
+  addChild("list","tr","",content);
 }
