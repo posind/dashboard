@@ -13,6 +13,8 @@ export async function main(){
     //onInput('phone', validatePhoneNumber);
     onClick("tombolmeet",actionfunctionname);
     setValue('date',getTomorrowDate());
+    setValue("timeStart","09:00:00");
+    setValue("timeEnd","10:00:00");
 }
 
 function getTomorrowDate() {
@@ -82,9 +84,9 @@ function responseFunction(result){
                 setValue("summary","");
                 setValue("location","");
                 setValue("description","");
-                setValue("date","");
-                setValue("timeStart","");
-                setValue("timeEnd","");
+                setValue("date",getTomorrowDate());
+                setValue("timeStart","09:00:00");
+                setValue("timeEnd","10:00:00");
                 setValue("attachments","");
                 show("tombolmeet");
             }
