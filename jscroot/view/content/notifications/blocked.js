@@ -12,6 +12,18 @@ export async function main(){
     getJSON(backend.project.anggota,'login',getCookie('login'),getResponseFunction);
     //onInput('phone', validatePhoneNumber);
     onClick("tombolmeet",actionfunctionname);
+    setValue('date',getTomorrowDate());
+}
+
+function getTomorrowDate() {
+    const today = new Date();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(today.getDate() + 1);
+
+    const isoString = tomorrow.toISOString();
+    const datePart = isoString.split('T')[0];
+
+    return datePart;
 }
 
 function getResponseFunction(result){
