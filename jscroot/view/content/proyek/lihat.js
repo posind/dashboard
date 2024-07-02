@@ -9,7 +9,7 @@ import { getJSON } from "https://cdn.jsdelivr.net/gh/jscroot/api@0.0.7/croot.js"
 import { getCookie } from "https://cdn.jsdelivr.net/gh/jscroot/cookie@0.0.1/croot.js";
 import { addCSSIn } from "https://cdn.jsdelivr.net/gh/jscroot/element@0.1.5/croot.js";
 import Swal from "https://cdn.jsdelivr.net/npm/sweetalert2@11/src/sweetalert2.js";
-import { id, backend } from "/dashboard/jscroot/url/config.js";
+import { id, backend } from "/jscroot/url/config.js";
 import { loadScript } from "../../../controller/main.js";
 import { truncateText, addRevealTextListeners } from "../../utils.js";
 
@@ -28,7 +28,7 @@ export async function main() {
     backend.project.data,
     "login",
     getCookie("login"),
-    getResponseFunction,
+    getResponseFunction
   );
 }
 
@@ -92,6 +92,12 @@ function getResponseFunction(result) {
             ${truncatedDescription}
             <span class="full-text" style="display:none;">${project.description}</span>
           </td>
+          <td class="has-background-danger-light has-text-centered">
+            <button class="button is-danger is-small removeProjectButton" data-project-name="${project.name}">
+              <i class="bx bx-trash"></i>
+              Remove Project
+            </button>
+          </td>
         `;
         tableBody.appendChild(row);
       });
@@ -105,6 +111,7 @@ function getResponseFunction(result) {
       addRevealTextListeners();
       addMemberButtonListeners(); //  event listener tambah member
       addRemoveMemberButtonListeners(); //  event listener hapus member
+      addRemoveProjectButtonListeners();
     } else {
       Swal.fire({
         icon: "error",
@@ -116,7 +123,6 @@ function getResponseFunction(result) {
     console.error('Element with ID "webhook-table-body" not found.');
   }
 }
-
 
 // Function to add event listeners to addMemberButtons
 function addMemberButtonListeners() {
@@ -250,9 +256,9 @@ function responseFunction(result) {
         '<a href="https://wa.me/62895601060000?text=' +
         katakata +
         '" target="_blank">Verifikasi Proyek</a>',
-        didClose: () => {
-          reloadDataTable();
-        }
+      didClose: () => {
+        reloadDataTable();
+      },
     });
   } else {
     Swal.fire({
@@ -285,7 +291,6 @@ function postResponseFunction(result) {
         reloadDataTable();
       },
     });
-     
   } else {
     Swal.fire({
       icon: "error",
@@ -324,14 +329,11 @@ function addRemoveMemberButtonListeners() {
           getCookie("login"),
           memberWillBeDeleted,
           removeMemberResponse
-        ); 
-        
+        );
       }
     });
   });
 }
-
-
 
 function removeMemberResponse(result) {
   if (result.status === 200) {
@@ -353,3 +355,54 @@ function removeMemberResponse(result) {
   console.log(result);
 }
 
+// Remove project mechanism
+function addRemoveProjectButtonListeners() {
+  document.querySelectorAll(".removeProjectButton").forEach((button) => {
+    button.addEventListener("click", async (event) => {
+      const projectName = button.getAttribute("data-project-name");
+
+      const result = await Swal.fire({
+        title: "Hapus project ini?",
+        text: "Kamu tidak dapat mengembalikan aksi ini!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Hapus project",
+        cancelButtonText: "Kembali",
+      });
+
+      if (result.isConfirmed) {
+        const projectWillBeDeleted = {
+          project_name: projectName,
+        };
+
+        deleteJSON(
+          backend.project.data,
+          "login",
+          getCookie("login"),
+          projectWillBeDeleted,
+          removeProjectResponse
+        );
+      }
+    });
+  });
+}
+
+function removeProjectResponse(result) {
+  if (result.status === 200) {
+    Swal.fire({
+      icon: "success",
+      title: "Deleted!",
+      text: "Project has been removed.",
+      didClose: () => {
+        reloadDataTable();
+      },
+    });
+  } else {
+    Swal.fire({
+      icon: "error",
+      title: result.data.status,
+      text: result.data.response,
+    });
+  }
+  console.log(result);
+}
