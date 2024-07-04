@@ -5,6 +5,7 @@ import {
 import { validatePhoneNumber } from "https://cdn.jsdelivr.net/gh/jscroot/validate@0.0.1/croot.js";
 import { postJSON } from "https://cdn.jsdelivr.net/gh/jscroot/api@0.0.7/croot.js";
 import { deleteJSON } from "https://cdn.jsdelivr.net/gh/jscroot/api@0.0.8/croot.js";
+import { putJSON } from "https://cdn.jsdelivr.net/gh/jscroot/api@0.0.8/croot.js";
 import { getJSON } from "https://cdn.jsdelivr.net/gh/jscroot/api@0.0.7/croot.js";
 import { getCookie } from "https://cdn.jsdelivr.net/gh/jscroot/cookie@0.0.1/croot.js";
 import { addCSSIn } from "https://cdn.jsdelivr.net/gh/jscroot/element@0.1.5/croot.js";
@@ -92,10 +93,12 @@ function getResponseFunction(result) {
             ${truncatedDescription}
             <span class="full-text" style="display:none;">${project.description}</span>
           </td>
-          <td class="has-background-danger-light has-text-centered">
-            <button class="button is-danger is-small removeProjectButton" data-project-name="${project.name}">
-              <i class="bx bx-trash"></i>
-              Remove Project
+          <td class="has-text-centered">
+            <button class="button is-danger removeProjectButton" data-project-name="${project.name}">
+              <i class="bx bx-trash"></i>          
+            </button>
+            <button class="button is-warning editProjectButton" data-project-id="${project._id}" data-project-name="${project.name}" data-project-wagroupid="${project.wagroupid}" data-project-repoorg="${project.repoorg}" data-project-repologname="${project.repologname}" data-project-description="${project.description}">
+              <i class="bx bx-edit"></i>
             </button>
           </td>
         `;
@@ -112,6 +115,7 @@ function getResponseFunction(result) {
       addMemberButtonListeners(); //  event listener tambah member
       addRemoveMemberButtonListeners(); //  event listener hapus member
       addRemoveProjectButtonListeners();
+      addEditProjectButtonListeners(); //  event listener edit project
     } else {
       Swal.fire({
         icon: "error",
@@ -422,3 +426,108 @@ function removeProjectResponse(result) {
   }
   console.log(result);
 }
+
+function addEditProjectButtonListeners() {
+  document.querySelectorAll(".editProjectButton").forEach((button) => {
+    button.addEventListener("click", async (event) => {
+      const projectId = button.getAttribute("data-project-id");
+      const projectName = button.getAttribute("data-project-name");
+      const projectWagroupid = button.getAttribute("data-project-wagroupid");
+      const projectRepoorg = button.getAttribute("data-project-repoorg");
+      const projectRepologname = button.getAttribute(
+        "data-project-repologname"
+      );
+      const projectDescription = button.getAttribute(
+        "data-project-description"
+      );
+
+      const { value: formValues } = await Swal.fire({
+        title: "Edit Project",
+        html: `
+          <div class="field">
+            <label class="label">Project Name</label>
+            <div class="control">
+              <input class="input" type="text" id="name" value="${projectName}" disabled>
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">WhatsApp Group ID</label>
+            <div class="control">
+              <input class="input" type="text" id="wagroupid" value="${projectWagroupid}" disabled>
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">Nama Repo Organisasi</label>
+            <div class="control">
+              <input class="input" type="text" id="repoorg" value="${projectRepoorg}">
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">Nama Repo Log Meeting</label>
+            <div class="control">
+              <input class="input" type="text" id="repologname" value="${projectRepologname}">
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">Description</label>
+            <div class="control">
+              <textarea class="textarea" id="description">${projectDescription}</textarea>
+            </div>
+          </div>
+        `,
+        showCancelButton: true,
+        confirmButtonText: "Update",
+        cancelButtonText: "Cancel",
+        preConfirm: () => {
+          const repoOrg = Swal.getPopup().querySelector("#repoorg").value;
+          const repoLogName =
+            Swal.getPopup().querySelector("#repologname").value;
+          const description =
+            Swal.getPopup().querySelector("#description").value;
+          if (!repoOrg || !repoLogName || !description) {
+            Swal.showValidationMessage(`Please enter all fields`);
+          }
+          return { repoOrg, repoLogName, description };
+        },
+      });
+
+      if (formValues) {
+        const { repoOrg, repoLogName, description } = formValues;
+        const updatedProject = {
+          _id: projectId,
+          repoorg: repoOrg,
+          repologname: repoLogName,
+          description: description,
+        };
+        putJSON(
+          backend.project.data, // Assumes a POST method will handle updates as well
+          "login",
+          getCookie("login"),
+          updatedProject,
+          updateResponseFunction
+        );
+      }
+    });
+  });
+}
+
+function updateResponseFunction(result) {
+  if (result.status === 200) {
+    Swal.fire({
+      icon: "success",
+      title: "Project Updated",
+      text: `Project ${result.data.name} has been updated successfully.`,
+      didClose: () => {
+        reloadDataTable();
+      },
+    });
+  } else {
+    Swal.fire({
+      icon: "error",
+      title: result.data.status,
+      text: result.data.response,
+    });
+  }
+  console.log(result);
+}
+
