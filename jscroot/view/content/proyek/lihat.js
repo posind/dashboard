@@ -10,7 +10,7 @@ import { getJSON } from "https://cdn.jsdelivr.net/gh/jscroot/api@0.0.7/croot.js"
 import { getCookie } from "https://cdn.jsdelivr.net/gh/jscroot/cookie@0.0.1/croot.js";
 import { addCSSIn } from "https://cdn.jsdelivr.net/gh/jscroot/element@0.1.5/croot.js";
 import Swal from "https://cdn.jsdelivr.net/npm/sweetalert2@11/src/sweetalert2.js";
-import { id, backend } from "/jscroot/url/config.js";
+import { id, backend } from "/dashboard/jscroot/url/config.js";
 import { loadScript } from "../../../controller/main.js";
 import { truncateText, addRevealTextListeners } from "../../utils.js";
 
@@ -157,7 +157,7 @@ function addMemberButtonListeners() {
         confirmButtonText: "Tambah Member",
         didOpen: () => {
           // Memanggil fungsi onInput setelah dialog SweetAlert2 dibuka
-          onInput('phonenumber', validatePhoneNumber);
+          onInput("phonenumber", validatePhoneNumber);
         },
         preConfirm: () => {
           const phoneNumber = document.getElementById("phonenumber").value;
@@ -237,7 +237,13 @@ document.getElementById("addButton").addEventListener("click", () => {
       if (!name || !wagroupid || !description || !repoOrg || !repoLogName) {
         Swal.showValidationMessage(`Please enter all fields`);
       }
-      return { name: name, wagroupid: wagroupid, description: description, repoorg: repoOrg, repologname: repoLogName };
+      return {
+        name: name,
+        wagroupid: wagroupid,
+        description: description,
+        repoorg: repoOrg,
+        repologname: repoLogName,
+      };
     },
   }).then((result) => {
     if (result.isConfirmed) {
@@ -246,7 +252,7 @@ document.getElementById("addButton").addEventListener("click", () => {
         wagroupid: getValue("wagroupid"),
         description: getValue("description"),
         repoorg: getValue("repoorg"),
-        repologname: getValue("repologname")
+        repologname: getValue("repologname"),
       };
       if (getCookie("login") === "") {
         redirect("/signin");
@@ -534,4 +540,3 @@ function updateResponseFunction(result) {
   }
   console.log(result);
 }
-
