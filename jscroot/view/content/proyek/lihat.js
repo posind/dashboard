@@ -199,6 +199,18 @@ document.getElementById("addButton").addEventListener("click", () => {
                 </div>
             </div>
             <div class="field">
+                <label class="label">Nama Repo Organisasi</label>
+                <div class="control">
+                    <input class="input" type="text" id="repoorg" placeholder="repo organisasi">
+                </div>
+            </div>
+            <div class="field">
+                <label class="label">Nama Repo Log Meeting</label>
+                <div class="control">
+                    <input class="input" type="text" id="repologname" placeholder="repo log meeting">
+                </div>
+            </div>
+            <div class="field">
                 <label class="label">Description</label>
                 <div class="control">
                     <textarea class="textarea" id="description" placeholder="Tulis deskripsi proyek Kakak"></textarea>
@@ -212,10 +224,12 @@ document.getElementById("addButton").addEventListener("click", () => {
       const name = Swal.getPopup().querySelector("#name").value;
       const wagroupid = Swal.getPopup().querySelector("#wagroupid").value;
       const description = Swal.getPopup().querySelector("#description").value;
-      if (!name || !wagroupid || !description) {
+      const repoOrg = Swal.getPopup().querySelector("#repoorg").value;
+      const repoLogName = Swal.getPopup().querySelector("#repologname").value;
+      if (!name || !wagroupid || !description || !repoOrg || !repoLogName) {
         Swal.showValidationMessage(`Please enter all fields`);
       }
-      return { name: name, wagroupid: wagroupid, description: description };
+      return { name: name, wagroupid: wagroupid, description: description, repoorg: repoOrg, repologname: repoLogName };
     },
   }).then((result) => {
     if (result.isConfirmed) {
@@ -223,6 +237,8 @@ document.getElementById("addButton").addEventListener("click", () => {
         name: getValue("name"),
         wagroupid: getValue("wagroupid"),
         description: getValue("description"),
+        repoorg: getValue("repoorg"),
+        repologname: getValue("repologname")
       };
       if (getCookie("login") === "") {
         redirect("/signin");
