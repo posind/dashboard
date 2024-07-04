@@ -63,22 +63,24 @@ function getResponseFunction(result) {
         const truncatedDescription = truncateText(project.description, 50);
 
         // Gabungkan nama anggota dalam satu kolom dengan numbering dan tambahkan tombol Add Member
-        let membersHtml = "";
-        if (project.members && project.members.length > 0) {
-          membersHtml = project.members
-            .map(
-              (member, index) =>
-                `
-                  <div class="tag is-success mb-3">
-                     ${index + 1}. ${member.name}
-                    <button class="delete is-small removeMemberButton" data-project-name="${
-                      project.name
-                    }" data-member-phonenumber="${member.phonenumber}"></button>
-                  </div>
-                `
-            )
-            .join("");
-        }
+        let membersHtml =
+          project.members && project.members.length > 0
+            ? project.members
+                .map(
+                  (member, index) =>
+                    `
+                    <div class="tag is-success mb-3">
+                       ${index + 1}. ${member.name}
+                      <button class="delete is-small removeMemberButton" data-project-name="${
+                        project.name
+                      }" data-member-phonenumber="${
+                      member.phonenumber
+                    }"></button>
+                    </div>
+                  `
+                )
+                .join("<br>") // Tambahkan <br> untuk membuat baris baru untuk setiap anggota
+            : "";
         membersHtml += `
           <button class="button box is-primary is-small btn-flex addMemberButton" data-project-id="${project._id}">
             <i class="bx bx-plus"></i>
