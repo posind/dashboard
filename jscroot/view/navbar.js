@@ -48,7 +48,7 @@ if (logoutButton) {
       showConfirmButton: false,
       timer: 2000,
     }).then(() => {
-      window.location.href = "www.do.my.id";
+      window.location.href = "/";
     });
   });
 }
