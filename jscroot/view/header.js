@@ -24,7 +24,7 @@ function getUserFunction(result) {
     // Simpan ke localStorage
     localStorage.setItem("nama", name);
   } 
-  // else {
-  //   redirect("/signup");
-  // }
+  else {
+    redirect("/signup");
+  }
 }

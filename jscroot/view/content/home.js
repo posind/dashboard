@@ -45,9 +45,9 @@ function getUserFunction(result) {
     );
     setInner("bigpoin", roundedPoin);
   } 
-  // else {
-  //   redirect("/signup");
-  // }
+  else {
+    redirect("/signup");
+  }
 }
 
 function getUserTaskFunction(result) {
