@@ -232,19 +232,32 @@ document.getElementById("addButton").addEventListener("click", () => {
       const description = Swal.getPopup().querySelector("#description").value;
       const repoOrg = Swal.getPopup().querySelector("#repoorg").value;
       const repoLogName = Swal.getPopup().querySelector("#repologname").value;
+
+      const namePattern = /^[a-z0-9_-]+$/;
       if (!name || !wagroupid || !description || !repoOrg || !repoLogName) {
         Swal.showValidationMessage(`Please enter all fields`);
+      } else if (!namePattern.test(name)) {
+        Swal.showValidationMessage(
+          `Project Name hanya boleh mengandung huruf kecil, angka, '-' dan '_'`
+        );
+      } else {
+        return {
+          name: name,
+          wagroupid: wagroupid,
+          description: description,
+          repoorg: repoOrg,
+          repologname: repoLogName,
+        };
       }
-      return { name: name, wagroupid: wagroupid, description: description, repoorg: repoOrg, repologname: repoLogName };
     },
   }).then((result) => {
     if (result.isConfirmed) {
-      let result = {
+      let resultData = {
         name: getValue("name"),
         wagroupid: getValue("wagroupid"),
         description: getValue("description"),
         repoorg: getValue("repoorg"),
-        repologname: getValue("repologname")
+        repologname: getValue("repologname"),
       };
       if (getCookie("login") === "") {
         redirect("/signin");
@@ -253,13 +266,14 @@ document.getElementById("addButton").addEventListener("click", () => {
           backend.project.data,
           "login",
           getCookie("login"),
-          result,
+          resultData,
           responseFunction
         );
       }
     }
   });
 });
+
 
 function responseFunction(result) {
   if (result.status === 200) {
