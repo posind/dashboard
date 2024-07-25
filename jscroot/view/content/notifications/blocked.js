@@ -20,7 +20,8 @@ export async function main(){
 function getTomorrowDate() {
     const today = new Date();
     const tomorrow = new Date(today);
-    tomorrow.setDate(today.getDate() + 1);
+    //tomorrow.setDate(today.getDate() + 1);
+    tomorrow.setDate(today.getDate());
 
     const isoString = tomorrow.toISOString();
     const datePart = isoString.split('T')[0];
