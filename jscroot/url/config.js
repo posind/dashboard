@@ -11,6 +11,10 @@ export const backend={
         doing:"https://api.do.my.id/data/user/task/doing",
         done:"https://api.do.my.id/data/user/task/done",
     },
+    wa:{
+        text:"https://api.wa.my.id/api/v2/send/message/text",
+        device:"https://api.wa.my.id/api/device/",
+    },
     project:{
         data:"https://api.do.my.id/data/proyek",
         anggota:"https://api.do.my.id/data/proyek/anggota",
