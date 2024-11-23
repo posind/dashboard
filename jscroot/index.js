@@ -10,10 +10,10 @@ import { getContentURL } from "./url/content.js";
 import {runAfterHeader,runAfterContent,runAfterHashChange} from "./controller/main.js";
 
 
-//check cookie login
-if (getCookie("login")===""){
-    redirect("/signin");
-}
+// //check cookie login
+// if (getCookie("login")===""){
+//     redirect("/signin");
+// }
 
 //adding CSS
 addCSS("https://unpkg.com/bulma@0.9.4/css/bulma.min.css");
