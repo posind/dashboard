@@ -15,12 +15,12 @@ export async function main(){
 function actionfunctionname(){
     let user={
         email:getValue("email"),
-        githubusername:getValue("githubusername"),
-        gitlabusername:getValue("gitlabusername"),
-        githostusername:getValue("githostusername")
+        // githubusername:getValue("githubusername"),
+        // gitlabusername:getValue("gitlabusername"),
+        // githostusername:getValue("githostusername")
     };
     if (getCookie("login")===""){
-        redirect("/signin");
+        redirect("../");
     }else{
         postJSON(backend.user.data,"login",getCookie("login"),user,responseFunction);
         hide("buttonkirimaccount");
@@ -34,14 +34,14 @@ function responseFunction(result){
             icon: "success",
             title: "Berhasil",
             text: "Selamat kak "+result.data.name+" sudah terdaftar dengan ID: "+result.data._id,
-            footer: '<a href="https://wa.me/62895601060000?text='+katakata+'" target="_blank">Verifikasi Pendaftaran</a>',
+            footer: '<a href="https://wa.me/62895800006000?text='+katakata+'" target="_blank">Verifikasi Pendaftaran</a>',
           });
           setValue("phonenumber",result.data.phonenumber);
           setValue("name",result.data.name);
           setValue("email",result.data.email);
-          setValue("githubusername",result.data.githubusername);
-          setValue("gitlabusername",result.data.gitlabusername);
-          setValue("githostusername",result.data.githostusername); 
+        //   setValue("githubusername",result.data.githubusername);
+        //   setValue("gitlabusername",result.data.gitlabusername);
+        //   setValue("githostusername",result.data.githostusername); 
           show("buttonkirimaccount");
     }else{
         Swal.fire({
@@ -60,8 +60,8 @@ function getUserFunction(result){
   setValue("name",result.data.name);
   if (result.status!==404){
     setValue("email",result.data.email);
-    setValue("githubusername",result.data.githubusername);
-    setValue("gitlabusername",result.data.gitlabusername);
-    setValue("githostusername",result.data.githostusername); 
+    // setValue("githubusername",result.data.githubusername);
+    // setValue("gitlabusername",result.data.gitlabusername);
+    // setValue("githostusername",result.data.githostusername); 
   }
 }

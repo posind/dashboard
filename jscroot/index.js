@@ -12,7 +12,7 @@ import {runAfterHeader,runAfterContent,runAfterHashChange} from "./controller/ma
 
 // //check cookie login
 // if (getCookie("login")===""){
-//     redirect("/signin");
+//     redirect("../");
 // }
 
 //adding CSS

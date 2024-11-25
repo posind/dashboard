@@ -24,7 +24,9 @@ export function getContentURL(){
             return url.template.content+"proyek/buat.html";
         case "proyek/akses":
             return url.template.content+"proyek/akses.html";
-            case "notifications/blocked":
+        case "proyek/id":
+            return url.template.content+"proyek/id.html";
+        case "notifications/blocked":
             return url.template.content+"notifications/blocked.html";
         case "notifications/silenced":
             return url.template.content+"notifications/silenced.html";
