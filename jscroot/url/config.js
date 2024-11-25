@@ -16,8 +16,9 @@ export const backend={
         device:"https://api.wa.my.id/api/device/",
     },
     project:{
-        data:"https://asia-southeast2-civil-epigram-429004-t8.cloudfunctions.net/webhook/get/prohibited-items/en",
-        in:"https://asia-southeast2-civil-epigram-429004-t8.cloudfunctions.net/webhook/get/item",
+        data:"https://asia-southeast2-civil-epigram-429004-t8.cloudfunctions.net/webhook/data/item",
+        in:"https://asia-southeast2-civil-epigram-429004-t8.cloudfunctions.net/webhook/data/barang",
+        faq:""
         anggota:"https://api.do.my.id/data/proyek/anggota",
     },
     ux:{

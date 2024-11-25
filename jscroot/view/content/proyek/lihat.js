@@ -211,7 +211,7 @@ document.getElementById("addButton").addEventListener("click", () => {
             <div class="field">
                 <label class="label">Max Weight Item</label>
                 <div class="control">
-                    <input class="input" type="text" id="max_weight" placeholder="Enter Max Weight in coli">
+                    <input class="input" min="0" step="0.01" type="number" id="max_weight" placeholder="Enter Max Weight in coli">
                 </div>
             </div>
         `,
@@ -374,7 +374,7 @@ function responseFunction(result) {
 function addRemoveProjectButtonListeners() {
   document.querySelectorAll(".removeProjectButton").forEach((button) => {
     button.addEventListener("click", async (event) => {
-      const itemName = button.getAttribute("data-item-prohibited");
+      const itemProhibited = button.getAttribute("data-item-prohibited");
 
       const result = await Swal.fire({
         title: "Delete this project?",
@@ -387,7 +387,7 @@ function addRemoveProjectButtonListeners() {
 
       if (result.isConfirmed) {
         const itemWillBeDeleted = {
-          item_name: itemName,
+          item_prohibited: itemProhibited,
         };
 
         deleteJSON(
@@ -426,7 +426,7 @@ function addEditProjectButtonListeners() {
   document.querySelectorAll(".editProjectButton").forEach((button) => {
     button.addEventListener("click", async (event) => {
       const itemId = button.getAttribute("data-item-id");
-      const itemName = button.getAttribute("data-item-prohibited");
+      const itemProhibited = button.getAttribute("data-item-prohibited");
       const itemMxWeight = button.getAttribute("data-item-mxweight");
       const itemDestination = button.getAttribute("data-item-destination");
 
@@ -442,7 +442,7 @@ function addEditProjectButtonListeners() {
           <div class="field">
             <label class="label">Prohibited Item</label>
             <div class="control">
-              <input class="input" type="text" id="prohibited_items" value="${itemName}">
+              <input class="input" type="text" id="prohibited_items" value="${itemProhibited}">
             </div>
           </div>
           <div class="field">
@@ -457,20 +457,23 @@ function addEditProjectButtonListeners() {
         confirmButtonText: "Update",
         cancelButtonText: "Cancel",
         preConfirm: () => {
-          const destination =
-            Swal.getPopup().querySelector("#destination").value;
-            if (!destination) {
+          const destination = Swal.getPopup().querySelector("#destination").value;
+          const prohibitedItems = Swal.getPopup().querySelector("#prohibited_items").value;
+          const maxWeight = Swal.getPopup().querySelector("#max_weight").value;
+            if (!destination||!prohibitedItems||!maxWeight) {
               Swal.showValidationMessage(`Please enter all fields`);
             }            
-          return { destination};
+          return { destination, prohibited_items, max_weight};
         },
       });
 
       if (formValues) {
-        const { destination } = formValues;
+        const {  } = formValues;
         const updatedItem = {
           _id: itemId,
           destination: destination,
+          prohibitedItems: prohibited_items,
+          maxWeight: max_weight,
         };
         putJSON(
           backend.project.data, // Assumes a POST method will handle updates as well

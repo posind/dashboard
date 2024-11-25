@@ -26,7 +26,7 @@ import {
     await loadScript("https://cdn.datatables.net/2.0.8/js/dataTables.min.js");
   
     getJSON(
-      backend.project.data,
+      backend.project.id,
       "login",
       getCookie("login"),
       getResponseFunction
@@ -38,7 +38,7 @@ import {
       dataTable.destroy(); // Destroy the existing DataTable
     }
     getJSON(
-      backend.project.data,
+      backend.project.id,
       "login",
       getCookie("login"),
       getResponseFunction
@@ -59,47 +59,47 @@ import {
         }
   
         // Menambahkan baris untuk setiap webhook dalam data JSON
-        result.data.forEach((project) => {
-          const truncatedDescription = truncateText(project.description, 50);
+        result.data.forEach((barang) => {
+          const truncatedDescription = truncateText(barang.barang_terlarang, 50);
   
           // Gabungkan nama anggota dalam satu kolom dengan numbering dan tambahkan tombol Add Member
-          let membersHtml =
-            project.members && project.members.length > 0
-              ? project.members
-                  .map(
-                    (member, index) =>
-                      `
-                      <div class="tag is-success mb-3">
-                         ${index + 1}. ${member.name}
-                        <button class="delete is-small removeMemberButton" data-project-name="${
-                          project.name
-                        }" data-member-phonenumber="${
-                        member.phonenumber
-                      }"></button>
-                      </div>
-                    `
-                  )
-                  .join("<br>") // Tambahkan <br> untuk membuat baris baru untuk setiap anggota
-              : "";
-          membersHtml += `
-            <button class="button box is-primary is-small btn-flex addMemberButton" data-project-id="${project._id}">
-              <i class="bx bx-plus"></i>
-              Add member
-            </button>`;
+        //   let membersHtml =
+        //     project.members && project.members.length > 0
+        //       ? project.members
+        //           .map(
+        //             (member, index) =>
+        //               `
+        //               <div class="tag is-success mb-3">
+        //                  ${index + 1}. ${member.name}
+        //                 <button class="delete is-small removeMemberButton" data-project-name="${
+        //                   project.name
+        //                 }" data-member-phonenumber="${
+        //                 member.phonenumber
+        //               }"></button>
+        //               </div>
+        //             `
+        //           )
+        //           .join("<br>") // Tambahkan <br> untuk membuat baris baru untuk setiap anggota
+        //       : "";
+        //   membersHtml += `
+        //     <button class="button box is-primary is-small btn-flex addMemberButton" data-project-id="${project._id}">
+        //       <i class="bx bx-plus"></i>
+        //       Add member
+        //     </button>`;
   
           const row = document.createElement("tr");
           row.innerHTML = `
-            <td>${project.name}</td>
-            <td>${membersHtml}</td>
+            <td>${barang.destinasi}</td>
             <td class="has-text-justified">
               ${truncatedDescription}
-              <span class="full-text" style="display:none;">${project.description}</span>
+              <span class="full-text" style="display:none;">${barang.barang_terlarang || "N/A"}</span>
             </td>
+            <td>${barang.berat_barang || "N/A"}</td>
             <td class="has-text-centered">
-              <button class="button is-danger removeProjectButton" data-project-name="${project.name}">
+              <button class="button is-danger removeProjectButton" data-barang-terlarang="${barang.barang_terlarang}">
                 <i class="bx bx-trash"></i>          
               </button>
-              <button class="button is-warning editProjectButton" data-project-id="${project._id}" data-project-name="${project.name}" data-project-wagroupid="${project.wagroupid}" data-project-repoorg="${project.repoorg}" data-project-repologname="${project.repologname}" data-project-description="${project.description}">
+              <button class="button is-warning editProjectButton" data-barang-id="${barang._id}" data-barang-terlarang="${barang.barang_terlarang}" data-barang-mxberat="${barang.berat_barang}" data-barang-destinasi="${barang.destinasi}">
                 <i class="bx bx-edit"></i>
               </button>
             </td>
@@ -131,99 +131,87 @@ import {
   }
   
   // Function to add event listeners to addMemberButtons
-  function addMemberButtonListeners() {
-    document.querySelectorAll(".addMemberButton").forEach((button) => {
-      button.addEventListener("click", async (event) => {
-        const projectId = button.getAttribute("data-project-id");
-        const projectName =
-          button.getAttribute("data-project-name") ||
-          button.closest("tr").querySelector("td:first-child").innerText;
-        const { value: formValues } = await Swal.fire({
-          title: "Tambah Member",
-          html: `
-            <div class="field">
-              <div class="control">
-                <label class="label">Nama Project</label>
-                <input type="hidden" id="project-id" name="projectId" value="${projectId}">
-                <input class="input" type="text" value="${projectName}" disabled>
-              </div>
-            </div>
-            <div class="field">
-              <label class="label">Nomor Telepon Calon Member</label>
-              <div class="control">
-                <input class="input" type="tel" id="phonenumber" name="phonenumber" placeholder="628111" required>
-              </div>
-            </div>
-          `,
-          showCancelButton: true,
-          confirmButtonText: "Tambah Member",
-          didOpen: () => {
-            // Memanggil fungsi onInput setelah dialog SweetAlert2 dibuka
-            onInput("phonenumber", validatePhoneNumber);
-          },
-          preConfirm: () => {
-            const phoneNumber = document.getElementById("phonenumber").value;
-            const projectId = document.getElementById("project-id").value;
-            if (!phoneNumber) {
-              Swal.showValidationMessage(`Please enter a phone number`);
-            }
-            return { phoneNumber, projectId };
-          },
-        });
+//   function addMemberButtonListeners() {
+//     document.querySelectorAll(".addMemberButton").forEach((button) => {
+//       button.addEventListener("click", async (event) => {
+//         const projectId = button.getAttribute("data-project-id");
+//         const projectName =
+//           button.getAttribute("data-project-name") ||
+//           button.closest("tr").querySelector("td:first-child").innerText;
+//         const { value: formValues } = await Swal.fire({
+//           title: "Tambah Member",
+//           html: `
+//             <div class="field">
+//               <div class="control">
+//                 <label class="label">Nama Project</label>
+//                 <input type="hidden" id="project-id" name="projectId" value="${projectId}">
+//                 <input class="input" type="text" value="${projectName}" disabled>
+//               </div>
+//             </div>
+//             <div class="field">
+//               <label class="label">Nomor Telepon Calon Member</label>
+//               <div class="control">
+//                 <input class="input" type="tel" id="phonenumber" name="phonenumber" placeholder="628111" required>
+//               </div>
+//             </div>
+//           `,
+//           showCancelButton: true,
+//           confirmButtonText: "Tambah Member",
+//           didOpen: () => {
+//             // Memanggil fungsi onInput setelah dialog SweetAlert2 dibuka
+//             onInput("phonenumber", validatePhoneNumber);
+//           },
+//           preConfirm: () => {
+//             const phoneNumber = document.getElementById("phonenumber").value;
+//             const projectId = document.getElementById("project-id").value;
+//             if (!phoneNumber) {
+//               Swal.showValidationMessage(`Please enter a phone number`);
+//             }
+//             return { phoneNumber, projectId };
+//           },
+//         });
   
-        if (formValues) {
-          const { phoneNumber, projectId } = formValues;
-          // Logic to add member
-          //onInput("phonenumber", validatePhoneNumber);
-          let idprjusr = {
-            _id: projectId,
-            phonenumber: phoneNumber,
-          };
-          postJSON(
-            backend.project.anggota,
-            "login",
-            getCookie("login"),
-            idprjusr,
-            postResponseFunction
-          );
-        }
-      });
-    });
-  }
+//         if (formValues) {
+//           const { phoneNumber, projectId } = formValues;
+//           // Logic to add member
+//           //onInput("phonenumber", validatePhoneNumber);
+//           let idprjusr = {
+//             _id: projectId,
+//             phonenumber: phoneNumber,
+//           };
+//           postJSON(
+//             backend.project.anggota,
+//             "login",
+//             getCookie("login"),
+//             idprjusr,
+//             postResponseFunction
+//           );
+//         }
+//       });
+//     });
+//   }
   
   // Add project event listener
   document.getElementById("addButton").addEventListener("click", () => {
     Swal.fire({
-      title: "Add New Project",
+      title: "Tambah Barang Terlarang",
       html: `
               <div class="field">
-                  <label class="label">Project Name</label>
+                  <label class="label">Destinasi</label>
                   <div class="control">
-                      <input class="input" type="text" id="name" placeholder="huruf kecil tanpa spasi boleh pakai - dan _">
+                      <input class="input" type="text" id="destinasi" placeholder="masukan destinasi atau negara">
                   </div>
               </div>
               <div class="field">
-                  <label class="label">WhatsApp Group ID</label>
+                  <label class="label">Barang Terlarang</label>
                   <div class="control">
-                      <input class="input" type="text" id="wagroupid" placeholder="minta group id ke bot">
+                      <textarea class="textarea" id="barang_terlarang" placeholder="Tulis barang terlarang"></textarea>
                   </div>
               </div>
               <div class="field">
-                  <label class="label">Nama Repo Organisasi</label>
+                  <label class="label">Berat Maksimal Kiriman</label>
                   <div class="control">
-                      <input class="input" type="text" id="repoorg" placeholder="repo organisasi">
-                  </div>
-              </div>
-              <div class="field">
-                  <label class="label">Nama Repo Log Meeting</label>
-                  <div class="control">
-                      <input class="input" type="text" id="repologname" placeholder="repo log meeting">
-                  </div>
-              </div>
-              <div class="field">
-                  <label class="label">Description</label>
-                  <div class="control">
-                      <textarea class="textarea" id="description" placeholder="Tulis deskripsi proyek Kakak"></textarea>
+                      <input class="input" min="0" step="0.01" type="number" id="berat_barang" placeholder="Masukan berat maksimal kiriman">
                   </div>
               </div>
           `,
@@ -231,43 +219,32 @@ import {
       confirmButtonText: "Add",
       cancelButtonText: "Cancel",
       preConfirm: () => {
-        const name = Swal.getPopup().querySelector("#name").value;
-        const wagroupid = Swal.getPopup().querySelector("#wagroupid").value;
-        const description = Swal.getPopup().querySelector("#description").value;
-        const repoOrg = Swal.getPopup().querySelector("#repoorg").value;
-        const repoLogName = Swal.getPopup().querySelector("#repologname").value;
+        const destinasi = Swal.getPopup().querySelector("#destinasi").value;
+        const barangTerlarang= Swal.getPopup().querySelector("#barang_terlarang").value;
+        const beratBarang = Swal.getPopup().querySelector("#berat_barang").value;
   
-        const namePattern = /^[a-z0-9_-]+$/;
-        if (!name || !wagroupid || !description || !repoOrg || !repoLogName) {
+        if (!destinasi || !beratBarang|| !barangTerlarang) {
           Swal.showValidationMessage(`Please enter all fields`);
-        } else if (!namePattern.test(name)) {
-          Swal.showValidationMessage(
-            `Project Name hanya boleh mengandung huruf kecil, angka, '-' dan '_'`
-          );
         } else {
           return {
-            name: name,
-            wagroupid: wagroupid,
-            description: description,
-            repoorg: repoOrg,
-            repologname: repoLogName,
+            destinasi: destinasi,
+            barang_terlarang: barangTerlarang,
+            berat_barang: beratBarang,
           };
         }
       },
     }).then((result) => {
       if (result.isConfirmed) {
         let resultData = {
-          name: getValue("name"),
-          wagroupid: getValue("wagroupid"),
-          description: getValue("description"),
-          repoorg: getValue("repoorg"),
-          repologname: getValue("repologname"),
+          destinasi: getValue("destinasi"),
+          barang_terlarang: getValue("barang_terlarang"),
+          berat_barang: getValue("berat_barang"),
         };
         if (getCookie("login") === "") {
-          redirect("/signin");
+          redirect("/login");
         } else {
           postJSON(
-            backend.project.data,
+            backend.project.id,
             "login",
             getCookie("login"),
             resultData,
@@ -286,16 +263,14 @@ import {
         icon: "success",
         title: "Berhasil",
         text:
-          "Selamat kak proyek " +
-          result.data.name +
+          "Selamat kak barang " +
+          result.data.barang_terlarang +
           " sudah terdaftar dengan ID: " +
-          result.data._id +
-          " dan Secret: " +
-          result.data.secret,
+          result.data._id,
         footer:
-          '<a href="https://wa.me/62895601060000?text=' +
+          '<a href="https://wa.me/62895800006000?text=' +
           katakata +
-          '" target="_blank">Verifikasi Proyek</a>',
+          '" target="_blank">Verifikasi Barang</a>',
         didClose: () => {
           reloadDataTable();
         },
@@ -310,116 +285,116 @@ import {
     console.log(result);
   }
   
-  function postResponseFunction(result) {
-    if (result.status === 200) {
-      const katakata =
-        "Berhasil memasukkan member baru ke project " + result.data.name;
-      Swal.fire({
-        icon: "success",
-        title: "Berhasil",
-        text:
-          "Selamat kak proyek " +
-          result.data.name +
-          " dengan ID: " +
-          result.data._id +
-          " sudah mendapat member baru",
-        footer:
-          '<a href="https://wa.me/62895601060000?text=' +
-          katakata +
-          '" target="_blank">Verifikasi Proyek</a>',
-        didClose: () => {
-          reloadDataTable();
-        },
-      });
-    } else {
-      Swal.fire({
-        icon: "error",
-        title: result.data.status,
-        text: result.data.response,
-      });
-    }
-    console.log(result);
-  }
+//   function postResponseFunction(result) {
+//     if (result.status === 200) {
+//       const katakata =
+//         "Berhasil memasukkan member baru ke project " + result.data.name;
+//       Swal.fire({
+//         icon: "success",
+//         title: "Berhasil",
+//         text:
+//           "Selamat kak proyek " +
+//           result.data.name +
+//           " dengan ID: " +
+//           result.data._id +
+//           " sudah mendapat member baru",
+//         footer:
+//           '<a href="https://wa.me/62895601060000?text=' +
+//           katakata +
+//           '" target="_blank">Verifikasi Proyek</a>',
+//         didClose: () => {
+//           reloadDataTable();
+//         },
+//       });
+//     } else {
+//       Swal.fire({
+//         icon: "error",
+//         title: result.data.status,
+//         text: result.data.response,
+//       });
+//     }
+//     console.log(result);
+//   }
   
   // Function to add event listeners to removeMemberButtons
-  function addRemoveMemberButtonListeners() {
-    document.querySelectorAll(".removeMemberButton").forEach((button) => {
-      button.addEventListener("click", async (event) => {
-        const projectName = button.getAttribute("data-project-name");
-        const memberPhoneNumber = button.getAttribute("data-member-phonenumber");
+//   function addRemoveMemberButtonListeners() {
+//     document.querySelectorAll(".removeMemberButton").forEach((button) => {
+//       button.addEventListener("click", async (event) => {
+//         const projectName = button.getAttribute("data-project-name");
+//         const memberPhoneNumber = button.getAttribute("data-member-phonenumber");
   
-        const result = await Swal.fire({
-          title: "Hapus member ini?",
-          text: "Kamu tidak dapat mengembalikan aksi ini!",
-          icon: "warning",
-          showCancelButton: true,
-          confirmButtonText: "Hapus member",
-          cancelButtonText: "Kembali",
-        });
+//         const result = await Swal.fire({
+//           title: "Hapus member ini?",
+//           text: "Kamu tidak dapat mengembalikan aksi ini!",
+//           icon: "warning",
+//           showCancelButton: true,
+//           confirmButtonText: "Hapus member",
+//           cancelButtonText: "Kembali",
+//         });
   
-        if (result.isConfirmed) {
-          const memberWillBeDeleted = {
-            project_name: projectName,
-            phone_number: memberPhoneNumber,
-          };
+//         if (result.isConfirmed) {
+//           const memberWillBeDeleted = {
+//             project_name: projectName,
+//             phone_number: memberPhoneNumber,
+//           };
   
-          deleteJSON(
-            backend.project.anggota,
-            "login",
-            getCookie("login"),
-            memberWillBeDeleted,
-            removeMemberResponse
-          );
-        }
-      });
-    });
-  }
+//           deleteJSON(
+//             backend.project.anggota,
+//             "login",
+//             getCookie("login"),
+//             memberWillBeDeleted,
+//             removeMemberResponse
+//           );
+//         }
+//       });
+//     });
+//   }
   
-  function removeMemberResponse(result) {
-    if (result.status === 200) {
-      Swal.fire({
-        icon: "success",
-        title: "Deleted!",
-        text: "Member has been removed.",
-        didClose: () => {
-          reloadDataTable();
-        },
-      });
-    } else {
-      Swal.fire({
-        icon: "error",
-        title: result.data.status,
-        text: result.data.response,
-      });
-    }
-    console.log(result);
-  }
+//   function removeMemberResponse(result) {
+//     if (result.status === 200) {
+//       Swal.fire({
+//         icon: "success",
+//         title: "Deleted!",
+//         text: "Member has been removed.",
+//         didClose: () => {
+//           reloadDataTable();
+//         },
+//       });
+//     } else {
+//       Swal.fire({
+//         icon: "error",
+//         title: result.data.status,
+//         text: result.data.response,
+//       });
+//     }
+//     console.log(result);
+//   }
   
   // Remove project mechanism
   function addRemoveProjectButtonListeners() {
     document.querySelectorAll(".removeProjectButton").forEach((button) => {
       button.addEventListener("click", async (event) => {
-        const projectName = button.getAttribute("data-project-name");
+        const barangTerlarang = button.getAttribute("data-barang-terlarang");
   
         const result = await Swal.fire({
           title: "Hapus project ini?",
           text: "Kamu tidak dapat mengembalikan aksi ini!",
           icon: "warning",
           showCancelButton: true,
-          confirmButtonText: "Hapus project",
+          confirmButtonText: "Hapus barang",
           cancelButtonText: "Kembali",
         });
   
         if (result.isConfirmed) {
-          const projectWillBeDeleted = {
-            project_name: projectName,
+          const barangWillBeDeleted = {
+            barang_terlarang: barangTerlarang,
           };
   
           deleteJSON(
-            backend.project.data,
+            backend.project.id,
             "login",
             getCookie("login"),
-            projectWillBeDeleted,
+            barangWillBeDeleted,
             removeProjectResponse
           );
         }
@@ -450,48 +425,32 @@ import {
   function addEditProjectButtonListeners() {
     document.querySelectorAll(".editProjectButton").forEach((button) => {
       button.addEventListener("click", async (event) => {
-        const projectId = button.getAttribute("data-project-id");
-        const projectName = button.getAttribute("data-project-name");
-        const projectWagroupid = button.getAttribute("data-project-wagroupid");
-        const projectRepoorg = button.getAttribute("data-project-repoorg");
-        const projectRepologname = button.getAttribute(
-          "data-project-repologname"
-        );
-        const projectDescription = button.getAttribute(
-          "data-project-description"
+        const barangId = button.getAttribute("data-barang-id");
+        const barangTerlarang = button.getAttribute("data-barang-terlarang");
+        const beratBarang = button.getAttribute("data-barang-mxberat");
+        const barangDestinasi = button.getAttribute(
+          "data-barang-destinasi"
         );
   
         const { value: formValues } = await Swal.fire({
-          title: "Edit Project",
+          title: "Edit Barang Terlarang",
           html: `
             <div class="field">
-              <label class="label">Project Name</label>
+              <label class="label">Destinasi</label>
               <div class="control">
-                <input class="input" type="text" id="name" value="${projectName}" disabled>
+                <input class="input" type="text" id="destinasi" value="${barangDestinasi}">
               </div>
             </div>
             <div class="field">
-              <label class="label">WhatsApp Group ID</label>
-              <div class="control">
-                <input class="input" type="text" id="wagroupid" value="${projectWagroupid}" disabled>
-              </div>
+            <label class="label">Description</label>
+            <div class="control">
+              <textarea class="textarea" id="barang_terlarang">${barangTerlarang}</textarea>
             </div>
+          </div>
             <div class="field">
-              <label class="label">Nama Repo Organisasi</label>
+              <label class="label">Berat Maksimal Kiriman</label>
               <div class="control">
-                <input class="input" type="text" id="repoorg" value="${projectRepoorg}">
-              </div>
-            </div>
-            <div class="field">
-              <label class="label">Nama Repo Log Meeting</label>
-              <div class="control">
-                <input class="input" type="text" id="repologname" value="${projectRepologname}">
-              </div>
-            </div>
-            <div class="field">
-              <label class="label">Description</label>
-              <div class="control">
-                <textarea class="textarea" id="description">${projectDescription}</textarea>
+                <input class="input" type="text" id="berat_barang" value="${beratBarang}">
               </div>
             </div>
           `,
@@ -499,31 +458,30 @@ import {
           confirmButtonText: "Update",
           cancelButtonText: "Cancel",
           preConfirm: () => {
-            const repoOrg = Swal.getPopup().querySelector("#repoorg").value;
-            const repoLogName =
-              Swal.getPopup().querySelector("#repologname").value;
-            const description =
-              Swal.getPopup().querySelector("#description").value;
-            if (!repoOrg || !repoLogName || !description) {
-              Swal.showValidationMessage(`Please enter all fields`);
-            }
-            return { repoOrg, repoLogName, description };
+            const destinasi =
+              Swal.getPopup().querySelector("#destinasi").value;
+            const barangTerlarang = Swal.getPopup().querySelector("#barang_terlarang").value;
+            const beratBarang = Swal.getPopup().querySelector("#berat_barang").value;
+            if (!destinasi || !barangTerlarang || !beratBarang) {
+                Swal.showValidationMessage(`Please enter all fields`);
+              }              
+            return {destinasi, barangTerlarang, beratBarang };
           },
         });
   
         if (formValues) {
-          const { repoOrg, repoLogName, description } = formValues;
-          const updatedProject = {
-            _id: projectId,
-            repoorg: repoOrg,
-            repologname: repoLogName,
-            description: description,
+          const { destinasi } = formValues;
+          const updatedBarang = {
+            _id: barangId,
+            destinasi: destinasi,
+            barang_terlarang: barangTerlarang,
+            berat_barang: beratBarang,
           };
           putJSON(
-            backend.project.data, // Assumes a POST method will handle updates as well
+            backend.project.id, // Assumes a POST method will handle updates as well
             "login",
             getCookie("login"),
-            updatedProject,
+            updatedBarang,
             updateResponseFunction
           );
         }
@@ -535,8 +493,8 @@ import {
     if (result.status === 200) {
       Swal.fire({
         icon: "success",
-        title: "Project Updated",
-        text: `Project ${result.data.name} has been updated successfully.`,
+        title: "Barang Updated",
+        text: `Barang ${result.data.barang_terlarang} has been updated successfully.`,
         didClose: () => {
           reloadDataTable();
         },

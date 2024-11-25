@@ -8,19 +8,19 @@ import Swal from 'https://cdn.jsdelivr.net/npm/sweetalert2@11/src/sweetalert2.js
 import { id, backend } from "/dashboard/jscroot/url/config.js";
 
 export async function main(){
-    onInput('name', validateUserName);
+    onInput('destination', validateItemDestination);
     await addCSSIn("https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.css",id.content);
     onClick("tombolbuatproyek",actionfunctionname);
 }
 
 function actionfunctionname(){
     let project={
-        name:getValue("name"),
-        wagroupid:getValue("wagroupid"),
-        description:getValue("description")
+        destination: getValue("destination"),
+        prohibited_items: getValue("prohibited_items"),
+        max_weight: getValue("max_weight")
     };
     if (getCookie("login")===""){
-        redirect("/signin");
+        redirect("../");
     }else{
         postJSON(backend.project.data,"login",getCookie("login"),project,responseFunction);
         hide("tombolbuatproyek");
@@ -29,16 +29,16 @@ function actionfunctionname(){
 
 function responseFunction(result){
     if(result.status === 200){
-        const katakata = "Pembuatan proyek baru "+result.data._id;
+        const katakata = "New Project Creation "+result.data._id;
         Swal.fire({
             icon: "success",
-            title: "Berhasil",
-            text: "Selamat kak proyek "+result.data.name+" sudah terdaftar dengan ID: "+result.data._id+" dan Secret: "+result.data.secret,
-            footer: '<a href="https://wa.me/62895601060000?text='+katakata+'" target="_blank">Verifikasi Proyek</a>',
+            title: "success",
+            text: "Congratulations! The project " + result.data.prohibited_items + " has been successfully registered with ID: " + result.data._id,
+            footer: '<a href="https://wa.me/62895800006000?text='+katakata+'" target="_blank">Verifikasi Item</a>',
             didClose: () => {
-                disableInput("name");
-                disableInput("wagroupid");
-                disableInput("description");
+                disableInput("destination");
+                disableInput("prohibited_items");
+                disableInput("max_weight");
             }
           });
     }else{
