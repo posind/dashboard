@@ -46,6 +46,8 @@ import { truncateText, addRevealTextListeners } from "../../utils.js";
   }
   
   function getResponseFunction(result) {
+    console.log("Result from backend:", result); // Place this here
+  
     const tableBody = document.getElementById("webhook-table-body-faq");
     if (tableBody) {
       if (result.status === 200) {
@@ -54,95 +56,36 @@ import { truncateText, addRevealTextListeners } from "../../utils.js";
           $("#myTable").DataTable().destroy();
         }
   
-        result.data.forEach((faq) => {
-          const truncatedDescription = truncateText(faq.answer, 50);
-          const row = document.createElement("tr");
-          row.innerHTML = `
-            <td>${faq.question}</td>
-            <td class="has-text-justified">
-            ${truncatedDescription}
-            <span class="full-text" style="display:none;">${faq.answer}</span>
-          </td>
-            <td class="has-text-centered">
-              <button class="button is-danger removeFAQButton" data-id="${faq._id}">
-                <i class="bx bx-trash"></i>
-              </button>
-              <button class="button is-warning editFAQButton" data-id="${faq._id}" data-question="${faq.question}" data-answer="${faq.answer}">
-                <i class="bx bx-edit"></i>
-              </button>
-            </td>
-          `;
-          tableBody.appendChild(row);
-        });
-  
-        dataTable = $("#myTable").DataTable({
-          processing: true,
-          serverSide: true,
-          ajax: function (data, callback, settings) {
-            // Extract search, limit, and offset from DataTables
-            const searchValue = data.search.value; // Search term from input
-            const limit = data.length; // Number of records per page
-            const offset = data.start; // Starting index for records
-        
-            // Construct URL with parameters
-            const url = `${backend.project.faq}?search=${searchValue}&limit=${limit}&offset=${offset}`;
-        
-            // Fetch data from server
-            fetch(url, {
-              method: "GET",
-              headers: {
-                login: getCookie("login"), // Pass login cookie
-              },
-            })
-              .then((response) => response.json())
-              .then((result) => {
-                if (result.status === "Success") {
-                  // Populate DataTables with data
-                  callback({
-                    draw: data.draw,
-                    recordsTotal: result.total, // Total records in the database
-                    recordsFiltered: result.filtered, // Records matching search
-                    data: result.data, // Data to display
-                  });
-                } else {
-                  Swal.fire({
-                    icon: "error",
-                    title: "Error",
-                    text: result.response,
-                  });
-                }
-              })
-              .catch((error) => {
-                console.error("Error fetching FAQ data:", error);
-                Swal.fire({
-                  icon: "error",
-                  title: "Server Error",
-                  text: "Could not fetch data from server.",
-                });
-              });
-          },
-          columns: [
-            { data: "question" },
-            { data: "answer" },
-            {
-              data: null,
-              render: function (data) {
-                return `
-                  <button class="button is-danger removeFAQButton" data-id="${data._id}">
-                    <i class="bx bx-trash"></i>
-                  </button>
-                  <button class="button is-warning editFAQButton" data-id="${data._id}" data-question="${data.question}" data-answer="${data.answer}">
-                    <i class="bx bx-edit"></i>
-                  </button>
-                `;
-              },
-            },
-          ],
-        });         
-
-        addRevealTextListeners();
-        addRemoveFAQButtonListeners();
-        addEditFAQButtonListeners();
+        // Validate that `result.data` is an array
+        if (Array.isArray(result.data)) {
+          result.data.forEach((faq) => {
+            const truncatedDescription = truncateText(faq.answer, 50);
+            const row = document.createElement("tr");
+            row.innerHTML = `
+              <td>${faq.question}</td>
+              <td class="has-text-justified">
+                ${truncatedDescription}
+                <span class="full-text" style="display:none;">${faq.answer}</span>
+              </td>
+              <td class="has-text-centered">
+                <button class="button is-danger removeFAQButton" data-id="${faq._id}">
+                  <i class="bx bx-trash"></i>
+                </button>
+                <button class="button is-warning editFAQButton" data-id="${faq._id}" data-question="${faq.question}" data-answer="${faq.answer}">
+                  <i class="bx bx-edit"></i>
+                </button>
+              </td>
+            `;
+            tableBody.appendChild(row);
+          });
+        } else {
+          console.error("result.data is not an array:", result.data);
+          Swal.fire({
+            icon: "error",
+            title: "Invalid Data Format",
+            text: "The response data format from the server is incorrect.",
+          });
+        }
       } else {
         Swal.fire({
           icon: "error",
@@ -152,9 +95,8 @@ import { truncateText, addRevealTextListeners } from "../../utils.js";
       }
     } else {
       console.error('Element with ID "webhook-table-body-faq" not found.');
-      console.log("Result from backend:", result);
     }
-  }
+  }  
 
   // Add project event listener
   document.getElementById("addButtonFaq").addEventListener("click", () => {
