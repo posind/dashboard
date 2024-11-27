@@ -67,10 +67,18 @@ export function getURLContentJS(){
             return url.view.content+"messages.js";
         case "proyek/lihat":
             return url.view.content+"proyek/lihat.js";
+        case "proyek/buat":
+            return url.view.content+"proyek/id.js";
         case "proyek/anggota":
             return url.view.content+"proyek/anggota.js";
         case "proyek/buat":
             return url.view.content+"proyek/buat.js";
+        case "proyek/buatid":
+            return url.view.content+"proyek/buatid.js";
+        case "proyek/faq":
+            return url.view.content+"proyek/faq.js";
+        case "proyek/faqform":
+            return url.view.content+"proyek/faqform.js";
         case "proyek/akses":
             return url.view.content+"proyek/akses.js";
         case "notifications/blocked":
