@@ -1,14 +1,18 @@
 import {
-    getValue,
-    onInput,
-  } from "https://cdn.jsdelivr.net/gh/jscroot/element@0.1.7/croot.js";
-  import { postJSON, deleteJSON, putJSON, getJSON } from "https://cdn.jsdelivr.net/gh/jscroot/api@0.0.7/croot.js";
-  import { getCookie } from "https://cdn.jsdelivr.net/gh/jscroot/cookie@0.0.1/croot.js";
-  import { addCSSIn } from "https://cdn.jsdelivr.net/gh/jscroot/element@0.1.5/croot.js";
-  import Swal from "https://cdn.jsdelivr.net/npm/sweetalert2@11/src/sweetalert2.js";
-  import { id, backend } from "/dashboard/jscroot/url/config.js";
-  import { loadScript } from "../../../controller/main.js";
-  import { truncateText, addRevealTextListeners } from "../../utils.js";
+  getValue,
+  onInput,
+} from "https://cdn.jsdelivr.net/gh/jscroot/element@0.1.7/croot.js";
+import { validatePhoneNumber } from "https://cdn.jsdelivr.net/gh/jscroot/validate@0.0.2/croot.js";
+import { postJSON } from "https://cdn.jsdelivr.net/gh/jscroot/api@0.0.7/croot.js";
+import { deleteJSON } from "https://cdn.jsdelivr.net/gh/jscroot/api@0.0.8/croot.js";
+import { putJSON } from "https://cdn.jsdelivr.net/gh/jscroot/api@0.0.8/croot.js";
+import { getJSON } from "https://cdn.jsdelivr.net/gh/jscroot/api@0.0.7/croot.js";
+import { getCookie } from "https://cdn.jsdelivr.net/gh/jscroot/cookie@0.0.1/croot.js";
+import { addCSSIn } from "https://cdn.jsdelivr.net/gh/jscroot/element@0.1.5/croot.js";
+import Swal from "https://cdn.jsdelivr.net/npm/sweetalert2@11/src/sweetalert2.js";
+import { id, backend } from "/dashboard/jscroot/url/config.js";
+import { loadScript } from "../../../controller/main.js";
+import { truncateText, addRevealTextListeners } from "../../utils.js";
   
   let dataTable;
   
