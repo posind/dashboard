@@ -76,9 +76,64 @@ import { truncateText, addRevealTextListeners } from "../../utils.js";
         });
   
         dataTable = $("#myTable").DataTable({
-          responsive: true,
-          autoWidth: false,
+          processing: true,
+          serverSide: true,
+          ajax: function (data, callback, settings) {
+            // Ambil nilai pencarian dari input DataTables
+            const searchValue = data.search.value;
+        
+            // Tentukan limit dan offset berdasarkan DataTables
+            const limit = data.length; // Jumlah data per halaman
+            const offset = data.start; // Data mulai dari indeks ke-
+        
+            // Buat URL dengan parameter pencarian, limit, dan offset
+            const url = `${backend.project.faq}?search=${searchValue}&limit=${limit}&offset=${offset}`;
+        
+            fetch(url, {
+              method: "GET",
+              headers: {
+                login: getCookie("login"),
+              },
+            })
+              .then((response) => response.json())
+              .then((result) => {
+                if (result.status === 200) {
+                  // Kirim data ke DataTables
+                  callback({
+                    draw: data.draw,
+                    recordsTotal: result.total, // Total semua data di database
+                    recordsFiltered: result.filtered, // Total data yang sesuai pencarian
+                    data: result.data, // Data yang ditampilkan
+                  });
+                } else {
+                  Swal.fire({
+                    icon: "error",
+                    title: result.data.status,
+                    text: result.data.response,
+                  });
+                }
+              })
+              .catch((error) => console.error("Error fetching data:", error));
+          },
+          columns: [
+            { data: "question" },
+            { data: "answer" },
+            {
+              data: null,
+              render: function (data) {
+                return `
+                  <button class="button is-danger removeFAQButton" data-id="${data._id}">
+                    <i class="bx bx-trash"></i>
+                  </button>
+                  <button class="button is-warning editFAQButton" data-id="${data._id}" data-question="${data.question}" data-answer="${data.answer}">
+                    <i class="bx bx-edit"></i>
+                  </button>
+                `;
+              },
+            },
+          ],
         });
+        
 
         addRevealTextListeners();
         addRemoveFAQButtonListeners();
