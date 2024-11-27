@@ -63,6 +63,7 @@ import {
           const truncatedDescription = truncateText(barang.barang_terlarang, 50);
 
           const row = document.createElement("tr");
+          
           row.innerHTML = `
             <td>${barang.destinasi}</td>
             <td class="has-text-justified">

@@ -62,7 +62,6 @@ function getResponseFunction(result) {
       result.data.forEach((item) => {
         const truncatedDescription = truncateText(item.prohibited_items, 50);
 
-
         const row = document.createElement("tr");
         row.innerHTML = `
           <td>${item.destination}</td>
