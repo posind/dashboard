@@ -42,7 +42,7 @@ import {
   }
   
   function getResponseFunction(result) {
-    const tableBody = document.getElementById("webhook-table-body");
+    const tableBody = document.getElementById("webhook-table-body-faq");
     if (tableBody) {
       if (result.status === 200) {
         tableBody.innerHTML = ""; // Clear table body content
@@ -83,7 +83,7 @@ import {
         });
       }
     } else {
-      console.error('Element with ID "webhook-table-body" not found.');
+      console.error('Element with ID "webhook-table-body-faq" not found.');
     }
   }
 
