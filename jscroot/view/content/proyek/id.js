@@ -192,7 +192,7 @@ import {
 //   }
   
   // Add project event listener
-  document.getElementById("addButtonID").addEventListener("click", () => {
+  document.getElementById("addButtonId").addEventListener("click", () => {
     Swal.fire({
       title: "Tambah Barang Terlarang",
       html: `

@@ -10,7 +10,7 @@ import { id, backend } from "/dashboard/jscroot/url/config.js";
 export async function main(){
     onInput('destinasi', validateDestinasiBarang);
     await addCSSIn("https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.css",id.content);
-    onClick("tombolbuatproyek",actionfunctionname);
+    onClick("tombolbuatbarang",actionfunctionname);
 }
 
 function actionfunctionname(){
@@ -23,7 +23,7 @@ function actionfunctionname(){
         redirect("../");
     }else{
         postJSON(backend.project.id,"login",getCookie("login"),project,responseFunction);
-        hide("tombolbuatproyek");
+        hide("tombolbuatbarang");
     }  
 }
 
@@ -47,7 +47,7 @@ function responseFunction(result){
             title: result.data.status,
             text: result.data.response
           });
-          show("tombolbuatproyek");
+          show("tombolbuatbarang");
     }
     console.log(result);
 }

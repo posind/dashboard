@@ -6,7 +6,7 @@ import Swal from "https://cdn.jsdelivr.net/npm/sweetalert2@11/src/sweetalert2.js
 import { backend } from "/dashboard/jscroot/url/config.js";
 
 export async function main() {
-  onClick("tombolbuatproyek", handleFAQSubmit);
+  onClick("tombolbuatfaq", handleFAQSubmit);
 }
 
 function handleFAQSubmit() {
@@ -45,6 +45,6 @@ function handleFAQResponse(result) {
       title: result.data.status,
       text: result.data.response,
     });
-    show("tombolbuatproyek");
+    show("tombolbuatfaq");
   }
 }
