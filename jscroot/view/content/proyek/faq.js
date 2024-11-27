@@ -46,40 +46,54 @@ import { truncateText, addRevealTextListeners } from "../../utils.js";
   }
   
   function getResponseFunction(result) {
-    console.log("Result from backend:", result);
-    if (result.status === "Success" && Array.isArray(result.data)) {
-        // Jika respons valid, render table
-        renderFAQTable(result.data);
-    } else {
-        console.error("Invalid response structure or data is not an array:", result);
-        Swal.fire({
-            icon: "error",
-            title: "Invalid Data Format",
-            text: "The response data format from the server is incorrect.",
-        });
-    }
-}
-
-function renderFAQTable(data) {
     const tableBody = document.getElementById("webhook-table-body-faq");
-    tableBody.innerHTML = ""; // Kosongkan isi tabel sebelumnya
-    data.forEach((faq) => {
-        const truncatedDescription = truncateText(faq.answer, 50);
-        const row = document.createElement("tr");
-        row.innerHTML = `
+    if (tableBody) {
+      if (result.status === 200) {
+        tableBody.innerHTML = ""; // Clear table body content
+        if ($.fn.DataTable.isDataTable("#myTable")) {
+          $("#myTable").DataTable().destroy();
+        }
+  
+        result.data.forEach((faq) => {
+          const truncatedDescription = truncateText(faq.answer, 50);
+          const row = document.createElement("tr");
+          row.innerHTML = `
             <td>${faq.question}</td>
-            <td>${truncatedDescription}</td>
-            <td>
-                <button class="button is-danger removeFAQButton" data-id="${faq._id}">Delete</button>
-                <button class="button is-warning editFAQButton" data-id="${faq._id}">Edit</button>
+            <td class="has-text-justified">
+            ${truncatedDescription}
+            <span class="full-text" style="display:none;">${faq.answer}</span>
+          </td>
+            <td class="has-text-centered">
+              <button class="button is-danger removeFAQButton" data-id="${faq._id}">
+                <i class="bx bx-trash"></i>
+              </button>
+              <button class="button is-warning editFAQButton" data-id="${faq._id}" data-question="${faq.question}" data-answer="${faq.answer}">
+                <i class="bx bx-edit"></i>
+              </button>
             </td>
-        `;
-        tableBody.appendChild(row);
-    });
-}
+          `;
+          tableBody.appendChild(row);
+        });
+  
+        dataTable = $("#myTable").DataTable({
+          responsive: true,
+          autoWidth: false,
+        });
 
-
-
+        addRevealTextListeners();
+        addRemoveFAQButtonListeners();
+        addEditFAQButtonListeners();
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: result.data.status,
+          text: result.data.response,
+        });
+      }
+    } else {
+      console.error('Element with ID "webhook-table-body-faq" not found.');
+    }
+  }
 
   // Add project event listener
   document.getElementById("addButtonFaq").addEventListener("click", () => {
