@@ -25,7 +25,7 @@ function handleFAQSubmit() {
       faq,
       handleFAQResponse
     );
-    hide("tombolbuatproyek");
+    hide("tombolbuatfaq");
   }
 }
 
