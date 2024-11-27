@@ -17,7 +17,7 @@ export const backend={
     },
     project:{
         data:"https://asia-southeast2-civil-epigram-429004-t8.cloudfunctions.net/webhook/data/item",
-        in:"https://asia-southeast2-civil-epigram-429004-t8.cloudfunctions.net/webhook/data/barang",
+        id:"https://asia-southeast2-civil-epigram-429004-t8.cloudfunctions.net/webhook/data/barang",
         faq:"https://asia-southeast2-civil-epigram-429004-t8.cloudfunctions.net/pibackend/data/faq",
         anggota:"https://api.do.my.id/data/proyek/anggota",
     },
