@@ -50,16 +50,20 @@ import {
           $("#myTable").DataTable().destroy();
         }
   
-        result.data.forEach((item) => {
+        result.data.forEach((faq) => {
+          const truncatedDescription = truncateText(faq.answer, 50);
           const row = document.createElement("tr");
           row.innerHTML = `
-            <td>${item.question}</td>
-            <td>${item.answer}</td>
+            <td>${faq.question}</td>
+            <td class="has-text-justified">
+            ${truncatedDescription}
+            <span class="full-text" style="display:none;">${faq.answer}</span>
+          </td>
             <td class="has-text-centered">
-              <button class="button is-danger removeFAQButton" data-id="${item._id}">
+              <button class="button is-danger removeFAQButton" data-id="${faq._id}">
                 <i class="bx bx-trash"></i>
               </button>
-              <button class="button is-warning editFAQButton" data-id="${item._id}" data-question="${item.question}" data-answer="${item.answer}">
+              <button class="button is-warning editFAQButton" data-id="${faq._id}" data-question="${faq.question}" data-answer="${faq.answer}">
                 <i class="bx bx-edit"></i>
               </button>
             </td>
@@ -95,13 +99,13 @@ import {
               <div class="field">
                   <label class="label">Question</label>
                   <div class="control">
-                      <input class="input" type="text" id="question" value="${question} placeholder="Tulis pertanyaan">
+                      <textarea class="textarea" type="text" id="question" placeholder="Tulis pertanyaan"></textarea>
                   </div>
               </div>
               <div class="field">
                   <label class="label">Answer</label>
                   <div class="control">
-                      <textarea class="textarea" id="answer" value="${answer} placeholder="Tulis jawaban"></textarea>
+                      <textarea class="textarea" id="answer" placeholder="Tulis jawaban"></textarea>
                   </div>
               </div>
           `,
@@ -128,7 +132,7 @@ import {
           answer: getValue("answer"),
         };
         if (getCookie("login") === "") {
-          redirect("/login");
+          redirect("../");
         } else {
           postJSON(
             backend.project.faq,
@@ -175,7 +179,7 @@ import {
   function addRemoveFAQButtonListeners() {
     document.querySelectorAll(".removeFAQButton").forEach((button) => {
       button.addEventListener("click", async () => {
-        const faqId = button.getAttribute("data-id");
+        const question = button.getAttribute("data-question");
   
         const result = await Swal.fire({
           title: "Delete this FAQ?",
@@ -185,13 +189,17 @@ import {
           confirmButtonText: "Delete FAQ",
           cancelButtonText: "Cancel",
         });
-  
+
         if (result.isConfirmed) {
+          const faqWillBeDeleted = {
+            question: question,
+          };
+  
           deleteJSON(
             backend.project.faq,
             "login",
             getCookie("login"),
-            { id: faqId },
+            faqWillBeDeleted,
             removeFAQResponse
           );
         }
@@ -249,13 +257,19 @@ import {
             return { question, answer };
           },
         });
-  
+
         if (formValues) {
+          const {  } = formValues;
+          const updatedFaq = {
+            _id: faqId,
+            question: question,
+            answer: answer,
+          };
           putJSON(
-            backend.project.faq,
+            backend.project.faq, // Assumes a POST method will handle updates as well
             "login",
             getCookie("login"),
-            { id: faqId, ...formValues },
+            updatedFaq,
             updateFAQResponse
           );
         }
@@ -268,7 +282,7 @@ import {
       Swal.fire({
         icon: "success",
         title: "Updated!",
-        text: "FAQ has been updated successfully.",
+        text: `FAQ ${result.data.question} has been updated successfully.`,
         didClose: () => {
           reloadDataTable();
         },
@@ -280,5 +294,6 @@ import {
         text: result.data.response,
       });
     }
+    console.log(result);
   }
   

@@ -1,20 +1,23 @@
-import { getValue, onClick, hide, show } from "https://cdn.jsdelivr.net/gh/jscroot/element@0.1.7/croot.js";
-import { postJSON } from "https://cdn.jsdelivr.net/gh/jscroot/api@0.0.7/croot.js";
-import { getCookie } from "https://cdn.jsdelivr.net/gh/jscroot/cookie@0.0.1/croot.js";
-import { redirect } from "https://cdn.jsdelivr.net/gh/jscroot/url@0.0.9/croot.js";
-import Swal from "https://cdn.jsdelivr.net/npm/sweetalert2@11/src/sweetalert2.js";
-import { backend } from "/dashboard/jscroot/url/config.js";
+import { onClick,getValue,disableInput,hide,show,onInput } from "https://cdn.jsdelivr.net/gh/jscroot/element@0.1.7/croot.js";
+import {validateUserName} from "https://cdn.jsdelivr.net/gh/jscroot/validate@0.0.1/croot.js";
+import {postJSON} from "https://cdn.jsdelivr.net/gh/jscroot/api@0.0.7/croot.js";
+import {getCookie} from "https://cdn.jsdelivr.net/gh/jscroot/cookie@0.0.1/croot.js";
+import {redirect} from "https://cdn.jsdelivr.net/gh/jscroot/url@0.0.9/croot.js";
+import {addCSSIn} from "https://cdn.jsdelivr.net/gh/jscroot/element@0.1.5/croot.js";
+import Swal from 'https://cdn.jsdelivr.net/npm/sweetalert2@11/src/sweetalert2.js';
+import { id, backend } from "/dashboard/jscroot/url/config.js";
 
-export async function main() {
-  onClick("tombolbuatfaq", handleFAQSubmit);
+export async function main(){
+  onInput('question', validateQuestion);
+  await addCSSIn("https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.css",id.content);
+  onClick("tombolbuatfaq",handleFAQSubmit);
 }
 
 function handleFAQSubmit() {
-  const faq = {
+  let project={
     question: getValue("question"),
     answer: getValue("answer"),
   };
-
   if (getCookie("login") === "") {
     redirect("../");
   } else {
@@ -22,7 +25,7 @@ function handleFAQSubmit() {
       backend.project.faq,
       "login",
       getCookie("login"),
-      faq,
+      project,
       handleFAQResponse
     );
     hide("tombolbuatfaq");
@@ -31,12 +34,15 @@ function handleFAQSubmit() {
 
 function handleFAQResponse(result) {
   if (result.status === 200) {
+    const katakata = "New FAQ Creation "+result.data._id;
     Swal.fire({
       icon: "success",
       title: "Success!",
-      text: "FAQ has been added successfully.",
+      text: "Congratulations! FAQ " + result.data.faq + " has been successfully registered with ID: " + result.data._id,
+      footer: '<a href="https://wa.me/62895800006000?text='+katakata+'" target="_blank">Verifikasi FAQ</a>',
       didClose: () => {
-        redirect("/dashboard/faq"); // Redirect to FAQ list page
+        disableInput("question");
+        disableInput("answer");
       },
     });
   } else {
@@ -47,4 +53,5 @@ function handleFAQResponse(result) {
     });
     show("tombolbuatfaq");
   }
+  console.log(result);
 }

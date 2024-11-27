@@ -207,11 +207,11 @@ function addRemoveProjectButtonListeners() {
       const itemProhibited = button.getAttribute("data-item-prohibited");
 
       const result = await Swal.fire({
-        title: "Delete this project?",
+        title: "Delete this item?",
         text: "You cannot undo this action!",
         icon: "warning",
         showCancelButton: true,
-        confirmButtonText: "Delete project",
+        confirmButtonText: "Delete item",
         cancelButtonText: "Cancel",
       });
 
@@ -237,7 +237,7 @@ function removeProjectResponse(result) {
     Swal.fire({
       icon: "success",
       title: "Deleted!",
-      text: "Project has been removed.",
+      text: "Item has been removed.",
       didClose: () => {
         reloadDataTable();
       },
