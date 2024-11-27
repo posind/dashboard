@@ -26,6 +26,8 @@ export function getContentURL(){
             return url.template.content+"proyek/akses.html";
         case "proyek/id":
             return url.template.content+"proyek/id.html";
+        case "proyek/faq":
+            return url.template.content+"proyek/faq.html";
         case "proyek/faqform":
             return url.template.content+"proyek/faqform.html";
         case "notifications/blocked":
