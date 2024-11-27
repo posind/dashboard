@@ -79,41 +79,47 @@ import { truncateText, addRevealTextListeners } from "../../utils.js";
           processing: true,
           serverSide: true,
           ajax: function (data, callback, settings) {
-            // Ambil nilai pencarian dari input DataTables
-            const searchValue = data.search.value;
+            // Extract search, limit, and offset from DataTables
+            const searchValue = data.search.value; // Search term from input
+            const limit = data.length; // Number of records per page
+            const offset = data.start; // Starting index for records
         
-            // Tentukan limit dan offset berdasarkan DataTables
-            const limit = data.length; // Jumlah data per halaman
-            const offset = data.start; // Data mulai dari indeks ke-
-        
-            // Buat URL dengan parameter pencarian, limit, dan offset
+            // Construct URL with parameters
             const url = `${backend.project.faq}?search=${searchValue}&limit=${limit}&offset=${offset}`;
         
+            // Fetch data from server
             fetch(url, {
               method: "GET",
               headers: {
-                login: getCookie("login"),
+                login: getCookie("login"), // Pass login cookie
               },
             })
               .then((response) => response.json())
               .then((result) => {
-                if (result.status === 200) {
-                  // Kirim data ke DataTables
+                if (result.status === "Success") {
+                  // Populate DataTables with data
                   callback({
                     draw: data.draw,
-                    recordsTotal: result.total, // Total semua data di database
-                    recordsFiltered: result.filtered, // Total data yang sesuai pencarian
-                    data: result.data, // Data yang ditampilkan
+                    recordsTotal: result.total, // Total records in the database
+                    recordsFiltered: result.filtered, // Records matching search
+                    data: result.data, // Data to display
                   });
                 } else {
                   Swal.fire({
                     icon: "error",
-                    title: result.data.status,
-                    text: result.data.response,
+                    title: "Error",
+                    text: result.response,
                   });
                 }
               })
-              .catch((error) => console.error("Error fetching data:", error));
+              .catch((error) => {
+                console.error("Error fetching FAQ data:", error);
+                Swal.fire({
+                  icon: "error",
+                  title: "Server Error",
+                  text: "Could not fetch data from server.",
+                });
+              });
           },
           columns: [
             { data: "question" },
@@ -132,8 +138,7 @@ import { truncateText, addRevealTextListeners } from "../../utils.js";
               },
             },
           ],
-        });
-        
+        });         
 
         addRevealTextListeners();
         addRemoveFAQButtonListeners();
