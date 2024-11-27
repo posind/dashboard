@@ -19,7 +19,7 @@ function handleFAQSubmit() {
     redirect("../");
   } else {
     postJSON(
-      backend.faq.data,
+      backend.project.faq,
       "login",
       getCookie("login"),
       faq,

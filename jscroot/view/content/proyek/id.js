@@ -96,10 +96,10 @@ import {
             </td>
             <td>${barang.berat_barang || "N/A"}</td>
             <td class="has-text-centered">
-              <button class="button is-danger removeProjectButton" data-barang-terlarang="${barang.barang_terlarang}">
+              <button class="button is-danger removeBarangButton" data-barang-terlarang="${barang.barang_terlarang}">
                 <i class="bx bx-trash"></i>          
               </button>
-              <button class="button is-warning editProjectButton" data-barang-id="${barang._id}" data-barang-terlarang="${barang.barang_terlarang}" data-barang-mxberat="${barang.berat_barang}" data-barang-destinasi="${barang.destinasi}">
+              <button class="button is-warning editBarangButton" data-barang-id="${barang._id}" data-barang-terlarang="${barang.barang_terlarang}" data-barang-mxberat="${barang.berat_barang}" data-barang-destinasi="${barang.destinasi}">
                 <i class="bx bx-edit"></i>
               </button>
             </td>
@@ -116,8 +116,8 @@ import {
         addRevealTextListeners();
         addMemberButtonListeners(); //  event listener tambah member
         addRemoveMemberButtonListeners(); //  event listener hapus member
-        addRemoveProjectButtonListeners();
-        addEditProjectButtonListeners(); //  event listener edit project
+        addRemoveBarangButtonListeners();
+        addEditBarangButtonListeners(); //  event listener edit project
       } else {
         Swal.fire({
           icon: "error",
@@ -371,8 +371,8 @@ import {
 //   }
   
   // Remove project mechanism
-  function addRemoveProjectButtonListeners() {
-    document.querySelectorAll(".removeProjectButton").forEach((button) => {
+  function addRemoveBarangButtonListeners() {
+    document.querySelectorAll(".removeBarangButton").forEach((button) => {
       button.addEventListener("click", async (event) => {
         const barangTerlarang = button.getAttribute("data-barang-terlarang");
   
@@ -422,8 +422,8 @@ import {
     console.log(result);
   }
   
-  function addEditProjectButtonListeners() {
-    document.querySelectorAll(".editProjectButton").forEach((button) => {
+  function addEditBarangButtonListeners() {
+    document.querySelectorAll(".editBarangButton").forEach((button) => {
       button.addEventListener("click", async (event) => {
         const barangId = button.getAttribute("data-barang-id");
         const barangTerlarang = button.getAttribute("data-barang-terlarang");

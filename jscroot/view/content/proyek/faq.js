@@ -21,7 +21,7 @@ import {
     await loadScript("https://cdn.datatables.net/2.0.8/js/dataTables.min.js");
   
     getJSON(
-      backend.faq.data,
+      backend.project.faq,
       "login",
       getCookie("login"),
       getResponseFunction
@@ -33,7 +33,7 @@ import {
       dataTable.destroy(); // Destroy the existing DataTable
     }
     getJSON(
-      backend.faq.data,
+      backend.project.faq,
       "login",
       getCookie("login"),
       getResponseFunction
@@ -101,7 +101,7 @@ import {
   
         if (result.isConfirmed) {
           deleteJSON(
-            backend.faq.data,
+            backend.project.faq,
             "login",
             getCookie("login"),
             { id: faqId },
@@ -165,7 +165,7 @@ import {
   
         if (formValues) {
           putJSON(
-            backend.faq.data,
+            backend.project.faq,
             "login",
             getCookie("login"),
             { id: faqId, ...formValues },
