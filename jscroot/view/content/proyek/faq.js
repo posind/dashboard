@@ -152,6 +152,7 @@ import { truncateText, addRevealTextListeners } from "../../utils.js";
       }
     } else {
       console.error('Element with ID "webhook-table-body-faq" not found.');
+      console.log("Result from backend:", result);
     }
   }
 
