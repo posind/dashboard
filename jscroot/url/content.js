@@ -67,7 +67,7 @@ export function getURLContentJS(){
             return url.view.content+"messages.js";
         case "proyek/lihat":
             return url.view.content+"proyek/lihat.js";
-        case "proyek/buat":
+        case "proyek/id":
             return url.view.content+"proyek/id.js";
         case "proyek/anggota":
             return url.view.content+"proyek/anggota.js";
