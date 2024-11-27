@@ -95,13 +95,13 @@ import {
               <div class="field">
                   <label class="label">Question</label>
                   <div class="control">
-                      <input class="input" type="text" id="question" placeholder="Tulis pertanyaan">
+                      <input class="input" type="text" id="question" value="${question} placeholder="Tulis pertanyaan">
                   </div>
               </div>
               <div class="field">
                   <label class="label">Answer</label>
                   <div class="control">
-                      <textarea class="textarea" id="answer" placeholder="Tulis jawaban"></textarea>
+                      <textarea class="textarea" id="answer" value="${answer} placeholder="Tulis jawaban"></textarea>
                   </div>
               </div>
           `,
