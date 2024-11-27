@@ -62,30 +62,6 @@ function getResponseFunction(result) {
       result.data.forEach((item) => {
         const truncatedDescription = truncateText(item.prohibited_items, 50);
 
-        // Gabungkan nama anggota dalam satu kolom dengan numbering dan tambahkan tombol Add Member
-        // let membersHtml =
-        //   project.members && project.members.length > 0
-        //     ? project.members
-        //         .map(
-        //           (member, index) =>
-        //             `
-        //             <div class="tag is-success mb-3">
-        //                ${index + 1}. ${member.name}
-        //               <button class="delete is-small removeMemberButton" data-project-name="${
-        //                 project.name
-        //               }" data-member-phonenumber="${
-        //               member.phonenumber
-        //             }"></button>
-        //             </div>
-        //           `
-        //         )
-        //         .join("<br>") // Tambahkan <br> untuk membuat baris baru untuk setiap anggota
-        //     : "";
-        // membersHtml += `
-        //   <button class="button box is-primary is-small btn-flex addMemberButton" data-project-id="${project._id}">
-        //     <i class="bx bx-plus"></i>
-        //     Add member
-        //   </button>`;
 
         const row = document.createElement("tr");
         row.innerHTML = `
@@ -130,66 +106,6 @@ function getResponseFunction(result) {
   }
 }
 
-// Function to add event listeners to addMemberButtons
-// function addMemberButtonListeners() {
-//   document.querySelectorAll(".addMemberButton").forEach((button) => {
-//     button.addEventListener("click", async (event) => {
-//       const projectId = button.getAttribute("data-project-id");
-//       const projectName =
-//         button.getAttribute("data-project-name") ||
-//         button.closest("tr").querySelector("td:first-child").innerText;
-//       const { value: formValues } = await Swal.fire({
-//         title: "Tambah Member",
-//         html: `
-//           <div class="field">
-//             <div class="control">
-//               <label class="label">Prohibited Items</label>
-//               <input type="hidden" id="item-id" name="projectId" value="${projectId}">
-//               <input class="input" type="text" value="${projectName}">
-//             </div>
-//           </div>
-//           <div class="field">
-//             <label class="label">Nomor Telepon Calon Member</label>
-//             <div class="control">
-//               <input class="input" type="tel" id="phonenumber" name="phonenumber" placeholder="628111" required>
-//             </div>
-//           </div>
-//         `,
-//         showCancelButton: true,
-//         confirmButtonText: "Tambah Member",
-//         didOpen: () => {
-//           // Memanggil fungsi onInput setelah dialog SweetAlert2 dibuka
-//           onInput("phonenumber", validatePhoneNumber);
-//         },
-//         preConfirm: () => {
-//           const phoneNumber = document.getElementById("phonenumber").value;
-//           const projectId = document.getElementById("project-id").value;
-//           if (!phoneNumber) {
-//             Swal.showValidationMessage(`Please enter a phone number`);
-//           }
-//           return { phoneNumber, projectId };
-//         },
-//       });
-
-//       if (formValues) {
-//         const { phoneNumber, projectId } = formValues;
-//         // Logic to add member
-//         //onInput("phonenumber", validatePhoneNumber);
-//         let idprjusr = {
-//           _id: projectId,
-//           phonenumber: phoneNumber,
-//         };
-//         postJSON(
-//           backend.project.anggota,
-//           "login",
-//           getCookie("login"),
-//           idprjusr,
-//           postResponseFunction
-//         );
-//       }
-//     });
-//   });
-// }
 
 // Add project event listener
 document.getElementById("addButton").addEventListener("click", () => {
@@ -284,91 +200,6 @@ function responseFunction(result) {
   }
   console.log(result);
 }
-
-// function postResponseFunction(result) {
-//   if (result.status === 200) {
-//     const katakata =
-//       "Berhasil memasukkan member baru ke project " + result.data.name;
-//     Swal.fire({
-//       icon: "success",
-//       title: "Berhasil",
-//       text:
-//         "Selamat kak proyek " +
-//         result.data.name +
-//         " dengan ID: " +
-//         result.data._id +
-//         " sudah mendapat member baru",
-//       footer:
-//         '<a href="https://wa.me/62895601060000?text=' +
-//         katakata +
-//         '" target="_blank">Verifikasi Proyek</a>',
-//       didClose: () => {
-//         reloadDataTable();
-//       },
-//     });
-//   } else {
-//     Swal.fire({
-//       icon: "error",
-//       title: result.data.status,
-//       text: result.data.response,
-//     });
-//   }
-//   console.log(result);
-// }
-
-// Function to add event listeners to removeMemberButtons
-// function addRemoveMemberButtonListeners() {
-//   document.querySelectorAll(".removeMemberButton").forEach((button) => {
-//     button.addEventListener("click", async (event) => {
-//       const projectName = button.getAttribute("data-project-name");
-//       const memberPhoneNumber = button.getAttribute("data-member-phonenumber");
-
-//       const result = await Swal.fire({
-//         title: "Hapus member ini?",
-//         text: "Kamu tidak dapat mengembalikan aksi ini!",
-//         icon: "warning",
-//         showCancelButton: true,
-//         confirmButtonText: "Hapus member",
-//         cancelButtonText: "Kembali",
-//       });
-
-//       if (result.isConfirmed) {
-//         const memberWillBeDeleted = {
-//           project_name: projectName,
-//           phone_number: memberPhoneNumber,
-//         };
-
-//         deleteJSON(
-//           backend.project.anggota,
-//           "login",
-//           getCookie("login"),
-//           memberWillBeDeleted,
-//           removeMemberResponse
-//         );
-//       }
-//     });
-//   });
-// }
-
-// function removeMemberResponse(result) {
-//   if (result.status === 200) {
-//     Swal.fire({
-//       icon: "success",
-//       title: "Deleted!",
-//       text: "Member has been removed.",
-//       didClose: () => {
-//         reloadDataTable();
-//       },
-//     });
-//   } else {
-//     Swal.fire({
-//       icon: "error",
-//       title: result.data.status,
-//       text: result.data.response,
-//     });
-//   }
-//   console.log(result);
-// }
 
 // Remove project mechanism
 function addRemoveProjectButtonListeners() {

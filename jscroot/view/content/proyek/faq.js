@@ -8,6 +8,7 @@ import {
   import Swal from "https://cdn.jsdelivr.net/npm/sweetalert2@11/src/sweetalert2.js";
   import { id, backend } from "/dashboard/jscroot/url/config.js";
   import { loadScript } from "../../../controller/main.js";
+  import { truncateText, addRevealTextListeners } from "../../utils.js";
   
   let dataTable;
   
@@ -70,7 +71,8 @@ import {
           responsive: true,
           autoWidth: false,
         });
-  
+
+        addRevealTextListeners();
         addRemoveFAQButtonListeners();
         addEditFAQButtonListeners();
       } else {
@@ -83,6 +85,91 @@ import {
     } else {
       console.error('Element with ID "webhook-table-body" not found.');
     }
+  }
+
+  // Add project event listener
+  document.getElementById("addButtonFaq").addEventListener("click", () => {
+    Swal.fire({
+      title: "Tambah FAQ",
+      html: `
+              <div class="field">
+                  <label class="label">Question</label>
+                  <div class="control">
+                      <input class="input" type="text" id="question" placeholder="Tulis pertanyaan">
+                  </div>
+              </div>
+              <div class="field">
+                  <label class="label">Answer</label>
+                  <div class="control">
+                      <textarea class="textarea" id="answer" placeholder="Tulis jawaban"></textarea>
+                  </div>
+              </div>
+          `,
+      showCancelButton: true,
+      confirmButtonText: "Add",
+      cancelButtonText: "Cancel",
+      preConfirm: () => {
+        const question = Swal.getPopup().querySelector("#question").value;
+        const answer= Swal.getPopup().querySelector("#answer").value;
+  
+        if (!question || !answer) {
+          Swal.showValidationMessage(`Please enter all fields`);
+        } else {
+          return {
+            question: question,
+            answer: answer,
+          };
+        }
+      },
+    }).then((result) => {
+      if (result.isConfirmed) {
+        let resultData = {
+          question: getValue("question"),
+          answer: getValue("answer"),
+        };
+        if (getCookie("login") === "") {
+          redirect("/login");
+        } else {
+          postJSON(
+            backend.project.faq,
+            "login",
+            getCookie("login"),
+            resultData,
+            responseFunction
+          );
+        }
+      }
+    });
+  });
+  
+  
+  function responseFunction(result) {
+    if (result.status === 200) {
+      const katakata = "Pembuatan FAQ baru " + result.data._id;
+      Swal.fire({
+        icon: "success",
+        title: "Berhasil",
+        text:
+          "Selamat kak barang " +
+          result.data.faq +
+          " sudah terdaftar dengan ID: " +
+          result.data._id,
+        footer:
+          '<a href="https://wa.me/62895800006000?text=' +
+          katakata +
+          '" target="_blank">Verifikasi FAQ</a>',
+        didClose: () => {
+          reloadDataTable();
+        },
+      });
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: result.data.status,
+        text: result.data.response,
+      });
+    }
+    console.log(result);
   }
   
   function addRemoveFAQButtonListeners() {

@@ -114,8 +114,8 @@ import {
         });
   
         addRevealTextListeners();
-        addMemberButtonListeners(); //  event listener tambah member
-        addRemoveMemberButtonListeners(); //  event listener hapus member
+        // addMemberButtonListeners(); //  event listener tambah member
+        // addRemoveMemberButtonListeners(); //  event listener hapus member
         addRemoveBarangButtonListeners();
         addEditBarangButtonListeners(); //  event listener edit project
       } else {
@@ -192,7 +192,7 @@ import {
 //   }
   
   // Add project event listener
-  document.getElementById("addButton").addEventListener("click", () => {
+  document.getElementById("addButtonID").addEventListener("click", () => {
     Swal.fire({
       title: "Tambah Barang Terlarang",
       html: `
