@@ -103,7 +103,7 @@ import { truncateText, addRevealTextListeners } from "../../utils.js";
               <div class="field">
                   <label class="label">Question</label>
                   <div class="control">
-                      <textarea class="textarea" type="text" id="question" placeholder="Tulis pertanyaan"></textarea>
+                      <textarea class="textarea" type="text" id="question" placeholder="Gunakan huruf kecil setiap awal kalimat, jangan kapital!"></textarea>
                   </div>
               </div>
               <div class="field">
