@@ -71,7 +71,7 @@ function getResponseFunction(result) {
           </td>
           <td>${item.max_weight|| "N/A"}</td>
           <td class="has-text-centered">
-            <button class="button is-danger removeProjectButton" data-item-prohibited="${item.prohibited_items}">
+            <button class="button is-danger removeProjectButton" data-item-id="${item._id}">
               <i class="bx bx-trash"></i>          
             </button>
             <button class="button is-warning editProjectButton" data-item-id="${item._id}" data-item-prohibited="${item.prohibited_items}" data-item-mxweight="${item.max_weight}" data-item-destination="${item.destination}">
@@ -204,7 +204,7 @@ function responseFunction(result) {
 function addRemoveProjectButtonListeners() {
   document.querySelectorAll(".removeProjectButton").forEach((button) => {
     button.addEventListener("click", async (event) => {
-      const itemProhibited = button.getAttribute("data-item-prohibited");
+      const itemId = button.getAttribute("data-item-id");
 
       const result = await Swal.fire({
         title: "Delete this item?",
@@ -217,7 +217,7 @@ function addRemoveProjectButtonListeners() {
 
       if (result.isConfirmed) {
         const itemWillBeDeleted = {
-          prohibited_items: itemProhibited,
+          _id: itemId,
         };
 
         deleteJSON(
