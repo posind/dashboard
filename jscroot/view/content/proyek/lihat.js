@@ -205,6 +205,9 @@ function addRemoveProjectButtonListeners() {
   document.querySelectorAll(".removeProjectButton").forEach((button) => {
     button.addEventListener("click", async (event) => {
       const itemId = button.getAttribute("data-item-id");
+      
+      // Debugging Log
+      console.log("Deleting item with ID:", itemId);
 
       const result = await Swal.fire({
         title: "Delete this item?",
@@ -217,8 +220,11 @@ function addRemoveProjectButtonListeners() {
 
       if (result.isConfirmed) {
         const itemWillBeDeleted = {
-          _id: itemId,
+          _id: itemId.trim(), // Hilangkan spasi tambahan
         };
+
+        // Debugging Log untuk data yang dikirim
+        console.log("Payload sent to deleteJSON:", itemWillBeDeleted);
 
         deleteJSON(
           backend.project.data,
@@ -231,6 +237,7 @@ function addRemoveProjectButtonListeners() {
     });
   });
 }
+
 
 function removeProjectResponse(result) {
   if (result.status === 200) {
