@@ -71,15 +71,16 @@ function getResponseFunction(result) {
           </td>
           <td>${item.max_weight|| "N/A"}</td>
           <td class="has-text-centered">
-            <button class="button is-danger removeProjectButton" data-item-id="${item._id}">
+            <button class="button is-danger removeProjectButton" data-item-id="${item.id_item}">
               <i class="bx bx-trash"></i>          
             </button>
-            <button class="button is-warning editProjectButton" data-item-id="${item._id}" data-item-prohibited="${item.prohibited_items}" data-item-mxweight="${item.max_weight}" data-item-destination="${item.destination}">
+            <button class="button is-warning editProjectButton" data-item-id="${item.id_item}" data-item-prohibited="${item.prohibited_items}" data-item-mxweight="${item.max_weight}" data-item-destination="${item.destination}">
               <i class="bx bx-edit"></i>
             </button>
           </td>
         `;
         tableBody.appendChild(row);
+        console.log("Item ID:", item.id_item); // Debugging log
       });
 
       // Initialize DataTable after populating the table body
@@ -209,6 +210,11 @@ function addRemoveProjectButtonListeners() {
       // Debugging Log
       console.log("Deleting item with ID:", itemId);
 
+      if (!itemId || itemId === "undefined") {
+        console.error("Item ID is missing or undefined");
+        return; // Jangan lanjutkan jika itemId tidak valid
+      }
+      
       const result = await Swal.fire({
         title: "Delete this item?",
         text: "You cannot undo this action!",
