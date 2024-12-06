@@ -89,8 +89,8 @@ function getResponseFunction(result) {
       });
 
       addRevealTextListeners();
-      addMemberButtonListeners(); //  event listener tambah member
-      addRemoveMemberButtonListeners(); //  event listener hapus member
+      // addMemberButtonListeners(); //  event listener tambah member
+      // addRemoveMemberButtonListeners(); //  event listener hapus member
       addRemoveProjectButtonListeners();
       addEditProjectButtonListeners(); //  event listener edit project
     } else {
@@ -217,7 +217,7 @@ function addRemoveProjectButtonListeners() {
 
       if (result.isConfirmed) {
         const itemWillBeDeleted = {
-          item_prohibited: itemProhibited,
+          prohibited_items: itemProhibited,
         };
 
         deleteJSON(
