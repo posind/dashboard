@@ -39,9 +39,7 @@ function getUserFunction(result) {
     setInner("biggreet", "Halo " + result.data.name);
     setInner(
       "subtitle",
-      "I hope you are having a great day! " +
-        roundedPoin +
-        " poin."
+      "I hope you are having a great day! "
     );
     setInner("bigpoin", roundedPoin);
   } 
