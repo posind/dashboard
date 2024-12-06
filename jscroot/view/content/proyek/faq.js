@@ -237,6 +237,9 @@ import { truncateText, addRevealTextListeners } from "../../utils.js";
         const question = button.getAttribute("data-question");
         const answer = button.getAttribute("data-answer");
   
+        // Debugging log
+        console.log("Editing FAQ with ID:", faqId);
+  
         const { value: formValues } = await Swal.fire({
           title: "Edit FAQ",
           html: `
@@ -261,16 +264,18 @@ import { truncateText, addRevealTextListeners } from "../../utils.js";
             return { question, answer };
           },
         });
-
+  
         if (formValues) {
-          const {  } = formValues;
           const updatedFaq = {
-            _id: faqId,
-            question: question,
-            answer: answer,
+            _id: faqId, // Pastikan `faqId` benar
+            question: formValues.question,
+            answer: formValues.answer,
           };
+  
+          console.log("Payload sent to putJSON:", updatedFaq); // Debugging log
+  
           putJSON(
-            backend.project.faq, // Assumes a POST method will handle updates as well
+            backend.project.faq + `?id=${faqId}`, // Tambahkan ID di URL
             "login",
             getCookie("login"),
             updatedFaq,
@@ -279,7 +284,7 @@ import { truncateText, addRevealTextListeners } from "../../utils.js";
         }
       });
     });
-  }
+  }  
   
   function updateFAQResponse(result) {
     if (result.status === 200) {
