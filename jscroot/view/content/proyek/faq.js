@@ -64,15 +64,16 @@ import { truncateText, addRevealTextListeners } from "../../utils.js";
             <span class="full-text" style="display:none;">${faq.answer}</span>
           </td>
             <td class="has-text-centered">
-              <button class="button is-danger removeFAQButton" data-id="${faq._id}">
+              <button class="button is-danger removeFAQButton" data-id="${faq.id}">
                 <i class="bx bx-trash"></i>
               </button>
-              <button class="button is-warning editFAQButton" data-id="${faq._id}" data-question="${faq.question}" data-answer="${faq.answer}">
+              <button class="button is-warning editFAQButton" data-id="${faq.id}" data-question="${faq.question}" data-answer="${faq.answer}">
                 <i class="bx bx-edit"></i>
               </button>
             </td>
           `;
           tableBody.appendChild(row);
+          console.log("FAQ ID:", faq.id || faq._id); // Pastikan ID valid
         });
   
         dataTable = $("#myTable").DataTable({
@@ -236,7 +237,16 @@ import { truncateText, addRevealTextListeners } from "../../utils.js";
         const faqId = button.getAttribute("data-id");
         const question = button.getAttribute("data-question");
         const answer = button.getAttribute("data-answer");
-  
+        // Debugging Log
+    if (!faqId || faqId === "undefined") {
+      console.error("FAQ ID is missing or undefined.");
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "FAQ ID is missing or invalid.",
+      });
+      return;
+    }
         // Debugging log
         console.log("Editing FAQ with ID:", faqId);
   
