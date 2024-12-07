@@ -285,7 +285,7 @@ function addEditProjectButtonListeners() {
           <div class="field">
             <label class="label">Prohibited Item</label>
             <div class="control">
-              <textarea class="textarea" id="prohibited_items" value="${itemProhibited}">
+              <textarea class="textarea" id="prohibited_items">${itemProhibited}</textarea>
             </div>
           </div>
           <div class="field">

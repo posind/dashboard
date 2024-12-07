@@ -285,11 +285,11 @@ import {
             <div class="field">
               <label class="label">Destinasi</label>
               <div class="control">
-                <input class="input" type="text" id="destinasi" value="${barangDestinasi}">
+                <input class="input" type="text" id="destinasi">${barangDestinasi}</input>
               </div>
             </div>
             <div class="field">
-            <label class="label">Description</label>
+            <label class="label">Barang Terlarang</label>
             <div class="control">
               <textarea class="textarea" id="barang_terlarang">${barangTerlarang}</textarea>
             </div>
