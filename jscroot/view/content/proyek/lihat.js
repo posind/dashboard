@@ -279,7 +279,7 @@ function addEditProjectButtonListeners() {
          <div class="field">
             <label class="label">Destination</label>
             <div class="control">
-              <input class="input" type="text" id="destination">${itemDestination}</input>
+              <input class="input" type="text" id="destination" value="${itemDestination}">
             </div>
           </div>
           <div class="field">
