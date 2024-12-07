@@ -184,7 +184,20 @@ import { truncateText, addRevealTextListeners } from "../../utils.js";
   function addRemoveFAQButtonListeners() {
     document.querySelectorAll(".removeFAQButton").forEach((button) => {
       button.addEventListener("click", async () => {
-        const question = button.getAttribute("data-question");
+        const faqId = button.getAttribute("data-id");
+
+        if (!faqId || faqId === "undefined") {
+          console.error("FAQ ID is missing or undefined.");
+          Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "FAQ ID is missing or invalid.",
+          });
+          return;
+        }
+    
+        console.log("Deleting FAQ with ID:", faqId);
+    
   
         const result = await Swal.fire({
           title: "Delete this FAQ?",
@@ -197,11 +210,11 @@ import { truncateText, addRevealTextListeners } from "../../utils.js";
 
         if (result.isConfirmed) {
           const faqWillBeDeleted = {
-            question: question,
+            _id: faqId,
           };
   
           deleteJSON(
-            backend.project.faq,
+            backend.project.faq+ `?id=${faqId}`,
             "login",
             getCookie("login"),
             faqWillBeDeleted,
@@ -277,7 +290,7 @@ import { truncateText, addRevealTextListeners } from "../../utils.js";
   
         if (formValues) {
           const updatedFaq = {
-            _id: faqId, // Pastikan `faqId` benar
+            _id: faqId,
             question: formValues.question,
             answer: formValues.answer,
           };
