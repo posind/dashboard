@@ -72,7 +72,7 @@ import {
             </td>
             <td>${barang.berat_barang || "N/A"}</td>
             <td class="has-text-centered">
-              <button class="button is-danger removeBarangButton" data-barang-id="${barang.id_item}">
+              <button class="button is-danger removeBarangButton"  data-barang-id="${barang.id_item}">
                 <i class="bx bx-trash"></i>          
               </button>
               <button class="button is-warning editBarangButton" data-barang-id="${barang.id_item}" data-barang-terlarang="${barang.barang_terlarang}" data-barang-mxberat="${barang.berat_barang}" data-barang-destinasi="${barang.destinasi}">
@@ -81,6 +81,7 @@ import {
             </td>
           `;
           tableBody.appendChild(row);
+          console.log("Setting data-barang-id:", barang.id_item);
         });
   
         // Initialize DataTable after populating the table body
@@ -209,8 +210,8 @@ import {
 
         console.log("Deleting item with ID:", barangId);
         
-        if (!barangId || barangId === "undefined") {
-          console.error("barang ID is missing or undefined");
+        if (!barangId || barangId.trim() === "" || barangId === "undefined") {
+          console.error("Barang ID is missing or invalid:", barangId);
           Swal.fire({
             icon: "error",
             title: "Error",
@@ -218,6 +219,7 @@ import {
           });
           return;
         }
+        
 
         const result = await Swal.fire({
           title: "Hapus project ini?",
