@@ -72,10 +72,10 @@ import {
             </td>
             <td>${barang.berat_barang || "N/A"}</td>
             <td class="has-text-centered">
-              <button class="button is-danger removeBarangButton" data-barang-terlarang="${barang.barang_terlarang}">
+              <button class="button is-danger removeBarangButton" data-barang-id="${barang.id_item}">
                 <i class="bx bx-trash"></i>          
               </button>
-              <button class="button is-warning editBarangButton" data-barang-id="${barang._id}" data-barang-terlarang="${barang.barang_terlarang}" data-barang-mxberat="${barang.berat_barang}" data-barang-destinasi="${barang.destinasi}">
+              <button class="button is-warning editBarangButton" data-barang-id="${barang.id_item}" data-barang-terlarang="${barang.barang_terlarang}" data-barang-mxberat="${barang.berat_barang}" data-barang-destinasi="${barang.destinasi}">
                 <i class="bx bx-edit"></i>
               </button>
             </td>
@@ -103,6 +103,7 @@ import {
       }
     } else {
       console.error('Element with ID "webhook-table-body-id" not found.');
+      console.log("Barang ID:", barnag.id_item);
     }
   }
   
@@ -205,9 +206,16 @@ import {
     document.querySelectorAll(".removeBarangButton").forEach((button) => {
       button.addEventListener("click", async (event) => {
         const barangId = button.getAttribute("data-barang-id");
+
+        console.log("Deleting item with ID:", barangId);
         
-        if (!barangId|| barangId === "undefited"){
-          console.error("barang ID is missing or undefined")
+        if (!barangId || barangId === "undefined") {
+          console.error("barang ID is missing or undefined");
+          Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "Barang ID is missing or invalid.",
+          });
           return;
         }
 
