@@ -204,8 +204,13 @@ import {
   function addRemoveBarangButtonListeners() {
     document.querySelectorAll(".removeBarangButton").forEach((button) => {
       button.addEventListener("click", async (event) => {
-        const barangTerlarang = button.getAttribute("data-barang-terlarang");
-  
+        const barangId = button.getAttribute("data-barang-id");
+        
+        if (!barangId|| barangId === "undefited"){
+          console.error("barang ID is missing or undefined")
+          return;
+        }
+
         const result = await Swal.fire({
           title: "Hapus project ini?",
           text: "Kamu tidak dapat mengembalikan aksi ini!",
@@ -217,8 +222,10 @@ import {
   
         if (result.isConfirmed) {
           const barangWillBeDeleted = {
-            barang_terlarang: barangTerlarang,
+            _id: barangId.trim(),
           };
+
+          console.log("Payload sent to deleteJSON:", barangWillBeDeleted)
   
           deleteJSON(
             backend.project.id,
@@ -237,7 +244,7 @@ import {
       Swal.fire({
         icon: "success",
         title: "Deleted!",
-        text: "Project has been removed.",
+        text: "Barang has been removed.",
         didClose: () => {
           reloadDataTable();
         },
