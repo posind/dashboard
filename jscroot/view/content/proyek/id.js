@@ -70,12 +70,11 @@ import {
               ${truncatedDescription}
               <span class="full-text" style="display:none;">${barang.barang_terlarang || "N/A"}</span>
             </td>
-            <td>${barang.berat_barang || "N/A"}</td>
             <td class="has-text-centered">
               <button class="button is-danger removeBarangButton"  data-barang-id="${barang.id_item}">
                 <i class="bx bx-trash"></i>          
               </button>
-              <button class="button is-warning editBarangButton" data-barang-id="${barang.id_item}" data-barang-terlarang="${barang.barang_terlarang}" data-barang-mxberat="${barang.berat_barang}" data-barang-destinasi="${barang.destinasi}">
+              <button class="button is-warning editBarangButton" data-barang-id="${barang.id_item}" data-barang-terlarang="${barang.barang_terlarang}" data-barang-destinasi="${barang.destinasi}">
                 <i class="bx bx-edit"></i>
               </button>
             </td>
@@ -125,12 +124,6 @@ import {
                       <textarea class="textarea" id="barang_terlarang" placeholder="Tulis barang terlarang"></textarea>
                   </div>
               </div>
-              <div class="field">
-                  <label class="label">Berat Maksimal Kiriman</label>
-                  <div class="control">
-                      <input class="input" min="0" step="0.01" type="number" id="berat_barang" placeholder="Masukan berat maksimal kiriman">
-                  </div>
-              </div>
           `,
       showCancelButton: true,
       confirmButtonText: "Add",
@@ -138,15 +131,13 @@ import {
       preConfirm: () => {
         const destinasi = Swal.getPopup().querySelector("#destinasi").value;
         const barangTerlarang= Swal.getPopup().querySelector("#barang_terlarang").value;
-        const beratBarang = Swal.getPopup().querySelector("#berat_barang").value;
   
-        if (!destinasi || !beratBarang|| !barangTerlarang) {
+        if (!destinasi || !barangTerlarang) {
           Swal.showValidationMessage(`Please enter all fields`);
         } else {
           return {
             destinasi: destinasi,
             barang_terlarang: barangTerlarang,
-            berat_barang: beratBarang,
           };
         }
       },
@@ -155,7 +146,6 @@ import {
         let resultData = {
           destinasi: getValue("destinasi"),
           barang_terlarang: getValue("barang_terlarang"),
-          berat_barang: getValue("berat_barang"),
         };
         if (getCookie("login") === "") {
           redirect("/login");
@@ -274,7 +264,6 @@ import {
       button.addEventListener("click", async (event) => {
         const barangId = button.getAttribute("data-barang-id");
         const barangTerlarang = button.getAttribute("data-barang-terlarang");
-        const beratBarang = button.getAttribute("data-barang-mxberat");
         const barangDestinasi = button.getAttribute(
           "data-barang-destinasi"
         );
@@ -294,12 +283,6 @@ import {
               <textarea class="textarea" id="barang_terlarang">${barangTerlarang}</textarea>
             </div>
           </div>
-            <div class="field">
-              <label class="label">Berat Maksimal Kiriman</label>
-              <div class="control">
-                <input class="input" type="text" id="berat_barang" value="${beratBarang}">
-              </div>
-            </div>
           `,
           showCancelButton: true,
           confirmButtonText: "Update",
@@ -308,11 +291,10 @@ import {
             const destinasi =
               Swal.getPopup().querySelector("#destinasi").value;
             const barangTerlarang = Swal.getPopup().querySelector("#barang_terlarang").value;
-            const beratBarang = Swal.getPopup().querySelector("#berat_barang").value;
-            if (!destinasi || !barangTerlarang || !beratBarang) {
+            if (!destinasi || !barangTerlarang) {
                 Swal.showValidationMessage(`Please enter all fields`);
               }              
-            return {destinasi, barangTerlarang, beratBarang };
+            return {destinasi, barangTerlarang };
           },
         });
   
@@ -322,7 +304,6 @@ import {
             _id: barangId,
             destinasi: destinasi,
             barang_terlarang: barangTerlarang,
-            berat_barang: beratBarang,
           };
           putJSON(
             backend.project.id, // Assumes a POST method will handle updates as well

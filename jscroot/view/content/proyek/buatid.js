@@ -16,8 +16,7 @@ export async function main(){
 function actionfunctionname(){
     let project={
         destinasi: getValue("destinasi"),
-        barang_terlarang: getValue("barang_terlarang"),
-        berat_barang: getValue("berat_barang")
+        barang_terlarang: getValue("barang_terlarang")
     };
     if (getCookie("login")===""){
         redirect("../");
@@ -38,7 +37,6 @@ function responseFunction(result){
             didClose: () => {
                 disableInput("destinasi");
                 disableInput("barang_terlarang");
-                disableInput("berat_barang");
             }
           });
     }else{

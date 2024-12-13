@@ -16,8 +16,7 @@ export async function main(){
 function actionfunctionname(){
     let project={
         destination: getValue("destination"),
-        prohibited_items: getValue("prohibited_items"),
-        max_weight: getValue("max_weight")
+        prohibited_items: getValue("prohibited_items")
     };
     if (getCookie("login")===""){
         redirect("../");
@@ -38,7 +37,6 @@ function responseFunction(result){
             didClose: () => {
                 disableInput("destination");
                 disableInput("prohibited_items");
-                disableInput("max_weight");
             }
           });
     }else{

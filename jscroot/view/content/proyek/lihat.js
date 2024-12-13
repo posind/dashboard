@@ -69,12 +69,11 @@ function getResponseFunction(result) {
             ${truncatedDescription}
             <span class="full-text" style="display:none;">${item.prohibited_items || "N/A"}</span>
           </td>
-          <td>${item.max_weight|| "N/A"}</td>
           <td class="has-text-centered">
             <button class="button is-danger removeProjectButton" data-item-id="${item.id_item}">
               <i class="bx bx-trash"></i>          
             </button>
-            <button class="button is-warning editProjectButton" data-item-id="${item.id_item}" data-item-prohibited="${item.prohibited_items}" data-item-mxweight="${item.max_weight}" data-item-destination="${item.destination}">
+            <button class="button is-warning editProjectButton" data-item-id="${item.id_item}" data-item-prohibited="${item.prohibited_items}" data-item-destination="${item.destination}">
               <i class="bx bx-edit"></i>
             </button>
           </td>
@@ -124,12 +123,6 @@ document.getElementById("addButton").addEventListener("click", () => {
                     <textarea class="textarea" id="prohibited_items" placeholder="Enter Prohibited Item"></textarea>
                 </div>
             </div>
-            <div class="field">
-                <label class="label">Max Weight Item</label>
-                <div class="control">
-                    <input class="input" min="0" step="0.01" type="number" id="max_weight" placeholder="Enter Max Weight in coli">
-                </div>
-            </div>
         `,
     showCancelButton: true,
     confirmButtonText: "Add",
@@ -137,15 +130,13 @@ document.getElementById("addButton").addEventListener("click", () => {
     preConfirm: () => {
       const destination = Swal.getPopup().querySelector("#destination").value;
       const prohibitedItems = Swal.getPopup().querySelector("#prohibited_items").value;
-      const maxWeight = Swal.getPopup().querySelector("#max_weight").value;
 
-      if (!destination || !prohibitedItems || !maxWeight) {
+      if (!destination || !prohibitedItems) {
         Swal.showValidationMessage(`Please enter all fields`);
       } else {
         return {
           destination : destination,
           prohibited_items: prohibitedItems,
-          max_weight: maxWeight,
         };
       }
     },
@@ -154,7 +145,6 @@ document.getElementById("addButton").addEventListener("click", () => {
       let resultData = {
         destination: getValue("destination"),
         prohibited_items: getValue("prohibited_items"),
-        max_weight: getValue("max_weight"),
       };
       if (getCookie("login") === "") {
         redirect("../");
@@ -270,7 +260,6 @@ function addEditProjectButtonListeners() {
     button.addEventListener("click", async (event) => {
       const itemId = button.getAttribute("data-item-id");
       const itemProhibited = button.getAttribute("data-item-prohibited");
-      const itemMxWeight = button.getAttribute("data-item-mxweight");
       const itemDestination = button.getAttribute("data-item-destination");
 
       const { value: formValues } = await Swal.fire({
@@ -288,12 +277,6 @@ function addEditProjectButtonListeners() {
               <textarea class="textarea" id="prohibited_items">${itemProhibited}</textarea>
             </div>
           </div>
-          <div class="field">
-            <label class="label">Max Weight Item</label>
-            <div class="control">
-              <input class="input" type="text" id="max_weight" value="${itemMxWeight}">
-            </div>
-          </div>
         `,
         showCancelButton: true,
         confirmButtonText: "Update",
@@ -301,11 +284,10 @@ function addEditProjectButtonListeners() {
         preConfirm: () => {
           const destination = Swal.getPopup().querySelector("#destination").value;
           const prohibited_items = Swal.getPopup().querySelector("#prohibited_items").value;
-          const max_weight = Swal.getPopup().querySelector("#max_weight").value;
-          if (!destination || !prohibited_items || !max_weight) {
+          if (!destination || !prohibited_items ) {
             Swal.showValidationMessage(`Please enter all fields`);
           }
-          return { destination, prohibited_items, max_weight };
+          return { destination, prohibited_items};
         },
       });
 
@@ -314,7 +296,6 @@ function addEditProjectButtonListeners() {
           _id: itemId,
           destination: formValues.destination,
           prohibited_items: formValues.prohibited_items,
-          max_weight: formValues.max_weight,
         };
 
         putJSON(
