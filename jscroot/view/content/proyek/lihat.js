@@ -293,13 +293,15 @@ function addEditProjectButtonListeners() {
 
       if (formValues) {
         const updatedItem = {
-          _id: itemId,
+          id_item: itemId.trim(), 
           destination: formValues.destination,
           prohibited_items: formValues.prohibited_items,
         };
-
+      
+        console.log("Payload to Backend:", updatedItem); 
+      
         putJSON(
-          backend.project.data, 
+          backend.project.data,
           "login",
           getCookie("login"),
           updatedItem,
