@@ -294,32 +294,31 @@ function addEditProjectButtonListeners() {
               <input class="input" type="text" id="max_weight" value="${itemMxWeight}">
             </div>
           </div>
-         
         `,
         showCancelButton: true,
         confirmButtonText: "Update",
         cancelButtonText: "Cancel",
         preConfirm: () => {
           const destination = Swal.getPopup().querySelector("#destination").value;
-          const prohibitedItems = Swal.getPopup().querySelector("#prohibited_items").value;
-          const maxWeight = Swal.getPopup().querySelector("#max_weight").value;
-            if (!destination||!prohibitedItems||!maxWeight) {
-              Swal.showValidationMessage(`Please enter all fields`);
-            }            
-          return { destination, prohibited_items, max_weight};
+          const prohibited_items = Swal.getPopup().querySelector("#prohibited_items").value;
+          const max_weight = Swal.getPopup().querySelector("#max_weight").value;
+          if (!destination || !prohibited_items || !max_weight) {
+            Swal.showValidationMessage(`Please enter all fields`);
+          }
+          return { destination, prohibited_items, max_weight };
         },
       });
 
       if (formValues) {
-        const {  } = formValues;
         const updatedItem = {
           _id: itemId,
-          destination: destination,
-          prohibitedItems: prohibited_items,
-          maxWeight: max_weight,
+          destination: formValues.destination,
+          prohibited_items: formValues.prohibited_items,
+          max_weight: formValues.max_weight,
         };
+
         putJSON(
-          backend.project.data, // Assumes a POST method will handle updates as well
+          backend.project.data, 
           "login",
           getCookie("login"),
           updatedItem,
