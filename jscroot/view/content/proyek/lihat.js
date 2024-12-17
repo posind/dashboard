@@ -193,18 +193,23 @@ function responseFunction(result) {
 
 // Remove project mechanism
 function addRemoveProjectButtonListeners() {
-  document.querySelectorAll(".removeProjectButton").forEach((button) => {
-    button.addEventListener("click", async (event) => {
+  document.getElementById("myTable").addEventListener("click", async (event) => {
+    if (event.target.closest(".removeProjectButton")) {
+      const button = event.target.closest(".removeProjectButton");
       const itemId = button.getAttribute("data-item-id");
-      
-      // Debugging Log
+  
       console.log("Deleting item with ID:", itemId);
-
+  
       if (!itemId || itemId === "undefined") {
-        console.error("Item ID is missing or undefined");
-        return; // Jangan lanjutkan jika itemId tidak valid
+        console.error("Item ID is missing or invalid:", itemId);
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Item ID is missing or invalid.",
+        });
+        return;
       }
-      
+  
       const result = await Swal.fire({
         title: "Delete this item?",
         text: "You cannot undo this action!",
@@ -213,15 +218,12 @@ function addRemoveProjectButtonListeners() {
         confirmButtonText: "Delete item",
         cancelButtonText: "Cancel",
       });
-
+  
       if (result.isConfirmed) {
-        const itemWillBeDeleted = {
-          _id: itemId.trim(), // Hilangkan spasi tambahan
-        };
-
-        // Debugging Log untuk data yang dikirim
+        const itemWillBeDeleted = { _id: itemId.trim() };
+  
         console.log("Payload sent to deleteJSON:", itemWillBeDeleted);
-
+  
         deleteJSON(
           backend.project.data,
           "login",
@@ -230,8 +232,8 @@ function addRemoveProjectButtonListeners() {
           removeProjectResponse
         );
       }
-    });
-  });
+    }
+  });  
 }
 
 
@@ -256,16 +258,17 @@ function removeProjectResponse(result) {
 }
 
 function addEditProjectButtonListeners() {
-  document.querySelectorAll(".editProjectButton").forEach((button) => {
-    button.addEventListener("click", async (event) => {
+  document.getElementById("myTable").addEventListener("click", async (event) => {
+    if (event.target.closest(".editProjectButton")) {
+      const button = event.target.closest(".editProjectButton");
       const itemId = button.getAttribute("data-item-id");
       const itemProhibited = button.getAttribute("data-item-prohibited");
       const itemDestination = button.getAttribute("data-item-destination");
-
+  
       const { value: formValues } = await Swal.fire({
         title: "Edit Item",
         html: `
-         <div class="field">
+          <div class="field">
             <label class="label">Destination</label>
             <div class="control">
               <input class="input" type="text" id="destination" value="${itemDestination}">
@@ -284,22 +287,24 @@ function addEditProjectButtonListeners() {
         preConfirm: () => {
           const destination = Swal.getPopup().querySelector("#destination").value;
           const prohibited_items = Swal.getPopup().querySelector("#prohibited_items").value;
-          if (!destination || !prohibited_items ) {
+  
+          if (!destination || !prohibited_items) {
             Swal.showValidationMessage(`Please enter all fields`);
           }
-          return { destination, prohibited_items};
+  
+          return { destination, prohibited_items };
         },
       });
-
+  
       if (formValues) {
         const updatedItem = {
-          id_item: itemId.trim(), 
+          id_item: itemId.trim(),
           destination: formValues.destination,
           prohibited_items: formValues.prohibited_items,
         };
-      
-        console.log("Payload to Backend:", updatedItem); 
-      
+  
+        console.log("Payload to Backend:", updatedItem);
+  
         putJSON(
           backend.project.data,
           "login",
@@ -308,8 +313,8 @@ function addEditProjectButtonListeners() {
           updateResponseFunction
         );
       }
-    });
-  });
+    }
+  });  
 }
 
 function updateResponseFunction(result) {
