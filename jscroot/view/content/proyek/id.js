@@ -261,12 +261,10 @@ import {
   
   function addEditBarangButtonListeners() {
     document.querySelectorAll(".editBarangButton").forEach((button) => {
-      button.addEventListener("click", async (event) => {
-        const barangId = button.getAttribute("data-barang-id");
+      button.addEventListener("click", async () => {
+        const barangId = button.getAttribute("data-barang-id"); // ID dari atribut button
         const barangTerlarang = button.getAttribute("data-barang-terlarang");
-        const barangDestinasi = button.getAttribute(
-          "data-barang-destinasi"
-        );
+        const barangDestinasi = button.getAttribute("data-barang-destinasi");
   
         const { value: formValues } = await Swal.fire({
           title: "Edit Barang Terlarang",
@@ -274,37 +272,41 @@ import {
             <div class="field">
               <label class="label">Destinasi</label>
               <div class="control">
-                <input class="input" type="text" id="destinasi">${barangDestinasi}</input>
+                <input class="input" type="text" id="destinasi" value="${barangDestinasi}">
               </div>
             </div>
             <div class="field">
-            <label class="label">Barang Terlarang</label>
-            <div class="control">
-              <textarea class="textarea" id="barang_terlarang">${barangTerlarang}</textarea>
+              <label class="label">Barang Terlarang</label>
+              <div class="control">
+                <textarea class="textarea" id="barang_terlarang">${barangTerlarang}</textarea>
+              </div>
             </div>
-          </div>
           `,
           showCancelButton: true,
           confirmButtonText: "Update",
           cancelButtonText: "Cancel",
           preConfirm: () => {
-            const destinasi =
-              Swal.getPopup().querySelector("#destinasi").value;
+            const destinasi = Swal.getPopup().querySelector("#destinasi").value;
             const barangTerlarang = Swal.getPopup().querySelector("#barang_terlarang").value;
+  
             if (!destinasi || !barangTerlarang) {
-                Swal.showValidationMessage(`Please enter all fields`);
-              }              
-            return {destinasi, barangTerlarang };
+              Swal.showValidationMessage(`Please enter all fields`);
+            }
+  
+            return { destinasi, barangTerlarang };
           },
         });
   
         if (formValues) {
           const { destinasi, barangTerlarang } = formValues;
+  
           const updatedBarang = {
-            id_item: barangId,
+            id_item: barangId, // Pastikan id_item disertakan dan valid
             destinasi: destinasi,
             barang_terlarang: barangTerlarang,
           };
+  
+          console.log("Payload sent to backend:", updatedBarang); // Debug payload
           putJSON(
             backend.project.id, 
             "login",
@@ -322,7 +324,7 @@ import {
       Swal.fire({
         icon: "success",
         title: "Barang Updated",
-        text: `Barang ${result.data.barang_terlarang} has been updated successfully.`,
+        text: `Barang updated successfully.`,
         didClose: () => {
           reloadDataTable();
         },
@@ -330,8 +332,8 @@ import {
     } else {
       Swal.fire({
         icon: "error",
-        title: result.data.status,
-        text: result.data.response,
+        title: "Error",
+        text: result.data.details || "Failed to update barang.",
       });
     }
     console.log(result);
