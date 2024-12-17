@@ -251,7 +251,7 @@ import {
       });
     } else {
       Swal.fire({
-        icon: "error",
+        icon: "error",                                                       
         title: result.data.status,
         text: result.data.response,
       });
@@ -299,14 +299,14 @@ import {
         });
   
         if (formValues) {
-          const { destinasi } = formValues;
+          const { destinasi, barangTerlarang } = formValues;
           const updatedBarang = {
-            _id: barangId,
+            id_item: barangId,
             destinasi: destinasi,
             barang_terlarang: barangTerlarang,
           };
           putJSON(
-            backend.project.id, // Assumes a POST method will handle updates as well
+            backend.project.id, 
             "login",
             getCookie("login"),
             updatedBarang,
