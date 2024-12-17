@@ -182,12 +182,15 @@ import { truncateText, addRevealTextListeners } from "../../utils.js";
   }
   
   function addRemoveFAQButtonListeners() {
-    document.querySelectorAll(".removeFAQButton").forEach((button) => {
-      button.addEventListener("click", async () => {
+    document.getElementById("myTable").addEventListener("click", async (event) => {
+      if (event.target.closest(".removeFAQButton")) {
+        const button = event.target.closest(".removeFAQButton");
         const faqId = button.getAttribute("data-id");
-
+    
+        console.log("Deleting FAQ with ID:", faqId);
+    
         if (!faqId || faqId === "undefined") {
-          console.error("FAQ ID is missing or undefined.");
+          console.error("FAQ ID is missing or invalid.");
           Swal.fire({
             icon: "error",
             title: "Error",
@@ -196,9 +199,6 @@ import { truncateText, addRevealTextListeners } from "../../utils.js";
           return;
         }
     
-        console.log("Deleting FAQ with ID:", faqId);
-    
-  
         const result = await Swal.fire({
           title: "Delete this FAQ?",
           text: "You cannot undo this action!",
@@ -207,22 +207,19 @@ import { truncateText, addRevealTextListeners } from "../../utils.js";
           confirmButtonText: "Delete FAQ",
           cancelButtonText: "Cancel",
         });
-
+    
         if (result.isConfirmed) {
-          const faqWillBeDeleted = {
-            _id: faqId,
-          };
-  
+          const faqWillBeDeleted = { _id: faqId };
           deleteJSON(
-            backend.project.faq+ `?id=${faqId}`,
+            backend.project.faq + `?id=${faqId}`,
             "login",
             getCookie("login"),
             faqWillBeDeleted,
             removeFAQResponse
           );
         }
-      });
-    });
+      }
+    });    
   }
   
   function removeFAQResponse(result) {
@@ -245,24 +242,15 @@ import { truncateText, addRevealTextListeners } from "../../utils.js";
   }
   
   function addEditFAQButtonListeners() {
-    document.querySelectorAll(".editFAQButton").forEach((button) => {
-      button.addEventListener("click", async () => {
+    document.getElementById("myTable").addEventListener("click", async (event) => {
+      if (event.target.closest(".editFAQButton")) {
+        const button = event.target.closest(".editFAQButton");
         const faqId = button.getAttribute("data-id");
         const question = button.getAttribute("data-question");
         const answer = button.getAttribute("data-answer");
-        // Debugging Log
-    if (!faqId || faqId === "undefined") {
-      console.error("FAQ ID is missing or undefined.");
-      Swal.fire({
-        icon: "error",
-        title: "Error",
-        text: "FAQ ID is missing or invalid.",
-      });
-      return;
-    }
-        // Debugging log
+    
         console.log("Editing FAQ with ID:", faqId);
-  
+    
         const { value: formValues } = await Swal.fire({
           title: "Edit FAQ",
           html: `
@@ -281,32 +269,33 @@ import { truncateText, addRevealTextListeners } from "../../utils.js";
           preConfirm: () => {
             const question = Swal.getPopup().querySelector("#question").value;
             const answer = Swal.getPopup().querySelector("#answer").value;
+    
             if (!question || !answer) {
               Swal.showValidationMessage(`Please enter all fields`);
             }
             return { question, answer };
           },
         });
-  
+    
         if (formValues) {
           const updatedFaq = {
             _id: faqId,
             question: formValues.question,
             answer: formValues.answer,
           };
-  
-          console.log("Payload sent to putJSON:", updatedFaq); // Debugging log
-  
+    
+          console.log("Payload sent to putJSON:", updatedFaq);
+    
           putJSON(
-            backend.project.faq + `?id=${faqId}`, // Tambahkan ID di URL
+            backend.project.faq + `?id=${faqId}`,
             "login",
             getCookie("login"),
             updatedFaq,
             updateFAQResponse
           );
         }
-      });
-    });
+      }
+    });    
   }  
   
   function updateFAQResponse(result) {
