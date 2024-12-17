@@ -194,12 +194,13 @@ import {
 
   // Remove project mechanism
   function addRemoveBarangButtonListeners() {
-    document.querySelectorAll(".removeBarangButton").forEach((button) => {
-      button.addEventListener("click", async (event) => {
+    document.getElementById("myTable").addEventListener("click", async (event) => {
+      if (event.target.closest(".removeBarangButton")) {
+        const button = event.target.closest(".removeBarangButton");
         const barangId = button.getAttribute("data-barang-id");
-
+    
         console.log("Deleting item with ID:", barangId);
-        
+    
         if (!barangId || barangId.trim() === "" || barangId === "undefined") {
           console.error("Barang ID is missing or invalid:", barangId);
           Swal.fire({
@@ -209,24 +210,20 @@ import {
           });
           return;
         }
-        
-
+    
         const result = await Swal.fire({
-          title: "Hapus project ini?",
+          title: "Hapus barang ini?",
           text: "Kamu tidak dapat mengembalikan aksi ini!",
           icon: "warning",
           showCancelButton: true,
           confirmButtonText: "Hapus barang",
           cancelButtonText: "Kembali",
         });
-  
+    
         if (result.isConfirmed) {
-          const barangWillBeDeleted = {
-            _id: barangId.trim(),
-          };
-
-          console.log("Payload sent to deleteJSON:", barangWillBeDeleted)
-  
+          const barangWillBeDeleted = { _id: barangId.trim() };
+          console.log("Payload sent to deleteJSON:", barangWillBeDeleted);
+    
           deleteJSON(
             backend.project.id,
             "login",
@@ -235,8 +232,8 @@ import {
             removeProjectResponse
           );
         }
-      });
-    });
+      }
+    });    
   }
   
   function removeProjectResponse(result) {
@@ -260,12 +257,13 @@ import {
   }
   
   function addEditBarangButtonListeners() {
-    document.querySelectorAll(".editBarangButton").forEach((button) => {
-      button.addEventListener("click", async () => {
-        const barangId = button.getAttribute("data-barang-id"); // ID dari atribut button
+    document.getElementById("myTable").addEventListener("click", async (event) => {
+      if (event.target.closest(".editBarangButton")) {
+        const button = event.target.closest(".editBarangButton");
+        const barangId = button.getAttribute("data-barang-id");
         const barangTerlarang = button.getAttribute("data-barang-terlarang");
         const barangDestinasi = button.getAttribute("data-barang-destinasi");
-  
+    
         const { value: formValues } = await Swal.fire({
           title: "Edit Barang Terlarang",
           html: `
@@ -288,25 +286,25 @@ import {
           preConfirm: () => {
             const destinasi = Swal.getPopup().querySelector("#destinasi").value;
             const barangTerlarang = Swal.getPopup().querySelector("#barang_terlarang").value;
-  
+    
             if (!destinasi || !barangTerlarang) {
               Swal.showValidationMessage(`Please enter all fields`);
             }
-  
+    
             return { destinasi, barangTerlarang };
           },
         });
-  
+    
         if (formValues) {
           const { destinasi, barangTerlarang } = formValues;
-  
+    
           const updatedBarang = {
-            id_item: barangId, // Pastikan id_item disertakan dan valid
+            id_item: barangId,
             destinasi: destinasi,
             barang_terlarang: barangTerlarang,
           };
-  
-          console.log("Payload sent to backend:", updatedBarang); // Debug payload
+    
+          console.log("Payload sent to backend:", updatedBarang);
           putJSON(
             backend.project.id, 
             "login",
@@ -315,8 +313,8 @@ import {
             updateResponseFunction
           );
         }
-      });
-    });
+      }
+    });    
   }
   
   function updateResponseFunction(result) {
