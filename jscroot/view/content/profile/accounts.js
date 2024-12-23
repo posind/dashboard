@@ -15,9 +15,6 @@ export async function main(){
 function actionfunctionname(){
     let user={
         email:getValue("email"),
-        // githubusername:getValue("githubusername"),
-        // gitlabusername:getValue("gitlabusername"),
-        // githostusername:getValue("githostusername")
     };
     if (getCookie("login")===""){
         redirect("../");
@@ -39,9 +36,6 @@ function responseFunction(result){
           setValue("phonenumber",result.data.phonenumber);
           setValue("name",result.data.name);
           setValue("email",result.data.email);
-        //   setValue("githubusername",result.data.githubusername);
-        //   setValue("gitlabusername",result.data.gitlabusername);
-        //   setValue("githostusername",result.data.githostusername); 
           show("buttonkirimaccount");
     }else{
         Swal.fire({

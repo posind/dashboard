@@ -11,21 +11,11 @@ export const backend={
         // doing:"https://api.do.my.id/data/user/task/doing",
         // done:"https://api.do.my.id/data/user/task/done",
     },
-    wa:{
-        text:"https://api.wa.my.id/api/v2/send/message/text",
-        device:"https://api.wa.my.id/api/device/",
-    },
     project:{
         data:"https://asia-southeast2-civil-epigram-429004-t8.cloudfunctions.net/webhook/data/item",
         id:"https://asia-southeast2-civil-epigram-429004-t8.cloudfunctions.net/webhook/data/barang",
         faq:"https://asia-southeast2-civil-epigram-429004-t8.cloudfunctions.net/pibackend/data/faq",
         anggota:"https://api.do.my.id/data/proyek/anggota",
-    },
-    ux:{
-        feedback:"https://api.do.my.id/notif/ux/postfeedback",
-        laporan:"https://api.do.my.id/notif/ux/postlaporan",
-        rating:"https://api.do.my.id/notif/ux/rating",
-        meeting:"https://api.do.my.id/notif/ux/postmeeting",
     }
 }
 
