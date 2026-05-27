@@ -20,33 +20,33 @@ let tableTemplate = `
 </td>
 `;
 
-export async function main() {
-  await addCSSIn("assets/css/admin.css", id.content);
-  getJSON(backend.user.data, "login", getCookie("login"), getUserFunction);
-  // getJSON(backend.user.todo, "login", getCookie("login"), getUserTaskFunction);
-  getJSON(
-    backend.user.doing,
-    "login",
-    getCookie("login"),
-    getUserDoingFunction
-  );
-  // getJSON(backend.user.done, "login", getCookie("login"), getUserDoneFunction);
-}
+// export async function main() {
+//   await addCSSIn("assets/css/admin.css", id.content);
+//   getJSON(backend.user.data, "login", getCookie("login"), getUserFunction);
+//   // getJSON(backend.user.todo, "login", getCookie("login"), getUserTaskFunction);
+//   getJSON(
+//     backend.user.doing,
+//     "login",
+//     getCookie("login"),
+//     getUserDoingFunction
+//   );
+//   // getJSON(backend.user.done, "login", getCookie("login"), getUserDoneFunction);
+// }
 
-function getUserFunction(result) {
-  if (result.status !== 404) {
-    const roundedPoin = Math.round(result.data.poin);
-    setInner("biggreet", "Halo " + result.data.name);
-    setInner(
-      "subtitle",
-      "I hope you are having a great day! "
-    );
-    setInner("bigpoin", roundedPoin);
-  } 
-  else {
-    redirect("/signup");
-  }
-}
+// function getUserFunction(result) {
+//   if (result.status !== 404) {
+//     const roundedPoin = Math.round(result.data.poin);
+//     setInner("biggreet", "Halo " + result.data.name);
+//     setInner(
+//       "subtitle",
+//       "I hope you are having a great day! "
+//     );
+//     setInner("bigpoin", roundedPoin);
+//   } 
+//   else {
+//     redirect("/signup");
+//   }
+// }
 
 function getUserTaskFunction(result) {
   setInner("list", "");
